@@ -11,4 +11,14 @@ class Thread extends AppModel {
 
         return $threads;
     }
+
+    public static function get($id) {
+       $db = DB::conn();
+
+       $row = $db->row('SELECT * FROM thread WHERE id=?', array($id));
+       if(empty($row))
+           throw new RecordNotFoundException('No record found');
+
+       return new self($row);
+   }
 }
