@@ -21,4 +21,17 @@ class Thread extends AppModel {
 
        return new self($row);
    }
+
+   public function getComments() {
+       $db = DB::conn();
+       $rows = $db->rows('SELECT * FROM comment WHERE thread_id=? ORDER BY created ASC', array($this->id));
+
+       $comments = array();
+       foreach ($rows as $row) {
+           $comments[] = new Comment($row);
+       }
+
+       return $comments;
+   }
+
 }
