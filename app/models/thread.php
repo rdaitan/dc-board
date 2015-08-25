@@ -35,6 +35,9 @@ class Thread extends AppModel {
    }
 
    public function write(Comment $comment) {
+       if(!$comment->validate()) {
+           throw new ValidationException('Invalid comment.');
+       }
        $db = DB::conn();
        $db->query('INSERT INTO comment SET thread_id=?, username=?, body=?, created=NOW()', array($this->id, $comment->username, $comment->body));
    }
