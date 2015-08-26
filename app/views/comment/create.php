@@ -31,6 +31,6 @@
     <textarea name="body"><?php eh(Param::get('body')); ?></textarea>
     <br>
     <input type="hidden" name="thread_id" value="<?php eh($thread->id) ?>">
-    <input type="hidden" name="page_next" value="write_end">
+    <input type="hidden" name="page_next" value="create_end">
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
