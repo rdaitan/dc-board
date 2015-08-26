@@ -4,7 +4,7 @@
     <div class="comment">
         <div class="meta">
             <?php eh(($n + 1) . ": {$comment->username} {$comment->created}"); ?><br />
-            <?php eh($comment->body) ?><br />
+            <?php echo readable_text($comment->body) ?><br />
         </div>
     </div>
 <?php } ?>
