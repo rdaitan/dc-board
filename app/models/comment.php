@@ -12,8 +12,8 @@ class Comment extends AppModel {
 
         $values = array(
             'thread_id' => $thread->id,
-            'username'  => $comment->username,
-            'body'      => $comment->body
+            'username'  => $this->username,
+            'body'      => $this->body
         );
 
         $db = DB::conn();
