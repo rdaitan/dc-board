@@ -5,7 +5,7 @@
         <h4 class="alert-heading">Validation error!</h4>
         <?php if(!empty($thread->validation_errors['title']['length'])) { ?>
             <div>
-                <em>Title</em>must be between
+                <em>Title</em> must be between
                 <?php eh($thread->validation['title']['length'][1]); ?> and
                 <?php eh($thread->validation['title']['length'][2]); ?>
                 characters in length.
@@ -13,7 +13,7 @@
         <?php } ?>
         <?php if(!empty($comment->validation_errors['username']['length'])) { ?>
             <div>
-                <em>Comment</em>must be between
+                <em>Username</em> must be between
                 <?php eh($comment->validation['username']['length'][1]); ?> and
                 <?php eh($comment->validation['username']['length'][2]); ?>
                 characters in length.
@@ -21,7 +21,7 @@
         <?php } ?>
         <?php if(!empty($comment->validation_errors['body']['length'])) { ?>
             <div>
-                <em>Body</em>must be between
+                <em>Comment</em> must be between
                 <?php eh($comment->validation['body']['length'][1]); ?> and
                 <?php eh($comment->validation['body']['length'][2]); ?>
                 characters in length.
