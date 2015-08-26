@@ -45,16 +45,15 @@ class ThreadController extends AppController {
     }
 
     public function create() {
-        $page = Param::get('page_next', 'create');
-
+        $thread  = new Thread;
+        $comment = new Comment;
+        $page    = Param::get('page_next', 'create');
+        
         switch($page) {
             case 'create':
                 break;
             case 'create_end':
-                $thread             = new Thread;
                 $thread->title      = Param::get('title');
-
-                $comment            = new Comment;
                 $comment->username  = Param::get('username');
                 $comment->body      = Param::get('body');
 
