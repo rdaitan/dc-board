@@ -24,7 +24,7 @@
 <?php } ?>
 
 <!--Comment form-->
-<form action="<?php eh(url('thread/write')); ?>" class="well" method="post">
+<form action="<?php eh(url('comment/create')); ?>" class="well" method="post">
     <label for="">Your Name</label>
     <input type="text" class="span2" name="username" value="<?php eh(Param::get('username')); ?>">
     <label for="">Comment</label>
