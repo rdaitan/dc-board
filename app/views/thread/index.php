@@ -5,4 +5,5 @@
             <?php eh($thread->title); ?>
         </a></li>
     <?php } ?>
+    <a href="<?php eh(url('thread/create')); ?>" class="btn btn-large btn-primary">Create</a>
 </ul>
