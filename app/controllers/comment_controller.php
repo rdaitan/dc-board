@@ -6,7 +6,7 @@ class CommentController extends AppController
         $page   = Param::get('page_next');
 
         switch ($page) {
-            case 'write_end':
+            case 'create_end':
                 $comment            = new Comment;
                 $comment->username  = Param::get('username');
                 $comment->body      = Param::get('body');
@@ -15,7 +15,7 @@ class CommentController extends AppController
                     $comment->create($thread);
                 }
                 catch (ValidationException $e) {
-                    $page = 'write';
+                    $page = 'create';
                 }
                 break;
             default:
