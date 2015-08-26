@@ -41,4 +41,26 @@ class Thread extends AppModel {
        $db = DB::conn();
        $db->query('INSERT INTO comment SET thread_id=?, username=?, body=?, created=NOW()', array($this->id, $comment->username, $comment->body));
    }
+
+   public $validation = array(
+       'title' => array('length' => array('validate_between', 1, 30)),
+   );
+
+   public function create(Comment $comment) {
+       $this->validate(); // before calling this method, $this->title was set first
+       $comment->validate();
+       if($this->hasError() || $comment->hasError()) {
+           throw new ValidationException('Invalid thread or comment.');
+       }
+
+       $db = DB::conn();
+       $db->begin();
+       $db->insert('thread', array('title' => $this->title));
+
+       // write first comment
+       $this->id = $db->lastInsertId();
+       $this->write($comment);
+
+       $db->commit();
+   }
 }
