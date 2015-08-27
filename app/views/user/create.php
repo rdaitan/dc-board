@@ -1,6 +1,6 @@
 <h2>Register</h2>
 
-<form action="" method="post">
+<form action="<?php eh(url('')); ?>" method="post">
     <label for="username">Username</label>
     <input type="text" name="username" id="username">
     <label for="email">Email</label>
@@ -8,6 +8,7 @@
     <label for="password">Password</label>
     <input type="password" name="password" id="password">
     <br>
+    <input type="hidden" name="page_next" value="create_end">
     <button type="submit">Register</button> or
     <a href="">cancel</a>
 </form>
