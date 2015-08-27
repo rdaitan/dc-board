@@ -27,4 +27,30 @@ class UserController extends AppController
         $this->set(get_defined_vars());
         $this->render($page);
     }
+
+    public function authenticate()
+    {
+        $page = Param::get('page_next');
+
+        switch($page) {
+            case 'auth_end':
+                $username = Param::get('username');
+                $password = Param::get('password');
+
+                try {
+                    if(User::authenticate($username, $password)) {
+                        echo ("YAY");
+                    } else {
+                        echo "BOO BOO";
+                    }
+                } catch(RecordNotFoundException $e) {
+                    // TODO: show login form
+                }
+                break;
+            default:
+                throw new NotFoundException("{$page} not found.");
+        }
+
+        $this->render($page);
+    }
 }
