@@ -34,11 +34,11 @@
 <!--Registration form-->
 <form action="<?php eh(url('')); ?>" method="post">
     <label for="username">Username</label>
-    <input type="text" name="username" id="username" value="<?php eh($user->username); ?>">
+    <input type="text" name="username" id="username" value="<?php eh(Param::get('username')); ?>">
     <label for="email">Email</label>
-    <input type="email" name="email" id="email" value="<?php eh($user->email); ?>">
+    <input type="email" name="email" id="email" value="<?php eh(Param::get('email')); ?>">
     <label for="password">Password</label>
-    <input type="password" name="password" id="password" value="<?php eh($user->password); ?>">
+    <input type="password" name="password" id="password" value="<?php eh(Param::get('password')); ?>">
     <br>
     <input type="hidden" name="page_next" value="create_end">
     <button type="submit">Register</button> or
