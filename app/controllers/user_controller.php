@@ -3,7 +3,7 @@ class UserController extends AppController
 {
     public function create() {
         $user = new User;
-        $page = Param::get('page_next');
+        $page = Param::get('page_next', 'create');
 
         switch ($page) {
             case 'create_end':
@@ -16,6 +16,8 @@ class UserController extends AppController
                 } catch(ValidationException $e) {
                     $page = 'create';
                 }
+                break;
+            case 'create':
                 break;
             default:
                 throw new NotFoundException("{$page} is not found.");
