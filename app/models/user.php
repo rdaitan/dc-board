@@ -16,7 +16,7 @@ class User extends AppModel
         $info = array(
             'username'  => $this->username,
             'email'     => $this->email,
-            'password'  => $this->password
+            'password'  => hash_password($this->password)
         );
 
         $db = DB::conn();

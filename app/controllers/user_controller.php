@@ -9,7 +9,7 @@ class UserController extends AppController
             case 'create_end':
                 $user->username = trim(Param::get('username'));
                 $user->email    = trim(Param::get('email'));
-                $user->password = Param::get('password'); // TODO: hash
+                $user->password = Param::get('password');
 
                 try {
                     $user->create();
