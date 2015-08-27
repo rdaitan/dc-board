@@ -13,10 +13,15 @@
         <?php } ?>
         <?php if(!empty($comment->validation_errors['username']['length'])) { ?>
             <div>
-                <em>Username</em> must be between
+                <em>Your name</em> must be between
                 <?php eh($comment->validation['username']['length'][1]); ?> and
                 <?php eh($comment->validation['username']['length'][2]); ?>
                 characters in length.
+            </div>
+        <?php } ?>
+        <?php if(!empty($comment->validation_errors['username']['char'])) { ?>
+            <div>
+                <em>Your name</em> must only have letters and spaces.
             </div>
         <?php } ?>
         <?php if(!empty($comment->validation_errors['body']['length'])) { ?>

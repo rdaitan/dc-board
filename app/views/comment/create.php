@@ -12,6 +12,11 @@
                 in length.
             </div>
         <?php } ?>
+        <?php if(!empty($comment->validation_errors['username']['char'])) { ?>
+            <div>
+                <em>Your name</em> must only have letters and spaces.
+            </div>
+        <?php } ?>        
         <?php if(!empty($comment->validation_errors['body']['length'])) { ?>
             <div>
                 <em>Comment</em> must be between
