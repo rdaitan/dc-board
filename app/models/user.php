@@ -36,7 +36,7 @@ class User extends AppModel
         $user = new self($row);
         $salt = substr($user->password, strlen(CRYPT_BFISH), 22);   // BFISH salt length is 22
 
-        $hashedPassword = hash_password($password, $salt);
+        $hashedPassword = bhash($password, $salt);
         return $hashedPassword === $user->password;
     }
 }

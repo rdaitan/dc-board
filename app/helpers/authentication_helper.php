@@ -4,10 +4,10 @@
 
 define('CRYPT_BFISH', '$2a$11$');
 
-// returns the hashed password, using blowfish alorithm.
+// returns the hashed string, using blowfish algorithm.
 // blowfish algorithm is recommended by the php manual:
-// http://php.net/manual/en/faq.passwords.php
-function hash_password($password, $salt = null)
+// http://php.net/manual/en/faq.string.php
+function bhash($str, $salt = null)
 {
     if(empty($salt)) {
         // the salt is only 22 characters long.
@@ -16,5 +16,5 @@ function hash_password($password, $salt = null)
         $salt = bin2hex(openssl_random_pseudo_bytes(11));
     }
 
-    return crypt($password, CRYPT_BFISH . $salt);
+    return crypt($str, CRYPT_BFISH . $salt);
 }
