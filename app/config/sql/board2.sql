@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS thread (
 CREATE TABLE IF NOT EXISTS user (
     id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
     username    VARCHAR(16) NOT NULL,
+    email       VARCHAR(30) NOT NULL,
     password    VARCHAR(60),
     PRIMARY KEY (id)
 ) ENGINE=InnoDB;
