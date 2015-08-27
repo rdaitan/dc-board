@@ -13,8 +13,9 @@ USE board;
 -- Restart from scratch.
 --
 
-DROP TABLE IF EXISTS thread;
 DROP TABLE IF EXISTS comment;
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS thread;
 
 --
 -- Create tables
