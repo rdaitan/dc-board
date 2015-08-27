@@ -22,4 +22,21 @@ class User extends AppModel
         $db = DB::conn();
         $db->insert('user', $info);
     }
+
+    public static function authenticate($username, $password) {
+        $db = DB::conn();
+
+        // Get the user by username
+        $row = $db->row('SELECT * FROM user WHERE username=?', array($username));
+        if(empty($row)) {
+            throw new RecordNotFoundExceptioni('No user found.');
+        }
+
+        // Retrieve salt
+        $user = new self($row);
+        $salt = substr($user->password, length(CRYPT_BFISH), 22);   // BFISH salt length is 22
+
+        $hashedPassword = hash_password($password);
+        return $hashedPassword === $user->password;
+    }
 }
