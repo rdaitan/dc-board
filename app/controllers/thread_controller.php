@@ -27,8 +27,8 @@ class ThreadController extends AppController {
             case 'create':
                 break;
             case 'create_end':
-                $thread->title      = Param::get('title');
-                $comment->username  = Param::get('username');
+                $thread->title      = trim_collapse(Param::get('title'));
+                $comment->username  = trim_collapse(Param::get('username'));
                 $comment->body      = Param::get('body');
 
                 try {

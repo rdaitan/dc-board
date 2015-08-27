@@ -8,7 +8,7 @@ class CommentController extends AppController
         switch ($page) {
             case 'create_end':
                 $comment            = new Comment;
-                $comment->username  = Param::get('username');
+                $comment->username  = trim_collapse(Param::get('username'));
                 $comment->body      = Param::get('body');
 
                 try{
