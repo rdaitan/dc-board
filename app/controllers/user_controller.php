@@ -28,6 +28,9 @@ class UserController extends AppController
         $this->render($page);
     }
 
+    const ERROR_VAR                 = 'error';
+    const ERROR_MESSAGE_USERPASS    = 'Incorrect username or password';
+
     public function authenticate()
     {
         $page = Param::get('page_next', 'auth');
@@ -37,14 +40,11 @@ class UserController extends AppController
                 $username = Param::get('username');
                 $password = Param::get('password');
 
-                try {
-                    if(User::authenticate($username, $password)) {
-                        echo ("YAY");
-                    } else {
-                        echo "BOO BOO";
-                    }
-                } catch(RecordNotFoundException $e) {
-                    // TODO: show login form
+                if(User::authenticate($username, $password)) {
+                    echo ("YAY");
+                } else {
+                    $this->set(array(self::ERROR_VAR => self::ERROR_MESSAGE_USERPASS));
+                    $page = 'auth';
                 }
                 break;
             case 'auth':

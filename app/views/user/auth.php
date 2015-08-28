@@ -1,4 +1,10 @@
 <h2>Login</h2>
+<?php if(isset($error)) {?>
+    <div class="alert alert-block">
+        <h4>Error</h4>
+        <div><?php eh($error); ?></div>
+    </div>
+<?php } ?>
 <form action="<?php eh(url('user/authenticate')); ?>" method="post">
     <label for="username">Username</label>
     <input type="text" name="username" id="username">
