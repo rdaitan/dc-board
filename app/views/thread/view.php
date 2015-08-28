@@ -10,12 +10,16 @@
 <?php } ?>
 
 <!--Comment Form-->
-<hr>
-<form action="<?php eh(url('comment/create')); ?>" class="well" method="post">
-    <label for="">Comment</label>
-    <textarea name="body"><?php eh(Param::get('body')); ?></textarea>
-    <br>
-    <input type="hidden" name="thread_id" value="<?php eh($thread->id) ?>">
-    <input type="hidden" name="page_next" value="create_end">
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+<?php if(User::getAuthUser()) {?>
+    <hr>
+    <form action="<?php eh(url('comment/create')); ?>" class="well" method="post">
+        <label for="">Comment</label>
+        <textarea name="body"><?php eh(Param::get('body')); ?></textarea>
+        <br>
+        <input type="hidden" name="thread_id" value="<?php eh($thread->id) ?>">
+        <input type="hidden" name="page_next" value="create_end">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+<?php } else {?>
+    <a href="<?php eh(url('user/authenticate')) ?>" class="btn btn-primary">Comment</a>
+<?php }?>
