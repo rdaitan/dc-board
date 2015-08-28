@@ -37,4 +37,8 @@ class User extends AppModel
         $hashedPassword = bhash($password, $salt);
         return $hashedPassword === $user->password;
     }
+
+    private function setAuthUser() {
+        $_SESSION['auth_user'] = $this->id;
+    }
 }
