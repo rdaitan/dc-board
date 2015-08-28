@@ -1,7 +1,10 @@
 <?php
 class CommentController extends AppController
 {
-    public function create() {
+    public function create()
+    {
+        notAuthRedirect('user/authenticate');
+
         $thread = Thread::get(Param::get('thread_id'));
         $page   = Param::get('page_next');
 
