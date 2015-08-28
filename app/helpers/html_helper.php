@@ -23,3 +23,8 @@ function redirect($str) {
     header("Location: {$str}");
     die();
 }
+
+// Redirect the user if authenticated to the homepage or the specified url
+function authRedirect($page = '/') {
+    if(User::getAuthUser()) redirect($page);
+}
