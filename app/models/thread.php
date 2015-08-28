@@ -38,7 +38,8 @@ class Thread extends AppModel {
         'title' => array('length' => array('validate_between', 1, 30)),
     );
 
-    public function create(Comment $comment) {
+    public function create(Comment $comment)
+    {
         $this->validate(); // before calling this method, $this->title was set first
         $comment->validate();
         if($this->hasError() || $comment->hasError()) {

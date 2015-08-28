@@ -1,23 +1,20 @@
 <?php
 class Comment extends AppModel {
     public $validation = array(
-        'username'      => array(
-            'length'    => array('validate_between', 1, 16),
-            'char'      => array('validate_name'),
-        ),
         'body'          => array(
             'length'    => array('validate_between', 1, 200),
         ),
     );
 
-    public function create(Thread $thread) {
+    public function create(Thread $thread)
+    {
         if(!$this->validate()) {
             throw new ValidationException('Invalid comment.');
         }
 
         $values = array(
             'thread_id' => $thread->id,
-            'username'  => $this->username,
+            'user_id'   => $this->user_id,
             'body'      => $this->body
         );
 

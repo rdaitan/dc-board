@@ -19,7 +19,10 @@ class ThreadController extends AppController {
         $this->set(get_defined_vars());
     }
 
-    public function create() {
+    public function create()
+    {
+        notAuthRedirect('user/authenticate');
+
         $thread  = new Thread;
         $comment = new Comment;
         $page    = Param::get('page_next', 'create');
@@ -29,7 +32,7 @@ class ThreadController extends AppController {
                 break;
             case 'create_end':
                 $thread->title      = trim_collapse(Param::get('title'));
-                $comment->username  = trim_collapse(Param::get('username'));
+                $comment->user_id   = User::getAuthUser()->id;
                 $comment->body      = Param::get('body');
 
                 try {
