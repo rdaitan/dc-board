@@ -60,4 +60,12 @@ class UserController extends AppController
 
         $this->render($page);
     }
+
+    public function logout()
+    {
+        if(User::getAuthUser()) {
+            session_destroy();
+        }
+        redirect('/');
+    }
 }
