@@ -1,8 +1,9 @@
 <?php
 class Thread extends AppModel {
-    public static function getAll() {
+    public static function getAll($offset, $limit)
+    {
         $db = DB::conn();
-        $rows = $db->rows('SELECT * FROM thread');
+        $rows = $db->rows("SELECT * FROM thread LIMIT {$offset}, {$limit}");
 
         $threads = array();
         foreach ($rows as $row) {
@@ -56,4 +57,11 @@ class Thread extends AppModel {
 
         $db->commit();
     }
+
+    public static function countAll()
+    {
+        $db = DB::conn();
+        return (int) $db->value("SELECT COUNT(*) FROM thread");
+    }
+
 }
