@@ -13,6 +13,9 @@ require_once HELPERS_DIR.'authentication_helper.php';
 // vendor
 require_once VENDOR_DIR.'SimpleDBI/SimpleDBI.php';
 
+// lib
+require_once LIB_DIR.'SimplePagination/SimplePagination.php';
+
 // config
 require_once CONFIG_DIR.'log.php';
 require_once CONFIG_DIR.'router.php';
