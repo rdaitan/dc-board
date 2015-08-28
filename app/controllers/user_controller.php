@@ -41,7 +41,7 @@ class UserController extends AppController
                 $password = Param::get('password');
 
                 if(User::authenticate($username, $password)) {
-                    echo ("YAY");
+                    redirect('/thread/index');
                 } else {
                     $this->set(array(self::ERROR_VAR => self::ERROR_MESSAGE_USERPASS));
                     $page = 'auth';
