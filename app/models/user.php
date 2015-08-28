@@ -29,7 +29,7 @@ class User extends AppModel
         // Get the user by username
         $row = $db->row('SELECT * FROM user WHERE username=?', array($username));
         if(empty($row)) {
-            throw new RecordNotFoundExceptioni('No user found.');
+            throw new RecordNotFoundException('No user found.');
         }
 
         // Retrieve salt
