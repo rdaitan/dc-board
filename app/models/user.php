@@ -41,4 +41,14 @@ class User extends AppModel
     private function setAuthUser() {
         $_SESSION['auth_user'] = $this->id;
     }
+
+    public static function get($id) {
+        $db = DB::conn();
+
+        // Get the user by id
+        $row = $db->row('SELECT * FROM user WHERE id=?', array($id));
+        if(empty($row)) return false;
+
+        return new self($row);
+    }
 }
