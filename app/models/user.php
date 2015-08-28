@@ -35,7 +35,14 @@ class User extends AppModel
         $salt = substr($user->password, strlen(CRYPT_BFISH), 22);   // BFISH salt length is 22
 
         $hashedPassword = bhash($password, $salt);
-        return $hashedPassword === $user->password;
+        $passwordsMatch = $hashedPassword === $user->password;
+
+        if($passwordsMatch) {
+            $user->setAuthUser();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private function setAuthUser() {
