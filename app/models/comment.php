@@ -6,6 +6,14 @@ class Comment extends AppModel {
         ),
     );
 
+    public function __construct(array $data = array())
+    {
+        parent::__construct($data);
+
+        $user = User::get($this->user_id);
+        $this->username = $user->username;
+    }
+
     public function create(Thread $thread)
     {
         if(!$this->validate()) {
