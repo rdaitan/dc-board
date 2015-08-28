@@ -13,7 +13,8 @@ class User extends AppModel
             'length'    => array('validate_between', 1, 30),
             'chars'     => array('validate_email')
         ),
-        'password'  => array('length' => array('validate_between', 6, 20))
+        'password'      => array(
+            'length'    => array('validate_between', 6, 20))
     );
 
     public function create()
