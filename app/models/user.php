@@ -85,4 +85,14 @@ class User extends AppModel
 
         return new self($row);
     }
+
+    public static function getByUsername($username) {
+        $db = DB::conn();
+
+        // Get the user by id
+        $row = $db->row('SELECT * FROM user WHERE username=?', array($id));
+        if(empty($row)) return false;
+
+        return new self($row);
+    }
 }
