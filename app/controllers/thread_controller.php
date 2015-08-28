@@ -4,7 +4,8 @@ class ThreadController extends AppController {
      * Show all threads.
      */
     public function index() {
-        $threads = Thread::getAll();
+        $authUser   = User::getAuthUser();
+        $threads    = Thread::getAll();
         $this->set(get_defined_vars());
     }
 
