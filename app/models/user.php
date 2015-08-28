@@ -9,7 +9,10 @@ class User extends AppModel
             'chars'     => array('validate_username'),
             'unique'    => array('validate_uniqueness', 'user', 'username')
         ),
-        'email'     => array('length' => array('validate_between', 1, 30)),
+        'email'         => array(
+            'length'    => array('validate_between', 1, 30),
+            'chars'     => array('validate_email')
+        ),
         'password'  => array('length' => array('validate_between', 6, 20))
     );
 
