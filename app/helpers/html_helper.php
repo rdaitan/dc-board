@@ -20,11 +20,16 @@ function trim_collapse($str) {
 }
 
 function redirect($str) {
-    header("Location: {$str}");
+    header("Location: " . url($str));
     die();
 }
 
 // Redirect the user if authenticated to the homepage or the specified url
 function authRedirect($page = '/') {
     if(User::getAuthUser()) redirect($page);
+}
+
+// Redirects the user if not authenticated
+function notAuthRedirect($page = '/') {
+    if(!User::getAuthUser()) redirect($page);
 }
