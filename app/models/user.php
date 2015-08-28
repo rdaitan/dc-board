@@ -7,7 +7,7 @@ class User extends AppModel
         'username'      => array(
             'length'    => array('validate_between', 1, 16),
             'chars'     => array('validate_username'),
-            'unique'    => array('validate_uniqueness', 'user', 'username')
+            'unique'    => array('validate_unique_name')
         ),
         'email'         => array(
             'length'    => array('validate_between', 1, 30),
