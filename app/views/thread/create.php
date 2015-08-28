@@ -19,11 +19,6 @@
                 characters in length.
             </div>
         <?php } ?>
-        <?php if(!empty($comment->validation_errors['username']['char'])) { ?>
-            <div>
-                <em>Your name</em> must only have letters and spaces.
-            </div>
-        <?php } ?>
         <?php if(!empty($comment->validation_errors['body']['length'])) { ?>
             <div>
                 <em>Comment</em> must be between
@@ -39,8 +34,6 @@
 <form action="<?php eh(url('')); ?>" class="well" method="post">
     <label for="">Title</label>
     <input type="text" name="title" class="span2" value="<?php eh(Param::get('title')); ?>">
-    <label for="">Your Name</label>
-    <input type="text" class="span2" name="username" value="<?php eh(Param::get('username')); ?>">
     <label for="">Comment</label>
     <textarea name="body"><?php eh(Param::get('body')); ?></textarea>
     <br>
