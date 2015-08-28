@@ -42,5 +42,5 @@
     <br>
     <input type="hidden" name="page_next" value="create_end">
     <button type="submit">Register</button> or
-    <a href="">cancel</a>
+    <a href="<?php eh(url('/')); ?>">cancel</a>
 </form>
