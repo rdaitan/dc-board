@@ -30,7 +30,7 @@ class UserController extends AppController
 
     public function authenticate()
     {
-        $page = Param::get('page_next');
+        $page = Param::get('page_next', 'auth');
 
         switch($page) {
             case 'auth_end':
@@ -46,6 +46,8 @@ class UserController extends AppController
                 } catch(RecordNotFoundException $e) {
                     // TODO: show login form
                 }
+                break;
+            case 'auth':
                 break;
             default:
                 throw new NotFoundException("{$page} not found.");
