@@ -18,3 +18,8 @@ function trim_collapse($str) {
     $str = preg_replace('/[[:space:]]{2,}/', ' ', $str);
     return $str;
 }
+
+function redirect($str) {
+    header("Location: {$str}");
+    die();
+}
