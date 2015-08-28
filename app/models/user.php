@@ -4,7 +4,11 @@ class User extends AppModel
     const AUTH_USER_KEY = 'auth_user';
 
     public $validation = array(
-        'username'  => array('length' => array('validate_between', 1, 16)),
+        'username'      => array(
+            'length'    => array('validate_between', 1, 16),
+            'chars'     => array('validate_username'),
+            'unique'    => array('validate_uniqueness', 'user', 'username')
+        ),
         'email'     => array('length' => array('validate_between', 1, 30)),
         'password'  => array('length' => array('validate_between', 6, 20))
     );
