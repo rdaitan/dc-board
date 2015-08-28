@@ -12,6 +12,16 @@
                 in length.
             </div>
         <?php } ?>
+        <?php if(!empty($user->validation_errors['username']['chars'])) { ?>
+            <div>
+                <em>Username</em> must only contain alphanumeric characters or underscore.
+            </div>
+        <?php } ?>
+        <?php if(!empty($user->validation_errors['username']['unique'])) { ?>
+            <div>
+                <em>Username</em> must be unique.
+            </div>
+        <?php } ?>
         <?php if(!empty($user->validation_errors['email']['length'])) { ?>
             <div>
                 <em>Email</em> must be between
