@@ -1,6 +1,8 @@
 <?php
 class User extends AppModel
 {
+    const AUTH_USER_KEY = 'auth_user';
+
     public $validation = array(
         'username'  => array('length' => array('validate_between', 1, 16)),
         'email'     => array('length' => array('validate_between', 1, 30)),
@@ -46,7 +48,19 @@ class User extends AppModel
     }
 
     private function setAuthUser() {
-        $_SESSION['auth_user'] = $this->id;
+        $_SESSION[self::AUTH_USER_KEY] = $this->id;
+    }
+
+    public static function getAuthUser() {
+        $id;
+
+        if(array_key_exists(self::AUTH_USER_KEY, $_SESSION)) {
+            $id = $_SESSION[self::AUTH_USER_KEY];
+        } else {
+            return false;
+        }
+
+        return User::get($id);
     }
 
     public static function get($id) {
