@@ -8,8 +8,8 @@ class CommentController extends AppController
         switch ($page) {
             case 'create_end':
                 $comment            = new Comment;
-                $comment->username  = trim_collapse(Param::get('username'));
                 $comment->body      = Param::get('body');
+                $comment->user_id   = User::getAuthUser()->id;
 
                 try{
                     $comment->create($thread);

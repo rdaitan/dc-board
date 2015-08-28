@@ -10,6 +10,8 @@ class Comment extends AppModel {
     {
         parent::__construct($data);
 
+        if(!isset($this->user_id)) return;
+
         $user = User::get($this->user_id);
         $this->username = $user->username;
     }
