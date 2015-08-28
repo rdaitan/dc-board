@@ -30,6 +30,11 @@
                 in length.
             </div>
         <?php } ?>
+        <?php if(!empty($user->validation_errors['email']['chars'])) { ?>
+            <div>
+                <em>Email</em> must follow email format.
+            </div>
+        <?php } ?>
         <?php if(!empty($user->validation_errors['password']['length'])) { ?>
             <div>
                 <em>Password</em> must be between

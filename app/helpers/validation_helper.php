@@ -23,3 +23,7 @@ function validate_uniqueness($username, $table, $column) {
 
     return empty($row);
 }
+
+function validate_email($str) {
+    return filter_var($str, FILTER_VALIDATE_EMAIL);
+}
