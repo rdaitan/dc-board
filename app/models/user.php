@@ -42,7 +42,9 @@ class User extends AppModel
 
         // Get the user by username
         $row = $db->row('SELECT * FROM user WHERE username=?', array($username));
-        if(empty($row)) return false;
+        if(empty($row)) {
+            return false;
+        }
 
         // Retrieve salt
         $user = new self($row);
@@ -82,7 +84,9 @@ class User extends AppModel
 
         // Get the user by id
         $row = $db->row('SELECT * FROM user WHERE id=?', array($id));
-        if(empty($row)) return false;
+        if(empty($row)) {
+            return false;
+        }
 
         return new self($row);
     }
@@ -93,7 +97,9 @@ class User extends AppModel
 
         // Get the user by id
         $row = $db->row('SELECT * FROM user WHERE username=?', array($username));
-        if(empty($row)) return false;
+        if(empty($row)) {
+            return false;
+        }
 
         return new self($row);
     }
