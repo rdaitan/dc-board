@@ -1,4 +1,13 @@
-<h1>All Threads</h1>
+<div class="row">
+    <div class="col-md-8">
+        <div>
+            <h1>All Threads</h1>            
+        </div>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+
+
 <?php if($authUser) {?>
     <h2>Welcome, <?php eh($authUser->username); ?>!</h2>
 <?php } ?>
