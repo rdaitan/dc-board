@@ -28,7 +28,7 @@
                 <h3>Hello, guest!</h3>
             <?php } ?>
         </div>
-        <div class='offset-top'>
+        <div class='offset-top offset-bottom'>
             <?php if(User::getAuthUser()) { ?>
                 <a href="<?php eh(url('thread/create')); ?>" class="btn btn-block btn-primary">Create Thread</a>
                 <hr>
