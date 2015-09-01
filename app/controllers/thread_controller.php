@@ -24,7 +24,7 @@ class ThreadController extends AppController {
      */
     public function view() {
         $page       = Param::get('page', 1);
-        $per_page   = 10;
+        $per_page   = 15;
 
         $pagination = new SimplePagination($page, $per_page);
 
