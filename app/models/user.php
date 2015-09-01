@@ -67,15 +67,12 @@ class User extends AppModel
     // Returns the user that is authenticated via authenticate()
     public static function getAuthUser()
     {
-        $id;
-
-        if(array_key_exists(self::AUTH_USER_KEY, $_SESSION)) {
-            $id = $_SESSION[self::AUTH_USER_KEY];
-        } else {
+        if(!array_key_exists(self::AUTH_USER_KEY, $_SESSION)) {
             return false;
+        } else {
+            $id = $_SESSION[self::AUTH_USER_KEY];
+            return User::get($id);
         }
-
-        return User::get($id);
     }
 
     // Finds the user by id and returns a User object
