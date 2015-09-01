@@ -69,7 +69,7 @@ class ThreadController extends AppController {
                 break;
         }
 
-        $title('Create Thread');
+        $title = 'Create Thread';
         $this->set(get_defined_vars());
         $this->render($page);
     }
