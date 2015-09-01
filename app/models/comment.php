@@ -11,7 +11,9 @@ class Comment extends AppModel
     {
         parent::__construct($data);
 
-        if(!isset($this->user_id)) return;
+        if(!isset($this->user_id)) {
+            return;
+        }
 
         $user = User::get($this->user_id);
         $this->username = $user->username;
@@ -42,14 +44,12 @@ class Comment extends AppModel
             throw new ValidationException('Invalid comment.');
         }
 
-        $values = array(
+        $db = DB::conn();
+        $db->insert('comment', array(
             'thread_id' => $thread->id,
             'user_id'   => $this->user_id,
             'body'      => $this->body
-        );
-
-        $db = DB::conn();
-        $db->insert('comment', $values);
+        ));
     }
 
 }
