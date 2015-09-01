@@ -1,5 +1,10 @@
 <?php
-class Thread extends AppModel {
+class Thread extends AppModel
+{
+    public $validation = array(
+        'title' => array('length' => array('validate_between', 1, 30)),
+    );
+
     public static function getAll($offset, $limit)
     {
         $db = DB::conn();
@@ -13,7 +18,8 @@ class Thread extends AppModel {
         return $threads;
     }
 
-    public static function get($id) {
+    public static function get($id)
+    {
         $db = DB::conn();
 
         $row = $db->row('SELECT * FROM thread WHERE id=?', array($id));
@@ -23,9 +29,6 @@ class Thread extends AppModel {
         return new self($row);
     }
 
-    public $validation = array(
-        'title' => array('length' => array('validate_between', 1, 30)),
-    );
 
     public function create(Comment $comment)
     {

@@ -36,7 +36,8 @@ class User extends AppModel
     // Checks if the username and password matches a user in the database.
     // If there is a match, the user is logged in and the method returns true.
     // Otherwise, returns false.
-    public static function authenticate($username, $password) {
+    public static function authenticate($username, $password)
+    {
         $db = DB::conn();
 
         // Get the user by username
@@ -58,12 +59,14 @@ class User extends AppModel
         }
     }
 
-    private function setAuthUser() {
+    private function setAuthUser()
+    {
         $_SESSION[self::AUTH_USER_KEY] = $this->id;
     }
 
     // Returns the user that is authenticated via authenticate()
-    public static function getAuthUser() {
+    public static function getAuthUser()
+    {
         $id;
 
         if(array_key_exists(self::AUTH_USER_KEY, $_SESSION)) {
@@ -76,7 +79,8 @@ class User extends AppModel
     }
 
     // Finds the user by id and returns a User object
-    public static function get($id) {
+    public static function get($id)
+    {
         $db = DB::conn();
 
         // Get the user by id
@@ -86,7 +90,8 @@ class User extends AppModel
         return new self($row);
     }
 
-    public static function getByUsername($username) {
+    public static function getByUsername($username)
+    {
         $db = DB::conn();
 
         // Get the user by id

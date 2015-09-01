@@ -1,9 +1,11 @@
 <?php
-class ThreadController extends AppController {
+class ThreadController extends AppController
+{
     /*
      * Show all threads.
      */
-    public function index() {
+    public function index()
+    {
         $page = Param::get('page', 1);
         $per_page = 10;
 
@@ -23,12 +25,12 @@ class ThreadController extends AppController {
     /*
      * Show a specific thread
      */
-    public function view() {
+    public function view()
+    {
         $page       = Param::get('page', 1);
         $per_page   = 15;
 
         $pagination = new SimplePagination($page, $per_page);
-
 
         $thread     = Thread::get(Param::get('thread_id'));
         $comments   = Comment::getAll($thread->id, $pagination->start_index - 1, $pagination->count + 1);
