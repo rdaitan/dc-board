@@ -12,7 +12,7 @@ class Thread extends AppModel
 
         $threads = array();
         foreach ($rows as $row) {
-            $threads[] = new Thread($row);
+            $threads[] = new self($row);
         }
 
         return $threads;
