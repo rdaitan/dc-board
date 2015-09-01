@@ -50,7 +50,7 @@
     <form class='form-horizontal' action="<?php eh(url('')); ?>" method="post">
         <div class="form-group">
             <div class="col-sm-12">
-                <h2>Register</h2>
+                <h3>Register</h3>
             </div>
         </div>
         <div class="form-group">
