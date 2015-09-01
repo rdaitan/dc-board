@@ -1,16 +1,16 @@
 <div class="row">
     <div class="col-md-8">
         <div>
-            <h1>All Threads</h1>            
+            <h1>All Threads</h1>
+            <?php if($authUser) {?>
+                <h3>Welcome, <?php eh($authUser->username); ?>!</h3>
+            <?php } ?>
         </div>
     </div>
     <div class="col-md-4"></div>
 </div>
 
 
-<?php if($authUser) {?>
-    <h2>Welcome, <?php eh($authUser->username); ?>!</h2>
-<?php } ?>
 <ul>
     <?php foreach($threads as $thread) { ?>
         <li><a href="<?php eh(url('thread/view', array('thread_id' => $thread->id))) ?>">
