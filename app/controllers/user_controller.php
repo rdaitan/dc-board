@@ -1,6 +1,9 @@
 <?php
 class UserController extends AppController
 {
+    const ERROR_VAR                 = 'error';
+    const ERROR_MESSAGE_USERPASS    = 'Incorrect username or password';
+
     public function create()
     {
         authRedirect();
@@ -31,9 +34,6 @@ class UserController extends AppController
         $this->set(get_defined_vars());
         $this->render($page);
     }
-
-    const ERROR_VAR                 = 'error';
-    const ERROR_MESSAGE_USERPASS    = 'Incorrect username or password';
 
     public function authenticate()
     {
