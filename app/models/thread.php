@@ -52,7 +52,7 @@ class Thread extends AppModel
     public static function countAll()
     {
         $db = DB::conn();
-        return (int) $db->value("SELECT COUNT(*) FROM thread");
+        return $db->value("SELECT COUNT(*) FROM thread");
     }
 
 }
