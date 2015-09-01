@@ -23,14 +23,12 @@ class User extends AppModel
             throw new ValidationException('Invalid user information');
         }
 
-        $info = array(
+        $db = DB::conn();
+        $db->insert('user', array(
             'username'  => $this->username,
             'email'     => $this->email,
-            'password'  => bhash($this->password)
+            'password'  => bhash($this->password))
         );
-
-        $db = DB::conn();
-        $db->insert('user', $info);
     }
 
     // Checks if the username and password matches a user in the database.
