@@ -26,7 +26,7 @@ class Comment extends AppModel
     public static function getAll($thread_id, $offset, $limit)
     {
         $db = DB::conn();
-        $rows = $db->rows("SELECT * FROM comment WHERE thread_id={$thread_id} ORDER BY created ASC LIMIT {$offset}, {$limit}");
+        $rows = $db->rows("SELECT * FROM comment WHERE thread_id={$thread_id} LIMIT {$offset}, {$limit}");
 
         $comments = array();
         foreach ($rows as $row) {
