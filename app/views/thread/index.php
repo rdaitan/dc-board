@@ -14,6 +14,10 @@
                 </div>
             <?php } ?>
         </div>
+        <div>
+            <!--Pagination-->
+            <?php printPageLinks($pagination, $pages); ?>
+        </div>
     </div>
     <div class="col-md-4">
         <!--Login/Logout/Signup-->
@@ -36,6 +40,3 @@
         </div>
     </div>
 </div>
-
-<!--Pagination-->
-<?php printPageLinks($pagination, $pages); ?>
