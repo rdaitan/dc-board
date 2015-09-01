@@ -38,7 +38,8 @@ function printPageLinks($pagination, $pages) {
     $page = Param::get('page', 1);
 
     if($pagination->current > 1) {
-        echo "<a href='?page=$pagination->prev'>Previous</a>";
+        $url = url('', array('page' => $pagination->prev));
+        echo "<a href='{$url}'>Previous</a>";
     } else {
         echo 'Previous';
     }
@@ -47,12 +48,14 @@ function printPageLinks($pagination, $pages) {
         if($i == $page) {
             echo "$i";
         } else {
-            echo "<a href='?page=$i'>$i</a>";
+            $url = url('', array('page' => $i));
+            echo "<a href='{$url}'>$i</a>";
         }
     }
 
     if(!$pagination->is_last_page) {
-        echo "<a href='?page=$pagination->next'>Next</a>";
+        $url = url('', array('page' => $pagination->next));
+        echo "<a href='{$url}'>Next</a>";
     } else {
         echo 'Next';
     }
