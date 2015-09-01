@@ -22,6 +22,19 @@ class Comment extends AppModel {
         return (int) $db->value("SELECT COUNT(*) FROM comment WHERE thread_id={$thread_id}");
     }
 
+    public static function getAll($thread_id, $offset, $limit)
+    {
+        $db = DB::conn();
+        $rows = $db->rows("SELECT * FROM comment WHERE thread_id={$thread_id} ORDER BY created ASC LIMIT {$offset}, {$limit}");
+
+        $comments = array();
+        foreach ($rows as $row) {
+            $comments[] = new Comment($row);
+        }
+
+        return $comments;
+    }
+
     public function create(Thread $thread)
     {
         if(!$this->validate()) {

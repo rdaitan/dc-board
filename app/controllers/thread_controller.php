@@ -30,7 +30,7 @@ class ThreadController extends AppController {
 
 
         $thread     = Thread::get(Param::get('thread_id'));
-        $comments   = $thread->getComments($pagination->start_index - 1, $pagination->count + 1);
+        $comments   = Comment::getAll($thread->id, $pagination->start_index - 1, $pagination->count + 1);
         $pagination->checkLastPage($comments);
 
         $total = Comment::countAll($thread->id);
