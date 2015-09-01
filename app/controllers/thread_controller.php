@@ -1,21 +1,23 @@
 <?php
 class ThreadController extends AppController
 {
+    const THREADS_PERPAGE   = 10;
+    const COMMENTS_PERPAGE  = 15;
+
     /*
      * Show all threads.
      */
     public function index()
     {
         $page = Param::get('page', 1);
-        $per_page = 10;
 
-        $pagination = new SimplePagination($page, $per_page);
+        $pagination = new SimplePagination($page, self::THREADS_PERPAGE);
 
         $threads    = Thread::getAll($pagination->start_index - 1, $pagination->count + 1);
         $pagination->checkLastPage($threads);
 
         $total = Thread::countAll();
-        $pages = ceil($total / $per_page);
+        $pages = ceil($total / self::THREADS_PERPAGE);
 
         $authUser   = User::getAuthUser();
         $title      = 'All Threads';
@@ -28,16 +30,15 @@ class ThreadController extends AppController
     public function view()
     {
         $page       = Param::get('page', 1);
-        $per_page   = 15;
 
-        $pagination = new SimplePagination($page, $per_page);
+        $pagination = new SimplePagination($page, self::COMMENTS_PERPAGE);
 
         $thread     = Thread::get(Param::get('thread_id'));
         $comments   = Comment::getAll($thread->id, $pagination->start_index - 1, $pagination->count + 1);
         $pagination->checkLastPage($comments);
 
         $total = Comment::countAll($thread->id);
-        $pages = ceil($total / $per_page);
+        $pages = ceil($total / self::COMMENTS_PERPAGE);
 
         $title = $thread->title;
         $this->set(get_defined_vars());
@@ -47,8 +48,8 @@ class ThreadController extends AppController
     {
         notAuthRedirect('user/authenticate');
 
-        $thread  = new Thread;
-        $comment = new Comment;
+        $thread  = new Thread();
+        $comment = new Comment();
         $page    = Param::get('page_next', 'create');
 
         switch($page) {

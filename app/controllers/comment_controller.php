@@ -10,7 +10,7 @@ class CommentController extends AppController
 
         switch ($page) {
             case 'create_end':
-                $comment            = new Comment;
+                $comment            = new Comment();
                 $comment->body      = Param::get('body');
                 $comment->user_id   = User::getAuthUser()->id;
 
