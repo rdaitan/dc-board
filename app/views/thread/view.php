@@ -8,7 +8,7 @@
             <?php foreach ($comments as $n => $comment) {?>
                 <div class="plank">
                     <?php
-                    $comment_num = ($page - 1) * $per_page + $n  + 1;
+                    $comment_num = ($page - 1) * ThreadController::COMMENTS_PERPAGE + $n  + 1;
                     eh(("{$comment_num} : {$comment->username} {$comment->created}")); ?><br />
                     <?php echo readable_text($comment->body) ?>
                 </div>
