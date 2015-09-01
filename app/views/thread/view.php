@@ -31,8 +31,7 @@
             <input type="hidden" name="thread_id" value="<?php eh($thread->id) ?>">
             <input type="hidden" name="page_next" value="create_end">
             <div class="col-sm-10 col-sm-offset-2">
-                <button type="submit" class="btn btn-primary">Submit</button> or
-                <a href="<?php eh(url('thread/view', array('thread_id' => $thread->id))); ?>">cancel</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </form>
