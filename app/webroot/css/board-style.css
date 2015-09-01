@@ -3,14 +3,10 @@
 }
 
 .plank {
-    background-color: #48AEE6;
     border: solid #48AEE6 1px;
+    border-left: solid #48AEE6 2px;
     margin-top: 8px;
     margin-bottom: 8px;
-    padding-left: 2px;
-}
-.plank div {
-    background-color: white;
     padding: 8px;
     word-wrap: break-word;
 }

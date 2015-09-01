@@ -6,11 +6,9 @@
         <div  id="thread_list">
             <?php foreach($threads as $thread) { ?>
                 <div class='plank'>
-                    <div>
-                        <a href="<?php eh(url('thread/view', array('thread_id' => $thread->id))) ?>">
-                            <?php eh($thread->title); ?>
-                        </a>
-                    </div>
+                    <a href="<?php eh(url('thread/view', array('thread_id' => $thread->id))) ?>">
+                        <?php eh($thread->title); ?>
+                    </a>
                 </div>
             <?php } ?>
         </div>

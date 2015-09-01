@@ -7,12 +7,10 @@
         <div class="offset-top">
             <?php foreach ($comments as $n => $comment) {?>
                 <div class="plank">
-                    <div>
-                        <?php
-                        $comment_num = ($page - 1) * $per_page + $n  + 1;
-                        eh(("{$comment_num} : {$comment->username} {$comment->created}")); ?><br />
-                        <?php echo readable_text($comment->body) ?><br />
-                    </div>
+                    <?php
+                    $comment_num = ($page - 1) * $per_page + $n  + 1;
+                    eh(("{$comment_num} : {$comment->username} {$comment->created}")); ?><br />
+                    <?php echo readable_text($comment->body) ?>
                 </div>
             <?php } ?>
 
