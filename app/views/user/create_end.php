@@ -1,2 +1,8 @@
-<h2>User created!</h2>
-<h4><a href="<?php eh(url('user/authenticate')) ?>">Proceed with login &rarr;</a></h4>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="alert alert-success">
+            <h3>User created!</h3>
+            <a href="<?php eh(url('user/authenticate')) ?>">Proceed with login &rarr;</a>
+        </div>
+    </div>
+</div>
