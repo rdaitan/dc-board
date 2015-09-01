@@ -5,6 +5,7 @@
     <title>DietCake <?php eh($title) ?></title>
 
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/board-style.css" rel="stylesheet">
   </head>
 
   <body>

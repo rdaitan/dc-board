@@ -8,10 +8,12 @@
         </div>
         <div id="thread_list">
             <?php foreach($threads as $thread) { ?>
-                <div>
-                    <a href="<?php eh(url('thread/view', array('thread_id' => $thread->id))) ?>">
-                        <?php eh($thread->title); ?>
-                    </a>
+                <div class='thread'>
+                    <div>
+                        <a href="<?php eh(url('thread/view', array('thread_id' => $thread->id))) ?>">
+                            <?php eh($thread->title); ?>
+                        </a>
+                    </div>
                 </div>
             <?php } ?>
             <a href="<?php eh(url('thread/create')); ?>" class="btn btn-large btn-primary">Create</a>

@@ -1,0 +1,15 @@
+#thread_list {
+    margin-top: 24px;
+}
+
+.thread {
+    background-color: #48AEE6;
+    border: solid #48AEE6 1px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding-left: 2px;
+}
+.thread div {
+    background-color: white;
+    padding: 12px;
+}
