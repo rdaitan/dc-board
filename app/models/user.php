@@ -52,20 +52,20 @@ class User extends AppModel
         $passwordsMatch = $hashedPassword === $user->password;
 
         if($passwordsMatch) {
-            $user->setAuthUser();
+            $user->setAuthenticated();
             return true;
         } else {
             return false;
         }
     }
 
-    private function setAuthUser()
+    private function setAuthenticated()
     {
         $_SESSION[self::AUTH_USER_KEY] = $this->id;
     }
 
     // Returns the user that is authenticated via authenticate()
-    public static function getAuthUser()
+    public static function getAuthenticated()
     {
         if(!array_key_exists(self::AUTH_USER_KEY, $_SESSION)) {
             return false;

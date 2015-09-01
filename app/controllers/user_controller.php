@@ -66,7 +66,7 @@ class UserController extends AppController
 
     public function logout()
     {
-        if(User::getAuthUser()) {
+        if(User::getAuthenticated()) {
             session_destroy();
         }
         redirect('/');

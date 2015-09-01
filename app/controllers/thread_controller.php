@@ -19,7 +19,7 @@ class ThreadController extends AppController
         $total = Thread::countAll();
         $pages = ceil($total / self::THREADS_PERPAGE);
 
-        $authUser   = User::getAuthUser();
+        $authUser   = User::getAuthenticated();
         $title      = 'All Threads';
         $this->set(get_defined_vars());
     }
@@ -57,7 +57,7 @@ class ThreadController extends AppController
                 break;
             case 'create_end':
                 $thread->title      = trim_collapse(Param::get('title'));
-                $comment->user_id   = User::getAuthUser()->id;
+                $comment->user_id   = User::getAuthenticated()->id;
                 $comment->body      = Param::get('body');
 
                 try {

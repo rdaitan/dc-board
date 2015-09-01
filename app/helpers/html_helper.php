@@ -30,13 +30,13 @@ function redirect($str)
 // Redirect the user if authenticated to the homepage or the specified url
 function authRedirect($page = '/')
 {
-    if(User::getAuthUser()) redirect($page);
+    if(User::getAuthenticated()) redirect($page);
 }
 
 // Redirects the user if not authenticated
 function notAuthRedirect($page = '/')
 {
-    if(!User::getAuthUser()) redirect($page);
+    if(!User::getAuthenticated()) redirect($page);
 }
 
 function printPageLinks($pagination, $pages)

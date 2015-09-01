@@ -12,7 +12,7 @@ class CommentController extends AppController
             case 'create_end':
                 $comment            = new Comment();
                 $comment->body      = Param::get('body');
-                $comment->user_id   = User::getAuthUser()->id;
+                $comment->user_id   = User::getAuthenticated()->id;
 
                 try{
                     $comment->create($thread);

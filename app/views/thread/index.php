@@ -27,7 +27,7 @@
             <?php } ?>
         </div>
         <div class='offset-top offset-bottom'>
-            <?php if(User::getAuthUser()) { ?>
+            <?php if(User::getAuthenticated()) { ?>
                 <a href="<?php eh(url('thread/create')); ?>" class="btn btn-block btn-primary">Create Thread</a>
                 <hr>
                 <a href="<?php eh(url('user/logout')); ?>" class="btn btn-block btn-danger">Log out</a>
