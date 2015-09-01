@@ -27,6 +27,7 @@ class UserController extends AppController
                 break;
         }
 
+        $title = 'Create User';
         $this->set(get_defined_vars());
         $this->render($page);
     }
@@ -58,6 +59,8 @@ class UserController extends AppController
                 throw new NotFoundException("{$page} not found.");
         }
 
+        $title = 'Log in';
+        $this->set(get_defined_vars());
         $this->render($page);
     }
 

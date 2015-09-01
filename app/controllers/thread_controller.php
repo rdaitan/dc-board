@@ -16,6 +16,7 @@ class ThreadController extends AppController {
         $pages = ceil($total / $per_page);
 
         $authUser   = User::getAuthUser();
+        $title      = 'All Threads';
         $this->set(get_defined_vars());
     }
 
@@ -36,6 +37,7 @@ class ThreadController extends AppController {
         $total = Comment::countAll($thread->id);
         $pages = ceil($total / $per_page);
 
+        $title = $thread->title;
         $this->set(get_defined_vars());
     }
 
@@ -67,6 +69,7 @@ class ThreadController extends AppController {
                 break;
         }
 
+        $title('Create Thread');
         $this->set(get_defined_vars());
         $this->render($page);
     }

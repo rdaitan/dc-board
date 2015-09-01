@@ -26,6 +26,7 @@ class CommentController extends AppController
                 break;
         }
 
+        $title = 'Create Comment';
         $this->set(get_defined_vars());
         $this->render($page);
     }
