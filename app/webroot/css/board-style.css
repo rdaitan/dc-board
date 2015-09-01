@@ -12,6 +12,7 @@
 .plank div {
     background-color: white;
     padding: 8px;
+    word-wrap: break-word;
 }
 
 .plank a {
