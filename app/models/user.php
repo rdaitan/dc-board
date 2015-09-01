@@ -90,7 +90,7 @@ class User extends AppModel
         $db = DB::conn();
 
         // Get the user by id
-        $row = $db->row('SELECT * FROM user WHERE username=?', array($id));
+        $row = $db->row('SELECT * FROM user WHERE username=?', array($username));
         if(empty($row)) return false;
 
         return new self($row);

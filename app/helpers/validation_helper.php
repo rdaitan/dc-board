@@ -13,7 +13,7 @@ function validate_username($str) {
 }
 
 function validate_unique_name($username) {
-    return !User::get($username);
+    return !User::getByUsername($username);
 }
 
 function validate_email($str) {
