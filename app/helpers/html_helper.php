@@ -6,35 +6,41 @@ function eh($string)
     echo htmlspecialchars($string, ENT_QUOTES);
 }
 
-function readable_text($s) {
-    $s = htmlspecialchars($s, ENT_QUOTES);
-    $s = nl2br($s);
-    return $s;
+function readable_text($string)
+{
+    $s = htmlspecialchars($string, ENT_QUOTES);
+    $s = nl2br($string);
+    return $string;
 }
 
 // trim whitespace from $str and collapse adjacent whitespaces into one.
-function trim_collapse($str) {
+function trim_collapse($str)
+{
     $str = trim($str);
     $str = preg_replace('/[[:space:]]{2,}/', ' ', $str);
     return $str;
 }
 
-function redirect($str) {
+function redirect($str)
+{
     header("Location: " . url($str));
     die();
 }
 
 // Redirect the user if authenticated to the homepage or the specified url
-function authRedirect($page = '/') {
+function authRedirect($page = '/')
+{
     if(User::getAuthUser()) redirect($page);
 }
 
 // Redirects the user if not authenticated
-function notAuthRedirect($page = '/') {
+function notAuthRedirect($page = '/')
+{
     if(!User::getAuthUser()) redirect($page);
 }
 
-function printPageLinks($pagination, $pages) {
+function printPageLinks($pagination, $pages)
+{
     $page = Param::get('page', 1);
 
     echo '<nav><ul class="pagination">';
