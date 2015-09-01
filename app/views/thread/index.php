@@ -6,19 +6,19 @@
                 <h3>Welcome, <?php eh($authUser->username); ?>!</h3>
             <?php } ?>
         </div>
+        <div id="thread_list">
+            <?php foreach($threads as $thread) { ?>
+                <div>
+                    <a href="<?php eh(url('thread/view', array('thread_id' => $thread->id))) ?>">
+                        <?php eh($thread->title); ?>
+                    </a>
+                </div>
+            <?php } ?>
+            <a href="<?php eh(url('thread/create')); ?>" class="btn btn-large btn-primary">Create</a>
+        </div>
     </div>
     <div class="col-md-4"></div>
 </div>
-
-
-<ul>
-    <?php foreach($threads as $thread) { ?>
-        <li><a href="<?php eh(url('thread/view', array('thread_id' => $thread->id))) ?>">
-            <?php eh($thread->title); ?>
-        </a></li>
-    <?php } ?>
-    <a href="<?php eh(url('thread/create')); ?>" class="btn btn-large btn-primary">Create</a>
-</ul>
 
 <!--Pagination-->
 <?php printPageLinks($pagination, $pages); ?>
