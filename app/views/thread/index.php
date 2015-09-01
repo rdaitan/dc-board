@@ -2,6 +2,7 @@
     <div class="col-md-8">
         <div>
             <h1>All Threads</h1>
+            <a href="<?php eh(url('thread/create')); ?>" class="btn '' btn-primary">Create</a>
         </div>
         <div id="thread_list">
             <?php foreach($threads as $thread) { ?>
@@ -13,7 +14,6 @@
                     </div>
                 </div>
             <?php } ?>
-            <a href="<?php eh(url('thread/create')); ?>" class="btn btn-large btn-primary">Create</a>
         </div>
     </div>
     <div class="col-md-4">
@@ -27,10 +27,10 @@
         </div>
         <div class='offset-top'>
             <?php if(User::getAuthUser()) { ?>
-                <a href="<?php eh(url('user/logout')); ?>" class="btn btn-block btn-lg btn-danger">Log out</a>
+                <a href="<?php eh(url('user/logout')); ?>" class="btn btn-block '' btn-danger">Log out</a>
             <?php } else { ?>
-                <a href="<?php eh(url('user/create')); ?>" class="btn btn-block btn-lg btn-primary">Sign Up</a>
-                <a href="<?php eh(url('user/authenticate')); ?>" class="btn btn-block btn-lg btn-success">Log in</a>
+                <a href="<?php eh(url('user/create')); ?>" class="btn btn-block '' btn-primary">Sign Up</a>
+                <a href="<?php eh(url('user/authenticate')); ?>" class="btn btn-block '' btn-success">Log in</a>
             <?php } ?>
         </div>
     </div>
