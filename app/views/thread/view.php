@@ -13,8 +13,8 @@
 <?php printPageLinks($pagination, $pages); ?>
 
 <!--Comment Form-->
+<hr>
 <?php if(User::getAuthUser()) {?>
-    <hr>
     <form class='form-horizontal' action="<?php eh(url('comment/create')); ?>" class="well" method="post">
         <div class="form-group">
             <div class="col-sm-12">
@@ -36,5 +36,5 @@
         </div>
     </form>
 <?php } else {?>
-    <a href="<?php eh(url('user/authenticate')) ?>" class="btn btn-primary">Comment</a>
+    <a href="<?php eh(url('user/authenticate')) ?>" class="btn btn-primary">Log in to comment</a>
 <?php }?>
