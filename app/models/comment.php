@@ -30,7 +30,7 @@ class Comment extends AppModel
 
         $comments = array();
         foreach ($rows as $row) {
-            $comments[] = new Comment($row);
+            $comments[] = new self($row);
         }
 
         return $comments;
