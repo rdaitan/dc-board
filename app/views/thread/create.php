@@ -37,13 +37,13 @@
             </div>
         </div>
         <div class="form-group">
-            <label  class='col-sm-2' for="">Title</label>
+            <label  class='col-sm-2 control-label' for="">Title</label>
             <div class="col-sm-10">
                 <input type="text" class='form-control' name="title" class="span2" value="<?php eh(Param::get('title')); ?>">
             </div>
         </div>
         <div class="form-group">
-            <label class='col-sm-2' for="">Comment</label>
+            <label class='col-sm-2 control-label' for="">Comment</label>
             <div class="col-sm-10">
                 <textarea class='form-control' name="body"><?php eh(Param::get('body')); ?></textarea>
             </div>
@@ -52,7 +52,7 @@
             <input type="hidden" name="page_next" value="create_end">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-primary">Submit</button> or
-                <a href="<?php eh(url('/')) ?>" class='btn btn-default'>Cancel</a>
+                <a href="<?php eh(url('/')) ?>">cancel</a>
             </div>
         </div>
     </form>
