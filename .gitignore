@@ -2,3 +2,5 @@ app/config/core.php
 app/tmp/logs/*.log
 app/webroot/*
 app/webroot/bootstrap/img/*
+!app/webroot/index.php
+!app/webroot/.htaccess
