@@ -18,3 +18,7 @@
     font-size: 1.25em;
     text-decoration: none;
 }
+
+.offset-top {
+    margin-top: 24px;
+}

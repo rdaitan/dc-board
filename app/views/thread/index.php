@@ -2,9 +2,6 @@
     <div class="col-md-8">
         <div>
             <h1>All Threads</h1>
-            <?php if($authUser) {?>
-                <h3>Welcome, <?php eh($authUser->username); ?>!</h3>
-            <?php } ?>
         </div>
         <div id="thread_list">
             <?php foreach($threads as $thread) { ?>
@@ -19,16 +16,25 @@
             <a href="<?php eh(url('thread/create')); ?>" class="btn btn-large btn-primary">Create</a>
         </div>
     </div>
-    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <!--Login/Logout/Signup-->
+        <div>
+            <?php if($authUser) {?>
+                <h3>Welcome, <?php eh($authUser->username); ?>!</h3>
+            <?php } else { ?>
+                <h3>Hello, guest!</h3>
+            <?php } ?>
+        </div>
+        <div class='offset-top'>
+            <?php if(User::getAuthUser()) { ?>
+                <a href="<?php eh(url('user/logout')); ?>" class="btn btn-block btn-lg btn-danger">Log out</a>
+            <?php } else { ?>
+                <a href="<?php eh(url('user/create')); ?>" class="btn btn-block btn-lg btn-primary">Sign Up</a>
+                <a href="<?php eh(url('user/authenticate')); ?>" class="btn btn-block btn-lg btn-success">Log in</a>
+            <?php } ?>
+        </div>
+    </div>
 </div>
 
 <!--Pagination-->
 <?php printPageLinks($pagination, $pages); ?>
-
-<!--Login/Logout/Signup-->
-<?php if(User::getAuthUser()) { ?>
-    <a href="<?php eh(url('user/logout')); ?>" class="btn btn-danger">Log out</a>
-<?php } else { ?>
-    <a href="<?php eh(url('user/create')); ?>" class="btn btn-primary">Sign Up</a>
-    <a href="<?php eh(url('user/authenticate')); ?>" class="btn btn-success">Log in</a>
-<?php } ?>
