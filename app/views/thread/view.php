@@ -2,6 +2,7 @@
     <div class="col-md-12">
         <div>
             <h1><?php eh($thread->title) ?></h1>
+            <a href='<?php eh(url('/')); ?>'>&larr; All threads</a>
         </div>
         <div class="offset-top">
             <?php foreach ($comments as $n => $comment) {?>
