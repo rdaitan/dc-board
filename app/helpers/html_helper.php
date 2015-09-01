@@ -8,8 +8,8 @@ function eh($string)
 
 function readable_text($string)
 {
-    $s = htmlspecialchars($string, ENT_QUOTES);
-    $s = nl2br($string);
+    $string = htmlspecialchars($string, ENT_QUOTES);
+    $string = nl2br($string);
     return $string;
 }
 
