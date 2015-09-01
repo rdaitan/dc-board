@@ -37,26 +37,30 @@ function notAuthRedirect($page = '/') {
 function printPageLinks($pagination, $pages) {
     $page = Param::get('page', 1);
 
+    echo '<nav><ul class="pagination">';
+
     if($pagination->current > 1) {
         $url = url('', array('page' => $pagination->prev));
-        echo "<a class='btn btn-default btn-sm offset-right' href='{$url}'>Previous</a>";
+        echo "<li><a href='{$url}'>&laquo;</a></li>";
     } else {
-        echo '<span class="btn btn-default btn-sm offset-right disabled">Previous</span>';
+        echo "<li class='disabled'><a>&laquo;</a></li>";
     }
 
     for($i = 1; $i <= $pages; $i++) {
         if($i == $page) {
-            echo "<span class='btn btn-default btn-sm offset-right disabled'>{$i}</span>";
+            echo "<li class='disabled'><a>{$i}</a></li>";
         } else {
             $url = url('', array('page' => $i));
-            echo "<a class='btn btn-default btn-sm offset-right' href='{$url}'>{$i}</a>";
+            echo "<li><a href='{$url}'>{$i}</a></li>";
         }
     }
 
     if(!$pagination->is_last_page) {
         $url = url('', array('page' => $pagination->next));
-        echo "<a class='btn btn-default btn-sm offset-right' href='{$url}'>Next</a>";
+        echo "<li><a href='{$url}'>&raquo;</a></li>";
     } else {
-        echo '<span class="btn btn-default btn-sm offset-right disabled">Next</span>';
+        echo "<li class='disabled'><a>&raquo;</a></li>";
     }
+
+    echo '</ul></nav>';
 }
