@@ -35,7 +35,7 @@ function notAuthRedirect($page = '/') {
 }
 
 function printPageLinks($pagination, $pages) {
-    $page = Param::get('page');
+    $page = Param::get('page', 1);
 
     if($pagination->current > 1) {
         echo "<a href='?page=$pagination->prev'>Previous</a>";
