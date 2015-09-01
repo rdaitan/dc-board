@@ -4,8 +4,18 @@ class ThreadController extends AppController {
      * Show all threads.
      */
     public function index() {
+        $page = Param::get('page', 1);
+        $per_page = 10;
+
+        $pagination = new SimplePagination($page, $per_page);
+
+        $threads    = Thread::getAll($pagination->start_index - 1, $pagination->count + 1);
+        $pagination->checkLastPage($threads);
+
+        $total = Thread::countAll();
+        $pages = ceil($total / $per_page);
+
         $authUser   = User::getAuthUser();
-        $threads    = Thread::getAll();
         $this->set(get_defined_vars());
     }
 
@@ -13,8 +23,18 @@ class ThreadController extends AppController {
      * Show a specific thread
      */
     public function view() {
-        $thread = Thread::get(Param::get('thread_id'));
-        $comments = $thread->getComments();
+        $page       = Param::get('page', 1);
+        $per_page   = 10;
+
+        $pagination = new SimplePagination($page, $per_page);
+
+
+        $thread     = Thread::get(Param::get('thread_id'));
+        $comments   = $thread->getComments($pagination->start_index - 1, $pagination->count + 1);
+        $pagination->checkLastPage($comments);
+
+        $total = Comment::countAll($thread->id);
+        $pages = ceil($total / $per_page);
 
         $this->set(get_defined_vars());
     }

@@ -33,3 +33,30 @@ function authRedirect($page = '/') {
 function notAuthRedirect($page = '/') {
     if(!User::getAuthUser()) redirect($page);
 }
+
+function printPageLinks($pagination, $pages) {
+    $page = Param::get('page', 1);
+
+    if($pagination->current > 1) {
+        $url = url('', array('page' => $pagination->prev));
+        echo "<a href='{$url}'>Previous</a>";
+    } else {
+        echo 'Previous';
+    }
+
+    for($i = 1; $i <= $pages; $i++) {
+        if($i == $page) {
+            echo "$i";
+        } else {
+            $url = url('', array('page' => $i));
+            echo "<a href='{$url}'>$i</a>";
+        }
+    }
+
+    if(!$pagination->is_last_page) {
+        $url = url('', array('page' => $pagination->next));
+        echo "<a href='{$url}'>Next</a>";
+    } else {
+        echo 'Next';
+    }
+}

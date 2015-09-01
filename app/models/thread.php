@@ -1,8 +1,9 @@
 <?php
 class Thread extends AppModel {
-    public static function getAll() {
+    public static function getAll($offset, $limit)
+    {
         $db = DB::conn();
-        $rows = $db->rows('SELECT * FROM thread');
+        $rows = $db->rows("SELECT * FROM thread LIMIT {$offset}, {$limit}");
 
         $threads = array();
         foreach ($rows as $row) {
@@ -22,9 +23,9 @@ class Thread extends AppModel {
         return new self($row);
     }
 
-    public function getComments() {
+    public function getComments($offset, $limit) {
         $db = DB::conn();
-        $rows = $db->rows('SELECT * FROM comment WHERE thread_id=? ORDER BY created ASC', array($this->id));
+        $rows = $db->rows("SELECT * FROM comment WHERE thread_id=? ORDER BY created ASC LIMIT {$offset}, {$limit}", array($this->id));
 
         $comments = array();
         foreach ($rows as $row) {
@@ -56,4 +57,11 @@ class Thread extends AppModel {
 
         $db->commit();
     }
+
+    public static function countAll()
+    {
+        $db = DB::conn();
+        return (int) $db->value("SELECT COUNT(*) FROM thread");
+    }
+
 }

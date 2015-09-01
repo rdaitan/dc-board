@@ -10,6 +10,11 @@
     <?php } ?>
     <a href="<?php eh(url('thread/create')); ?>" class="btn btn-large btn-primary">Create</a>
 </ul>
+
+<!--Pagination-->
+<?php printPageLinks($pagination, $pages); ?>
+
+<!--Login/Logout/Signup-->
 <?php if(User::getAuthUser()) { ?>
     <a href="<?php eh(url('user/logout')); ?>" class="btn btn-danger">Log out</a>
 <?php } else { ?>
