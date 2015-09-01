@@ -39,24 +39,24 @@ function printPageLinks($pagination, $pages) {
 
     if($pagination->current > 1) {
         $url = url('', array('page' => $pagination->prev));
-        echo "<a href='{$url}'>Previous</a>";
+        echo "<a class='btn btn-default btn-sm offset-right' href='{$url}'>Previous</a>";
     } else {
-        echo 'Previous';
+        echo '<span class="btn btn-default btn-sm offset-right disabled">Previous</span>';
     }
 
     for($i = 1; $i <= $pages; $i++) {
         if($i == $page) {
-            echo "$i";
+            echo "<span class='btn btn-default btn-sm offset-right disabled'>{$i}</span>";
         } else {
             $url = url('', array('page' => $i));
-            echo "<a href='{$url}'>$i</a>";
+            echo "<a class='btn btn-default btn-sm offset-right' href='{$url}'>{$i}</a>";
         }
     }
 
     if(!$pagination->is_last_page) {
         $url = url('', array('page' => $pagination->next));
-        echo "<a href='{$url}'>Next</a>";
+        echo "<a class='btn btn-default btn-sm offset-right' href='{$url}'>Next</a>";
     } else {
-        echo 'Next';
+        echo '<span class="btn btn-default btn-sm offset-right disabled">Next</span>';
     }
 }
