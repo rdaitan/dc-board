@@ -16,6 +16,12 @@ class Comment extends AppModel {
         $this->username = $user->username;
     }
 
+    public static function countAll($thread_id)
+    {
+        $db = DB::conn();
+        return (int) $db->value("SELECT COUNT(*) FROM comment WHERE thread_id={$thread_id}");
+    }
+
     public function create(Thread $thread)
     {
         if(!$this->validate()) {
@@ -31,4 +37,5 @@ class Comment extends AppModel {
         $db = DB::conn();
         $db->insert('comment', $values);
     }
+
 }

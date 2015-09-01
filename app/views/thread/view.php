@@ -9,6 +9,9 @@
     </div>
 <?php } ?>
 
+<!--pagination-->
+<?php printPageLinks($pagination, $pages); ?>
+
 <!--Comment Form-->
 <?php if(User::getAuthUser()) {?>
     <hr>
