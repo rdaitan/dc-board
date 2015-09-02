@@ -39,14 +39,19 @@ class Thread extends AppModel
         }
 
         $db = DB::conn();
-        $db->begin();
-        $db->insert('thread', array('title' => $this->title));
 
-        // write first comment
-        $this->id = $db->lastInsertId();
-        $comment->create($this);
+        try {
+            $db->begin();
+            $db->insert('thread', array('title' => $this->title));
 
-        $db->commit();
+            // write first comment
+            $this->id = $db->lastInsertId();
+            $comment->create($this);
+
+            $db->commit();
+        } catch (PDOException $e) {
+            $db->rollback();
+        }
     }
 
     public static function countAll()
