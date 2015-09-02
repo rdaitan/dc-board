@@ -40,6 +40,7 @@ class User extends AppModel
 
         // Get the user by username
         $row = $db->row('SELECT * FROM user WHERE username=?', array($username));
+
         if(!$row) {
             return false;
         }
@@ -51,7 +52,7 @@ class User extends AppModel
         $hashedPassword = bhash($password, $salt);
 
         if(!$hashedPassword === $user->password) {
-            return false;    
+            return false;
         }
 
         $user->setAuthenticated();
