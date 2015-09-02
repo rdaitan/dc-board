@@ -67,7 +67,7 @@ class ThreadController extends AppController
                 }
                 break;
             default:
-                throw new NotFoundException("{$page} is not found");
+                throw new PageNotFoundException("{$page} is not found");
                 break;
         }
 

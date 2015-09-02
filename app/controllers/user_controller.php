@@ -26,7 +26,7 @@ class UserController extends AppController
             case 'create':
                 break;
             default:
-                throw new NotFoundException("{$page} is not found.");
+                throw new PageNotFoundException("{$page} is not found.");
                 break;
         }
 
@@ -56,7 +56,7 @@ class UserController extends AppController
             case 'auth':
                 break;
             default:
-                throw new NotFoundException("{$page} not found.");
+                throw new PageNotFoundException("{$page} not found.");
         }
 
         $title = 'Log in';
