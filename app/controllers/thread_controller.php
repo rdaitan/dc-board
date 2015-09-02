@@ -19,7 +19,7 @@ class ThreadController extends AppController
         $total = Thread::countAll();
         $pages = ceil($total / self::THREADS_PERPAGE);
 
-        $authUser   = User::getAuthenticated();
+        $auth_user  = User::getAuthenticated();
         $title      = 'All Threads';
         $this->set(get_defined_vars());
     }

@@ -20,8 +20,8 @@
     <div class="col-md-4">
         <!--Login/Logout/Signup-->
         <div>
-            <?php if($authUser) {?>
-                <h3>Welcome, <?php eh($authUser->username); ?>!</h3>
+            <?php if($auth_user) {?>
+                <h3>Welcome, <?php eh($auth_user->username); ?>!</h3>
             <?php } else { ?>
                 <h3>Hello, guest!</h3>
             <?php } ?>
