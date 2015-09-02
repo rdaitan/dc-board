@@ -11,7 +11,7 @@ class Comment extends AppModel
     {
         parent::__construct($data);
 
-        if(!isset($this->user_id)) {
+        if (!isset($this->user_id)) {
             return;
         }
 
@@ -28,7 +28,7 @@ class Comment extends AppModel
     public static function getAll($thread_id, $offset, $limit)
     {
         $db = DB::conn();
-        $rows = $db->rows(sprintf("SELECT * FROM comment WHERE thread_id=%d LIMIT %d, %d", $thread_id, $offset, $limit));
+        $rows = $db->search('comment', 'thread_id = ?', array($thread_id), null, array($offset, $limit));
 
         $comments = array();
         foreach ($rows as $row) {
@@ -40,7 +40,7 @@ class Comment extends AppModel
 
     public function create(Thread $thread)
     {
-        if(!$this->validate()) {
+        if (!$this->validate()) {
             throw new ValidationException('Invalid comment.');
         }
 
