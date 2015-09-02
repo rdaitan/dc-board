@@ -12,22 +12,22 @@ class UserController extends AppController
         $page = Param::get('page_next', 'create');
 
         switch ($page) {
-            case 'create_end':
-                $user->username = trim(Param::get('username'));
-                $user->email    = trim(Param::get('email'));
-                $user->password = Param::get('password');
+        case 'create_end':
+            $user->username = trim(Param::get('username'));
+            $user->email    = trim(Param::get('email'));
+            $user->password = Param::get('password');
 
-                try {
-                    $user->create();
-                } catch(ValidationException $e) {
-                    $page = 'create';
-                }
-                break;
-            case 'create':
-                break;
-            default:
-                throw new PageNotFoundException("{$page} is not found.");
-                break;
+            try {
+                $user->create();
+            } catch(ValidationException $e) {
+                $page = 'create';
+            }
+            break;
+        case 'create':
+            break;
+        default:
+            throw new PageNotFoundException("{$page} is not found.");
+            break;
         }
 
         $title = 'Create User';
@@ -42,21 +42,21 @@ class UserController extends AppController
         $page = Param::get('page_next', 'auth');
 
         switch($page) {
-            case 'auth_end':
-                $username = Param::get('username');
-                $password = Param::get('password');
+        case 'auth_end':
+            $username = Param::get('username');
+            $password = Param::get('password');
 
-                if(User::authenticate($username, $password)) {
-                    redirect('/');
-                } else {
-                    $this->set(array(self::ERROR_VAR => self::ERROR_MESSAGE_USERPASS));
-                    $page = 'auth';
-                }
-                break;
-            case 'auth':
-                break;
-            default:
-                throw new PageNotFoundException("{$page} not found.");
+            if(User::authenticate($username, $password)) {
+                redirect('/');
+            } else {
+                $this->set(array(self::ERROR_VAR => self::ERROR_MESSAGE_USERPASS));
+                $page = 'auth';
+            }
+            break;
+        case 'auth':
+            break;
+        default:
+            throw new PageNotFoundException("{$page} not found.");
         }
 
         $title = 'Log in';
