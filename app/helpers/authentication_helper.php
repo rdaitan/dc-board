@@ -16,8 +16,8 @@ function bhash($str, $salt = null)
         // 22 characters * 4 bits = 88 bits
         // openssl_random_pseudo_bytes() needs the number of bytes to generate.
         // 88 bits / 8 bits = 11 bytes
-        $bitCount   = 11;
-        $salt       = bin2hex(openssl_random_pseudo_bytes($bitCount));
+        $byteCount  = 11;
+        $salt       = bin2hex(openssl_random_pseudo_bytes($byteCount));
     }
 
     return crypt($str, CRYPT_BFISH . $salt);
