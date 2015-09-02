@@ -16,8 +16,7 @@ class CommentController extends AppController
 
                 try{
                     $comment->create($thread);
-                }
-                catch (ValidationException $e) {
+                } catch (ValidationException $e) {
                     $page = 'create';
                 }
                 break;
