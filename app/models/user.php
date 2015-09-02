@@ -40,7 +40,7 @@ class User extends AppModel
 
         // Get the user by username
         $row = $db->row('SELECT * FROM user WHERE username=?', array($username));
-        if(empty($row)) {
+        if(!$row) {
             return false;
         }
 
@@ -82,7 +82,7 @@ class User extends AppModel
 
         $row = $db->row('SELECT * FROM user WHERE id=?', array($id));
 
-        return empty($row) ? false : new self($row);
+        return !$row ? false : new self($row);
     }
 
     public static function getByUsername($username)
@@ -91,6 +91,6 @@ class User extends AppModel
 
         $row = $db->row('SELECT * FROM user WHERE username=?', array($username));
 
-        return empty($row) ? false : new self($row);
+        return !$row ? false : new self($row);
     }
 }
