@@ -10,7 +10,7 @@ define('CRYPT_BFISH', '$2a$11$');
 function bhash($str, $salt = null)
 {
 
-    if(!$salt) {
+    if (!$salt) {
         // the salt length for blowfish is only 22 characters long.
         // bin2hex() would produce 22 hex characters
         // 22 characters * 4 bits = 88 bits

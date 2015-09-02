@@ -46,7 +46,7 @@ class UserController extends AppController
             $username = Param::get('username');
             $password = Param::get('password');
 
-            if(User::authenticate($username, $password)) {
+            if (User::authenticate($username, $password)) {
                 redirect(APP_URL);;
             } else {
                 $this->set(array(self::ERROR_VAR => self::ERROR_MESSAGE_USERPASS));
@@ -66,7 +66,7 @@ class UserController extends AppController
 
     public function logout()
     {
-        if(User::getAuthenticated()) {
+        if (User::getAuthenticated()) {
             session_destroy();
         }
         redirect(APP_URL);;

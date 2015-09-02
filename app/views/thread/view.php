@@ -19,7 +19,7 @@
 
             <!--Comment Form-->
             <hr>
-            <?php if(User::getAuthenticated()) {?>
+            <?php if (User::getAuthenticated()) {?>
                 <form class='form-horizontal' action="<?php eh(url('comment/create')); ?>" class="well" method="post">
                     <div class="form-group">
                         <div class="col-sm-12">

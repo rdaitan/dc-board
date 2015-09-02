@@ -19,7 +19,7 @@ class User extends AppModel
 
     public function create()
     {
-        if(!$this->validate()) {
+        if (!$this->validate()) {
             throw new ValidationException('Invalid user information');
         }
 
@@ -41,7 +41,7 @@ class User extends AppModel
         // Get the user by username
         $row = $db->row('SELECT * FROM user WHERE username=?', array($username));
 
-        if(!$row) {
+        if (!$row) {
             return false;
         }
 
@@ -51,7 +51,7 @@ class User extends AppModel
 
         $hashedPassword = bhash($password, $salt);
 
-        if($hashedPassword !== $user->password) {
+        if ($hashedPassword !== $user->password) {
             return false;
         }
 
@@ -67,7 +67,7 @@ class User extends AppModel
     // Returns the user that is authenticated via authenticate()
     public static function getAuthenticated()
     {
-        if(!array_key_exists(self::AUTH_USER_KEY, $_SESSION)) {
+        if (!array_key_exists(self::AUTH_USER_KEY, $_SESSION)) {
             return false;
         }
 

@@ -23,7 +23,7 @@ class Thread extends AppModel
         $db = DB::conn();
 
         $row = $db->row('SELECT * FROM thread WHERE id=?', array($id));
-        if(!$row){
+        if (!$row){
             throw new RecordNotFoundException('No record found');
         }
 
@@ -33,7 +33,7 @@ class Thread extends AppModel
 
     public function create(Comment $comment)
     {
-        if(!$this->validate() | !$comment->validate()) {
+        if (!$this->validate() | !$comment->validate()) {
             // before calling $this->validate(), $this->title was set first
             throw new ValidationException('Invalid thread or comment.');
         }
