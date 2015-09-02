@@ -69,10 +69,10 @@ class User extends AppModel
     {
         if(!array_key_exists(self::AUTH_USER_KEY, $_SESSION)) {
             return false;
-        } else {
-            $id = $_SESSION[self::AUTH_USER_KEY];
-            return User::getById($id);
         }
+
+        $id = $_SESSION[self::AUTH_USER_KEY];
+        return User::getById($id);
     }
 
     // Finds the user by id and returns a User object
