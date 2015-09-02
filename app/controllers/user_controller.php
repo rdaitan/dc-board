@@ -41,7 +41,7 @@ class UserController extends AppController
 
         $page = Param::get('page_next', 'auth');
 
-        switch($page) {
+        switch ($page) {
         case 'auth_end':
             $username = Param::get('username');
             $password = Param::get('password');

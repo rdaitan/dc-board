@@ -52,7 +52,7 @@ class ThreadController extends AppController
         $comment = new Comment();
         $page    = Param::get('page_next', 'create');
 
-        switch($page) {
+        switch ($page) {
         case 'create':
             break;
         case 'create_end':
