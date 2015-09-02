@@ -51,7 +51,7 @@ class User extends AppModel
 
         $hashedPassword = bhash($password, $salt);
 
-        if(!$hashedPassword === $user->password) {
+        if($hashedPassword !== $user->password) {
             return false;
         }
 
