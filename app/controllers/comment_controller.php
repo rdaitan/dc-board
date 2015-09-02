@@ -14,7 +14,7 @@ class CommentController extends AppController
             $comment->body      = Param::get('body');
             $comment->user_id   = User::getAuthenticated()->id;
 
-            try{
+            try {
                 $comment->create($thread);
             } catch (ValidationException $e) {
                 $page = 'create';
