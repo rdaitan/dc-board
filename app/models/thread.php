@@ -23,8 +23,7 @@ class Thread extends AppModel
         $db = DB::conn();
 
         $row = $db->row('SELECT * FROM thread WHERE id=?', array($id));
-
-        if(!$row) {
+        if(!$row){
             throw new RecordNotFoundException('No record found');
         }
 
@@ -50,7 +49,7 @@ class Thread extends AppModel
             $comment->create($this);
 
             $db->commit();
-        } catch(PDOException $e) {
+        } catch (PDOException $e) {
             $db->rollback();
         }
     }
