@@ -53,7 +53,7 @@
                 <input type="hidden" name="page_next" value="create_end">
                 <div class="col-sm-offset-2 col-sm-10">
                     <button type="submit" class="btn btn-primary">Submit</button> or
-                    <a href="<?php eh(url('/')) ?>">cancel</a>
+                    <a href="<?php eh(url(APP_URL)) ?>">cancel</a>
                 </div>
             </div>
         </form>

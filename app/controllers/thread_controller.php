@@ -1,4 +1,4 @@
-\<?php
+<?php
 class ThreadController extends AppController
 {
     const THREADS_PERPAGE   = 10;

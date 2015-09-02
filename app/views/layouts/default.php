@@ -12,7 +12,7 @@
 
     <nav class="navbar navbar-default">
         <div class="container">
-            <div class="navbar-header"><a href="<?php eh(url('/')); ?>" class="navbar-brand">DietCake Board</a></div>
+            <div class="navbar-header"><a href="<?php eh(url(APP_URL)); ?>" class="navbar-brand">DietCake Board</a></div>
         </div>
     </nav>
 

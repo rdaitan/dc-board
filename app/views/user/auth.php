@@ -28,7 +28,7 @@
                 <input type="hidden" name="page_next" value="auth_end">
                 <div class="col-sm-10 col-sm-offset-2">
                     <button class='btn btn-primary' type="submit">Log in</button> or
-                    <a href="<?php eh(url('/')) ?>">cancel</a>
+                    <a href="<?php eh(url(APP_URL)) ?>">cancel</a>
                 </div>
             </div>
         </form>
