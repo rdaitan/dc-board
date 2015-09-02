@@ -71,22 +71,16 @@ class User extends AppModel
             return false;
         } else {
             $id = $_SESSION[self::AUTH_USER_KEY];
-            return User::get($id);
+            return User::getById($id);
         }
     }
 
     // Finds the user by id and returns a User object
-    public static function get($id)
+    public static function getById($id)
     {
         $db = DB::conn();
 
-        // Get the user by id
         $row = $db->row('SELECT * FROM user WHERE id=?', array($id));
-        // if(empty($row)) {
-        //     return false;
-        // }
-        //
-        // return new self($row);
 
         return empty($row) ? false : new self($row);
     }
@@ -95,13 +89,7 @@ class User extends AppModel
     {
         $db = DB::conn();
 
-        // Get the user by id
         $row = $db->row('SELECT * FROM user WHERE username=?', array($username));
-        // if(empty($row)) {
-        //     return false;
-        // }
-        //
-        // return new self($row);
 
         return empty($row) ? false : new self($row);
     }

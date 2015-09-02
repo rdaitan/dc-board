@@ -15,7 +15,7 @@ class Comment extends AppModel
             return;
         }
 
-        $user = User::get($this->user_id);
+        $user = User::getById($this->user_id);
         $this->username = $user->username;
     }
 
