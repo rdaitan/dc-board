@@ -33,9 +33,8 @@ class Thread extends AppModel
 
     public function create(Comment $comment)
     {
-        $this->validate(); // before calling this method, $this->title was set first
-        $comment->validate();
-        if($this->hasError() || $comment->hasError()) {
+        if(!$this->validate() || !$comment->validate()) {
+            // before calling $this->validate(), $this->title was set first
             throw new ValidationException('Invalid thread or comment.');
         }
 
