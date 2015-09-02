@@ -8,7 +8,7 @@ class Thread extends AppModel
     public static function getAll($offset, $limit)
     {
         $db = DB::conn();
-        $rows = $db->rows("SELECT * FROM thread ORDER BY id DESC LIMIT {$offset}, {$limit}");
+        $rows = $db->rows(sprintf("SELECT * FROM thread ORDER BY id DESC LIMIT %d, %d", $offset, $limit));
 
         $threads = array();
         foreach ($rows as $row) {
