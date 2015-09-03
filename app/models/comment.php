@@ -32,6 +32,7 @@ class Comment extends AppModel
                 $thread_id, $offset, $limit));
 
         $comments = array();
+        
         foreach ($rows as $row) {
             $comments[] = new self($row);
         }
