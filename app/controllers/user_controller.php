@@ -8,7 +8,7 @@ class UserController extends AppController
     {
         redirect_auth_user();
 
-        $user = new User;
+        $user = new User();
         $page = Param::get('page_next', 'create');
 
         switch ($page) {
