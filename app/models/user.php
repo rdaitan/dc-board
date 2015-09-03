@@ -63,8 +63,7 @@ class User extends AppModel
             return false;
         }
 
-        $id = $_SESSION[self::AUTH_USER_KEY];
-        return User::getById($id);
+        return User::getById($_SESSION[self::AUTH_USER_KEY]);
     }
 
     // Finds the user by id and returns a User object
