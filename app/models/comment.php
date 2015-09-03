@@ -2,9 +2,7 @@
 class Comment extends AppModel
 {
     public $validation = array(
-        'body'          => array(
-            'length'    => array('validate_between', 1, 200),
-        ),
+        'body'          => array('length'    => array('validate_between', 1, 200)),
     );
 
     public function __construct(array $data = array())
@@ -27,8 +25,8 @@ class Comment extends AppModel
 
     public static function getAll($thread_id, $offset, $limit)
     {
-        $db = DB::conn();
-        $rows = $db->search('comment', 'thread_id = ?', array($thread_id), null, array($offset, $limit));
+        $db     = DB::conn();
+        $rows   = $db->search('comment', 'thread_id = ?', array($thread_id), null, array($offset, $limit));
 
         $comments = array();
         foreach ($rows as $row) {
