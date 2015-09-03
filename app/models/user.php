@@ -36,17 +36,9 @@ class User extends AppModel
     // Otherwise, returns false.
     public static function authenticate($username, $password)
     {
-        $db = DB::conn();
-
-        // Get the user by username
-        $row = $db->row('SELECT * FROM user WHERE username=?', array($username));
-
-        if (!$row) {
-            return false;
-        }
+        $user = User::getByUsername($username);
 
         // Retrieve salt
-        $user = new self($row);
         $salt = substr($user->password, strlen(CRYPT_BFISH), 22);   // BFISH salt length is 22
 
         $hashedPassword = bhash($password, $salt);
