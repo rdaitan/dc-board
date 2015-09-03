@@ -66,7 +66,7 @@ class ThreadController extends AppController
 
             try {
                 $thread->create($comment);
-            } catch(ValidationException $e) {
+            } catch (ValidationException $e) {
                 $page = 'create';
             }
             break;

@@ -19,7 +19,7 @@ class UserController extends AppController
 
             try {
                 $user->create();
-            } catch(ValidationException $e) {
+            } catch (ValidationException $e) {
                 $page = 'create';
             }
             break;
