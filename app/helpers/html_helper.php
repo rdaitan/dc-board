@@ -39,7 +39,7 @@ function redirect_guest_user($page = APP_URL)
     if (!User::getAuthenticated()) redirect($page);
 }
 
-function printPageLinks($pagination, $pages)
+function print_pagination($pagination, $pages)
 {
     $page = Param::get('page', 1);
 

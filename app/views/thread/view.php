@@ -15,7 +15,7 @@
             <?php } ?>
 
             <!--pagination-->
-            <?php printPageLinks($pagination, $pages); ?>
+            <?php print_pagination($pagination, $pages); ?>
 
             <!--Comment Form-->
             <hr>

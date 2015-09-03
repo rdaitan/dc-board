@@ -14,7 +14,7 @@
         </div>
         <div>
             <!--Pagination-->
-            <?php printPageLinks($pagination, $pages); ?>
+            <?php print_pagination($pagination, $pages); ?>
         </div>
     </div>
     <div class="col-md-4">
