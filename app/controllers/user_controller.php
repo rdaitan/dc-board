@@ -6,7 +6,7 @@ class UserController extends AppController
 
     public function create()
     {
-        authRedirect();
+        redirect_auth_user();
 
         $user = new User;
         $page = Param::get('page_next', 'create');
@@ -37,7 +37,7 @@ class UserController extends AppController
 
     public function authenticate()
     {
-        authRedirect();
+        redirect_auth_user();
 
         $page = Param::get('page_next', 'auth');
 

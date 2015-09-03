@@ -50,7 +50,7 @@ class ThreadController extends AppController
 
     public function create()
     {
-        notAuthRedirect('user/authenticate');
+        redirect_guest_user('user/authenticate');
 
         $thread  = new Thread();
         $comment = new Comment();

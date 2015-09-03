@@ -28,13 +28,13 @@ function redirect($str)
 }
 
 // Redirect the user if authenticated to the homepage or the specified url
-function authRedirect($page = APP_URL)
+function redirect_auth_user($page = APP_URL)
 {
     if (User::getAuthenticated()) redirect($page);
 }
 
 // Redirects the user if not authenticated
-function notAuthRedirect($page = APP_URL)
+function redirect_guest_user($page = APP_URL)
 {
     if (!User::getAuthenticated()) redirect($page);
 }
