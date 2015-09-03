@@ -31,6 +31,34 @@ class User extends AppModel
         );
     }
 
+    // Returns the user that is authenticated via authenticate()
+    public static function getAuthenticated()
+    {
+        if (!array_key_exists(self::AUTH_SESS_KEY, $_SESSION)) {
+            return false;
+        }
+
+        return User::getById($_SESSION[self::AUTH_SESS_KEY]);
+    }
+
+    public static function getById($id)
+    {
+        $db = DB::conn();
+
+        $row = $db->row('SELECT * FROM user WHERE id=?', array($id));
+
+        return !$row ? false : new self($row);
+    }
+
+    public static function getByUsername($username)
+    {
+        $db = DB::conn();
+
+        $row = $db->row('SELECT * FROM user WHERE username=?', array($username));
+
+        return !$row ? false : new self($row);
+    }
+
     // Checks if the username and password matches a user in the database.
     // If there is a match, the user is logged in and the method returns true.
     // Otherwise, returns false.
@@ -54,34 +82,5 @@ class User extends AppModel
     private function setAuthenticated()
     {
         $_SESSION[self::AUTH_SESS_KEY] = $this->id;
-    }
-
-    // Returns the user that is authenticated via authenticate()
-    public static function getAuthenticated()
-    {
-        if (!array_key_exists(self::AUTH_SESS_KEY, $_SESSION)) {
-            return false;
-        }
-
-        return User::getById($_SESSION[self::AUTH_SESS_KEY]);
-    }
-
-    // Finds the user by id and returns a User object
-    public static function getById($id)
-    {
-        $db = DB::conn();
-
-        $row = $db->row('SELECT * FROM user WHERE id=?', array($id));
-
-        return !$row ? false : new self($row);
-    }
-
-    public static function getByUsername($username)
-    {
-        $db = DB::conn();
-
-        $row = $db->row('SELECT * FROM user WHERE username=?', array($username));
-
-        return !$row ? false : new self($row);
     }
 }
