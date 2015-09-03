@@ -1,8 +1,11 @@
 <?php
 class Comment extends AppModel
 {
+    const MIN_BODY_LENGTH = 1;
+    const MAX_BODY_LENGTH = 200;
+
     public $validation = array(
-        'body' => array('length' => array('validate_between', 1, 200)),
+        'body' => array('length' => array('validate_between', self::MIN_BODY_LENGTH, self::MAX_BODY_LENGTH)),
     );
 
     public function __construct(array $data = array())
@@ -32,7 +35,7 @@ class Comment extends AppModel
                 $thread_id, $offset, $limit));
 
         $comments = array();
-        
+
         foreach ($rows as $row) {
             $comments[] = new self($row);
         }

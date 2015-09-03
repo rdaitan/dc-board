@@ -1,20 +1,26 @@
 <?php
 class User extends AppModel
 {
-    const AUTH_SESS_KEY = 'auth_user';
+    const AUTH_SESS_KEY         = 'auth_user';
+    const MIN_USERNAME_LENGTH   = 1;
+    const MAX_USERNAME_LENGTH   = 16;
+    const MIN_EMAIL_LENGTH      = 1;
+    const MAX_EMAIL_LENGTH      = 30;
+    const MIN_PASSWORD_LENGTH   = 6;
+    const MAX_PASSWORD_LENGTH   = 20;
 
     public $validation = array(
         'username'      => array(
-            'length'    => array('validate_between', 1, 16),
+            'length'    => array('validate_between', self::MIN_USERNAME_LENGTH, self::MAX_USERNAME_LENGTH),
             'chars'     => array('validate_username'),
             'unique'    => array('validate_unique_name')
         ),
         'email'         => array(
-            'length'    => array('validate_between', 1, 30),
+            'length'    => array('validate_between', self::MIN_EMAIL_LENGTH, self::MAX_EMAIL_LENGTH),
             'chars'     => array('validate_email')
         ),
         'password'      => array(
-            'length'    => array('validate_between', 6, 20))
+            'length'    => array('validate_between', self::MIN_PASSWORD_LENGTH, self::MAX_PASSWORD_LENGTH))
     );
 
     public function create()

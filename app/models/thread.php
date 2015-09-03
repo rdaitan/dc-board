@@ -1,8 +1,12 @@
 <?php
 class Thread extends AppModel
 {
+    const MIN_TITLE_LENGTH = 1;
+    const MAX_TITLE_LENGTH = 30;
+
     public $validation = array(
-        'title' => array('length' => array('validate_between', 1, 30)),
+        'title' => array(
+            'length' => array('validate_between', self::MIN_TITLE_LENGTH, self::MAX_TITLE_LENGTH)),
     );
 
     public static function getAll($offset, $limit)
