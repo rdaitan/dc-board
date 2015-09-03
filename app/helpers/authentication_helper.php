@@ -2,7 +2,8 @@
 # Authentication helper based on:
 # http://snippetrepo.com/snippets/php-53-bcrypt-password-hash-the-proper-way
 
-define('CRYPT_BFISH', '$2a$11$');
+define('CRYPT_BFISH',               '$2a$11$');
+define('CRYPT_BFISH_SALT_LENGTH',   22);
 
 // returns the hashed string, using blowfish algorithm.
 // blowfish algorithm is recommended by the php manual:
