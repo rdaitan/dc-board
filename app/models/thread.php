@@ -11,6 +11,7 @@ class Thread extends AppModel
         $rows = $db->rows(sprintf("SELECT * FROM thread ORDER BY id DESC LIMIT %d, %d", $offset, $limit));
 
         $threads = array();
+
         foreach ($rows as $row) {
             $threads[] = new self($row);
         }
@@ -21,8 +22,8 @@ class Thread extends AppModel
     public static function get($id)
     {
         $db = DB::conn();
-
         $row = $db->row('SELECT * FROM thread WHERE id=?', array($id));
+
         if (!$row){
             throw new RecordNotFoundException('No record found');
         }
@@ -33,8 +34,8 @@ class Thread extends AppModel
 
     public function create(Comment $comment)
     {
+        // before calling $this->validate(), $this->title was set first
         if (!$this->validate() | !$comment->validate()) {
-            // before calling $this->validate(), $this->title was set first
             throw new ValidationException('Invalid thread or comment.');
         }
 
