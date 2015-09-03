@@ -31,6 +31,11 @@ class Thread extends AppModel
         return new self($row);
     }
 
+    public static function countAll()
+    {
+        $db = DB::conn();
+        return $db->value("SELECT COUNT(*) FROM thread");
+    }
 
     public function create(Comment $comment)
     {
@@ -54,11 +59,4 @@ class Thread extends AppModel
             $db->rollback();
         }
     }
-
-    public static function countAll()
-    {
-        $db = DB::conn();
-        return $db->value("SELECT COUNT(*) FROM thread");
-    }
-
 }
