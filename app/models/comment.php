@@ -23,16 +23,15 @@ class Comment extends AppModel
     public static function countAll($thread_id)
     {
         $db = DB::conn();
-        return $db->value("SELECT COUNT(*) FROM comment WHERE thread_id=?",
-            array($thread_id));
+        return $db->value("SELECT COUNT(*) FROM comment WHERE thread_id=?", array($thread_id));
     }
 
     public static function getAll($thread_id, $offset, $limit)
     {
         $db     = DB::conn();
         $rows   = $db->rows(
-            sprintf("SELECT * FROM comment WHERE thread_id=%d LIMIT %d, %d",
-                $thread_id, $offset, $limit));
+            sprintf("SELECT * FROM comment WHERE thread_id=%d LIMIT %d, %d", $thread_id, $offset, $limit)
+        );
 
         $comments = array();
 

@@ -6,15 +6,16 @@ class Thread extends AppModel
 
     public $validation = array(
         'title' => array(
-            'length' => array('validate_between', self::MIN_TITLE_LENGTH, self::MAX_TITLE_LENGTH)),
+            'length' => array('validate_between', self::MIN_TITLE_LENGTH, self::MAX_TITLE_LENGTH)
+        ),
     );
 
     public static function getAll($offset, $limit)
     {
         $db = DB::conn();
         $rows = $db->rows(
-            sprintf("SELECT * FROM thread ORDER BY id DESC LIMIT %d, %d",
-                $offset, $limit));
+            sprintf("SELECT * FROM thread ORDER BY id DESC LIMIT %d, %d", $offset, $limit)
+        );
 
         $threads = array();
 
