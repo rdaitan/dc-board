@@ -13,7 +13,9 @@ class ThreadController extends AppController
 
         $pagination = new SimplePagination($page, self::THREADS_PERPAGE);
 
-        $threads    = Thread::getAll($pagination->start_index - 1, $pagination->count + 1);
+        $threads    = Thread::getAll($pagination->start_index - 1,
+            $pagination->count + 1);
+
         $pagination->checkLastPage($threads);
 
         $total = Thread::countAll();
@@ -34,7 +36,9 @@ class ThreadController extends AppController
         $pagination = new SimplePagination($page, self::COMMENTS_PERPAGE);
 
         $thread     = Thread::get(Param::get('thread_id'));
-        $comments   = Comment::getAll($thread->id, $pagination->start_index - 1, $pagination->count + 1);
+        $comments   = Comment::getAll($thread->id, $pagination->start_index - 1,
+            $pagination->count + 1);
+
         $pagination->checkLastPage($comments);
 
         $total = Comment::countAll($thread->id);
