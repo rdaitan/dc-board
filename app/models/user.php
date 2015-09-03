@@ -1,7 +1,7 @@
 <?php
 class User extends AppModel
 {
-    const AUTH_USER_KEY = 'auth_user';
+    const AUTH_SESS_KEY = 'auth_user';
 
     public $validation = array(
         'username'      => array(
@@ -53,17 +53,17 @@ class User extends AppModel
 
     private function setAuthenticated()
     {
-        $_SESSION[self::AUTH_USER_KEY] = $this->id;
+        $_SESSION[self::AUTH_SESS_KEY] = $this->id;
     }
 
     // Returns the user that is authenticated via authenticate()
     public static function getAuthenticated()
     {
-        if (!array_key_exists(self::AUTH_USER_KEY, $_SESSION)) {
+        if (!array_key_exists(self::AUTH_SESS_KEY, $_SESSION)) {
             return false;
         }
 
-        return User::getById($_SESSION[self::AUTH_USER_KEY]);
+        return User::getById($_SESSION[self::AUTH_SESS_KEY]);
     }
 
     // Finds the user by id and returns a User object
