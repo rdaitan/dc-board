@@ -3,7 +3,8 @@
 # http://snippetrepo.com/snippets/php-53-bcrypt-password-hash-the-proper-way
 
 define('CRYPT_BFISH', '$2a$11$');
-define('CRYPT_BFISH_SALT_LENGTH',   22);
+define('BFISH_SALT_LENGTH',   22);
+define('BFISH_RAND_BIT_COUNT', 11);
 
 // returns the hashed string, using blowfish algorithm.
 // blowfish algorithm is recommended by the php manual:
@@ -17,8 +18,7 @@ function bhash($str, $salt = null)
         // 22 characters * 4 bits = 88 bits
         // openssl_random_pseudo_bytes() needs the number of bytes to generate.
         // 88 bits / 8 bits = 11 bytes
-        $byteCount  = 11;
-        $salt       = bin2hex(openssl_random_pseudo_bytes($byteCount));
+        $salt       = bin2hex(openssl_random_pseudo_bytes(BFISH_RAND_BIT_COUNT));
     }
 
     return crypt($str, CRYPT_BFISH . $salt);
