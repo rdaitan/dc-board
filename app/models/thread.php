@@ -31,7 +31,7 @@ class Thread extends AppModel
         $db = DB::conn();
         $row = $db->row('SELECT * FROM thread WHERE id=?', array($id));
 
-        if (!$row){
+        if (!$row) {
             throw new RecordNotFoundException('No record found');
         }
 

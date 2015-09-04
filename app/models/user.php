@@ -30,10 +30,13 @@ class User extends AppModel
         }
 
         $db = DB::conn();
-        $db->insert('user', array(
-            'username'  => $this->username,
-            'email'     => $this->email,
-            'password'  => bhash($this->password))
+        $db->insert(
+            'user',
+            array(
+                'username'  => $this->username,
+                'email'     => $this->email,
+                'password'  => bhash($this->password)
+            )
         );
     }
 
@@ -74,7 +77,8 @@ class User extends AppModel
 
         // Retrieve salt
         $salt = substr(
-            $user->password, strlen(CRYPT_BFISH),
+            $user->password,
+            strlen(CRYPT_BFISH),
             BFISH_SALT_LENGTH
         );
 

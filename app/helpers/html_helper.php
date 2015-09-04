@@ -2,7 +2,10 @@
 
 function eh($string)
 {
-    if (!isset($string)) return;
+    if (!isset($string)) {
+        return;
+    }
+    
     echo htmlspecialchars($string, ENT_QUOTES);
 }
 
@@ -30,13 +33,17 @@ function redirect($str)
 // Redirect the user if authenticated to the homepage or the specified url
 function redirect_auth_user($page = APP_URL)
 {
-    if (User::getAuthenticated()) redirect($page);
+    if (User::getAuthenticated()) {
+        redirect($page);
+    }
 }
 
 // Redirects the user if not authenticated
 function redirect_guest_user($page = APP_URL)
 {
-    if (!User::getAuthenticated()) redirect($page);
+    if (!User::getAuthenticated()) {
+        redirect($page);
+    }
 }
 
 function print_pagination($pagination, $pages)
