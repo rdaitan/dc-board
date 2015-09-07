@@ -30,9 +30,12 @@ class Comment extends AppModel
 
     public static function getAll($thread_id, $offset, $limit)
     {
+
+
         $db     = DB::conn();
         $rows   = $db->rows(
-            sprintf("SELECT * FROM comment WHERE thread_id=%d LIMIT %d, %d", $thread_id, $offset, $limit)
+            sprintf("SELECT * FROM comment WHERE thread_id=? LIMIT %d, %d", $offset, $limit),
+            array($thread_id)
         );
 
         $comments = array();
