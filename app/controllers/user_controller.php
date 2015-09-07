@@ -48,10 +48,10 @@ class UserController extends AppController
 
             if (User::authenticate($username, $password)) {
                 redirect(APP_URL);
-            } else {
-                $this->set(array(self::ERROR_VAR => self::ERROR_MESSAGE_USERPASS));
-                $page = 'auth';
             }
+
+            $this->set(array(self::ERROR_VAR => self::ERROR_MESSAGE_USERPASS));
+            $page = 'auth';
             break;
         case 'auth':
             break;
