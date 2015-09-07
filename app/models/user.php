@@ -8,6 +8,7 @@ class User extends AppModel
     const MAX_EMAIL_LENGTH      = 30;
     const MIN_PASSWORD_LENGTH   = 6;
     const MAX_PASSWORD_LENGTH   = 20;
+    const ERROR_DUP_CODE        = 1062;
 
     public $validation = array(
         'username'      => array(
@@ -25,19 +26,39 @@ class User extends AppModel
 
     public function create()
     {
-        if (!$this->validate()) {
-            throw new ValidationException('Invalid user information');
-        }
-
         $db = DB::conn();
-        $db->insert(
-            'user',
-            array(
-                'username'  => $this->username,
-                'email'     => $this->email,
-                'password'  => bhash($this->password)
-            )
-        );
+        try {
+            $db->begin();
+            $db->insert(
+                'user',
+                array(
+                    'username'  => $this->username,
+                    'email'     => $this->email,
+                    'password'  => bhash($this->password)
+                )
+            );
+
+            // not executed when PDOException is thrown by DB::insert()
+            if (!$this->validate()) {
+                throw new ValidationException('Invalid user information');
+            }
+
+            $db->commit();
+        } catch (PDOException $e) {
+            // validate other fields
+            $this->validate();
+
+            if($e->errorInfo[1] == self::ERROR_DUP_CODE) {
+                $this->validation_errors['username']['unique'] = true;
+            }
+
+            if(!$this->hasError()) {
+                return;
+            }
+
+            $db->rollback();
+            throw new ValidationException();
+        }
     }
 
     // Returns the user that is authenticated via authenticate()
