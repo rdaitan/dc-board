@@ -5,7 +5,7 @@ function eh($string)
     if (!isset($string)) {
         return;
     }
-    
+
     echo htmlspecialchars($string, ENT_QUOTES);
 }
 
@@ -24,25 +24,25 @@ function trim_collapse($str)
     return $str;
 }
 
-function redirect($str)
+function redirect($url)
 {
-    header("Location: " . url($str));
+    header("Location: " . url($url));
     die();
 }
 
 // Redirect the user if authenticated to the homepage or the specified url
-function redirect_auth_user($page = APP_URL)
+function redirect_auth_user($url = APP_URL)
 {
     if (User::getAuthenticated()) {
-        redirect($page);
+        redirect($url);
     }
 }
 
 // Redirects the user if not authenticated
-function redirect_guest_user($page = APP_URL)
+function redirect_guest_user($url = APP_URL)
 {
     if (!User::getAuthenticated()) {
-        redirect($page);
+        redirect($url);
     }
 }
 
