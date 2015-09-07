@@ -1,34 +1,34 @@
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
-        <?php if ($thread->hasError() || $comment->hasError()) { ?>
+        <?php if ($thread->hasError() || $comment->hasError()) : ?>
             <div class="alert alert-danger">
                 <h4 class="alert-heading">Validation error!</h4>
-                <?php if (!empty($thread->validation_errors['title']['length'])) { ?>
+                <?php if (!empty($thread->validation_errors['title']['length'])) : ?>
                     <div>
                         <em>Title</em> must be between
                         <?php eh($thread->validation['title']['length'][1]); ?> and
                         <?php eh($thread->validation['title']['length'][2]); ?>
                         characters in length.
                     </div>
-                <?php } ?>
-                <?php if (!empty($comment->validation_errors['username']['length'])) { ?>
+                <?php endif; ?>
+                <?php if (!empty($comment->validation_errors['username']['length'])) : ?>
                     <div>
                         <em>Your name</em> must be between
                         <?php eh($comment->validation['username']['length'][1]); ?> and
                         <?php eh($comment->validation['username']['length'][2]); ?>
                         characters in length.
                     </div>
-                <?php } ?>
-                <?php if (!empty($comment->validation_errors['body']['length'])) { ?>
+                <?php endif; ?>
+                <?php if (!empty($comment->validation_errors['body']['length'])) : ?>
                     <div>
                         <em>Comment</em> must be between
                         <?php eh($comment->validation['body']['length'][1]); ?> and
                         <?php eh($comment->validation['body']['length'][2]); ?>
                         characters in length.
                     </div>
-                <?php } ?>
+                <?php endif; ?>
             </div>
-        <?php } ?>
+        <?php endif; ?>
 
         <!--Thread creation form-->
         <form action="<?php eh(url('')); ?>" class="form-horizontal" method="post">

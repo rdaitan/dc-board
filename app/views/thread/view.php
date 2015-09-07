@@ -5,21 +5,21 @@
             <a href='<?php eh(url(APP_URL)); ?>'>&larr; All threads</a>
         </div>
         <div class="offset-top">
-            <?php foreach ($comments as $n => $comment) {?>
+            <?php foreach ($comments as $n => $comment): ?>
                 <div class="plank">
                     <?php
                     $comment_num = ($page - 1) * ThreadController::COMMENTS_PERPAGE + $n  + 1;
                     eh(("{$comment_num} : {$comment->username} {$comment->created}")); ?><br />
                     <?php echo readable_text($comment->body) ?>
                 </div>
-            <?php } ?>
+            <?php endforeach; ?>
 
             <!--pagination-->
             <?php print_pagination($pagination, $pages); ?>
 
             <!--Comment Form-->
             <hr>
-            <?php if (User::getAuthenticated()) {?>
+            <?php if (User::getAuthenticated()): ?>
                 <form class='form-horizontal' action="<?php eh(url('comment/create')); ?>" class="well" method="post">
                     <div class="form-group">
                         <div class="col-sm-12">
@@ -40,9 +40,9 @@
                         </div>
                     </div>
                 </form>
-            <?php } else {?>
+            <?php else: ?>
                 <a href="<?php eh(url('user/authenticate')) ?>" class="btn btn-primary">Log in to comment</a>
-            <?php }?>
+            <?php endif; ?>
         </div>
     </div>
 </div>

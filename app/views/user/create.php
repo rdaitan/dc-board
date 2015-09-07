@@ -1,51 +1,51 @@
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
 
-        <?php if ($user->hasError()) { ?>
+        <?php if ($user->hasError()): ?>
             <div class="alert alert-danger">
                 <h4 class="alert-heading">Validation error!</h4>
 
-                <?php if (!empty($user->validation_errors['username']['length'])) { ?>
+                <?php if (!empty($user->validation_errors['username']['length'])): ?>
                     <div>
                         <em>Username</em> must be between
                         <?php eh($user->validation['username']['length'][1]); ?> and
                         <?php eh($user->validation['username']['length'][2]); ?> characters
                         in length.
                     </div>
-                <?php } ?>
-                <?php if (!empty($user->validation_errors['username']['chars'])) { ?>
+                <?php endif; ?>
+                <?php if (!empty($user->validation_errors['username']['chars'])): ?>
                     <div>
                         <em>Username</em> must only contain alphanumeric characters or underscore.
                     </div>
-                <?php } ?>
-                <?php if (!empty($user->validation_errors['username']['unique'])) { ?>
+                <?php endif; ?>
+                <?php if (!empty($user->validation_errors['username']['unique'])): ?>
                     <div>
                         <em>Username</em> must be unique.
                     </div>
-                <?php } ?>
-                <?php if (!empty($user->validation_errors['email']['length'])) { ?>
+                <?php endif; ?>
+                <?php if (!empty($user->validation_errors['email']['length'])): ?>
                     <div>
                         <em>Email</em> must be between
                         <?php eh($user->validation['email']['length'][1]); ?> and
                         <?php eh($user->validation['email']['length'][2]); ?> characters
                         in length.
                     </div>
-                <?php } ?>
-                <?php if (!empty($user->validation_errors['email']['chars'])) { ?>
+                <?php endif; ?>
+                <?php if (!empty($user->validation_errors['email']['chars'])): ?>
                     <div>
                         <em>Email</em> must follow email format.
                     </div>
-                <?php } ?>
-                <?php if (!empty($user->validation_errors['password']['length'])) { ?>
+                <?php endif; ?>
+                <?php if (!empty($user->validation_errors['password']['length'])): ?>
                     <div>
                         <em>Password</em> must be between
                         <?php eh($user->validation['password']['length'][1]); ?> and
                         <?php eh($user->validation['password']['length'][2]); ?> characters
                         in length.
                     </div>
-                <?php } ?>
+                <?php endif; ?>
             </div>
-        <?php } ?>
+        <?php endif; ?>
 
         <!--Registration form-->
         <form class='form-horizontal' action="<?php eh(url('')); ?>" method="post">
