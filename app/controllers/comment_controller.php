@@ -5,14 +5,19 @@ class CommentController extends AppController
     {
         redirect_guest_user('user/authenticate');
 
-        $thread = Thread::get(Param::get('thread_id'));
-        $page   = Param::get('page_next');
+        $thread     = Thread::get(Param::get('thread_id'));
+        $page       = Param::get('page_next');
+        $auth_user  = User::getAuthenticated();
+
+        if(!$auth_user) {
+            return;
+        }
 
         switch ($page) {
         case 'create_end':
             $comment            = new Comment();
             $comment->body      = Param::get('body');
-            $comment->user_id   = User::getAuthenticated()->id;
+            $comment->user_id   = $auth_user->id;
 
             try {
                 $comment->create($thread);
