@@ -8,12 +8,13 @@ class User extends AppModel
     const MAX_EMAIL_LENGTH      = 30;
     const MIN_PASSWORD_LENGTH   = 6;
     const MAX_PASSWORD_LENGTH   = 20;
+    const ERR_DUPLICATE_ENTRY   = 1062;
 
     public $validation = array(
         'username'      => array(
             'length'    => array('validate_between', self::MIN_USERNAME_LENGTH, self::MAX_USERNAME_LENGTH),
             'chars'     => array('validate_username'),
-            'unique'    => array('validate_unique_name')
+            // 'unique'    => array('validate_unique_name')
         ),
         'email'         => array(
             'length'    => array('validate_between', self::MIN_EMAIL_LENGTH, self::MAX_EMAIL_LENGTH),
@@ -30,14 +31,20 @@ class User extends AppModel
         }
 
         $db = DB::conn();
-        $db->insert(
-            'user',
-            array(
-                'username'  => $this->username,
-                'email'     => $this->email,
-                'password'  => bhash($this->password)
-            )
-        );
+        try {
+            $db->insert(
+                'user',
+                array(
+                    'username'  => $this->username,
+                    'email'     => $this->email,
+                    'password'  => bhash($this->password)
+                )
+            );
+        } catch (PDOException $e) {
+            if ($e->errorInfo[1] == self::ERR_DUPLICATE_ENTRY) {
+                throw new DuplicateEntryException('Duplicate username');
+            }
+        }
     }
 
     // Returns the user that is authenticated via authenticate()

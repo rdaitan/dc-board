@@ -21,6 +21,9 @@ class UserController extends AppController
                 $user->create();
             } catch (ValidationException $e) {
                 $page = 'create';
+            } catch (DuplicateEntryException $e) {
+                $user->validation_errors['username']['unique'] = true;
+                $page = 'create';
             }
             break;
         case 'create':
