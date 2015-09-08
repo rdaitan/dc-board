@@ -26,6 +26,8 @@ class User extends AppModel
 
     public function create()
     {
+        $this->validate();
+
         $db = DB::conn();
         try {
             $db->begin();
@@ -38,25 +40,17 @@ class User extends AppModel
                 )
             );
 
-            // not executed when PDOException is thrown by DB::insert()
-            if (!$this->validate()) {
-                throw new ValidationException('Invalid user information');
+            if($this->hasError()) {
+                $db->rollback();
+                throw new ValidationException();
             }
 
             $db->commit();
         } catch (PDOException $e) {
-            // validate other fields
-            $this->validate();
-
             if($e->errorInfo[1] == self::ERROR_DUP_CODE) {
                 $this->validation_errors['username']['unique'] = true;
             }
-
-            if(!$this->hasError()) {
-                return;
-            }
-
-            $db->rollback();
+            
             throw new ValidationException();
         }
     }
