@@ -55,7 +55,7 @@ class ThreadController extends AppController
 
     public function create()
     {
-        redirect_guest_user('user/authenticate');
+        redirect_guest_user(LOGIN_URL);
 
         $thread  = new Thread();
         $comment = new Comment();

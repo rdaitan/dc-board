@@ -6,7 +6,7 @@
         <div  id="thread_list">
             <?php foreach ($threads as $thread): ?>
                 <div class='plank'>
-                    <a href="<?php eh(url('thread/view', array('thread_id' => $thread->id))) ?>">
+                    <a href="<?php eh(url(VIEW_THREAD_URL, array('thread_id' => $thread->id))) ?>">
                         <?php eh($thread->title); ?>
                     </a>
                 </div>
@@ -28,12 +28,12 @@
         </div>
         <div class='offset-top offset-bottom'>
             <?php if ($auth_user): ?>
-                <a href="<?php eh(url('thread/create')); ?>" class="btn btn-block btn-primary">Create Thread</a>
+                <a href="<?php eh(url(CREATE_THREAD_URl)); ?>" class="btn btn-block btn-primary">Create Thread</a>
                 <hr>
-                <a href="<?php eh(url('user/logout')); ?>" class="btn btn-block btn-danger">Log out</a>
+                <a href="<?php eh(url(LOGOUT_URL)); ?>" class="btn btn-block btn-danger">Log out</a>
             <?php else: ?>
-                <a href="<?php eh(url('user/create')); ?>" class="btn btn-block btn-primary">Sign Up</a>
-                <a href="<?php eh(url('user/authenticate')); ?>" class="btn btn-block btn-success">Log in</a>
+                <a href="<?php eh(url(REGISTER_URL)); ?>" class="btn btn-block btn-primary">Sign Up</a>
+                <a href="<?php eh(url(LOGIN_URL)); ?>" class="btn btn-block btn-success">Log in</a>
             <?php endif; ?>
         </div>
     </div>

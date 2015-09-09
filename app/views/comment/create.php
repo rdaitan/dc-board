@@ -24,7 +24,7 @@
         <?php endif; ?>
 
         <!--Comment form-->
-        <form class='form-horizontal' action="<?php eh(url('comment/create')); ?>" class="well" method="post">
+        <form class='form-horizontal' action="<?php eh(url(POST_COMMENT_URL)); ?>" class="well" method="post">
             <div class="form-group">
                 <div class="col-sm-12">
                     <h3>Create comment</h3>
@@ -41,7 +41,7 @@
                 <input type="hidden" name="page_next" value="create_end">
                 <div class="col-sm-10 col-sm-offset-2">
                     <button type="submit" class="btn btn-primary">Submit</button> or
-                    <a href="<?php eh(url('thread/view', array('thread_id' => $thread->id))); ?>">cancel</a>
+                    <a href="<?php eh(url(VIEW_THREAD_URL, array('thread_id' => $thread->id))); ?>">cancel</a>
                 </div>
             </div>
         </form>

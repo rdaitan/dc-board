@@ -6,7 +6,7 @@
                 <div><?php eh($error); ?></div>
             </div>
         <?php endif; ?>
-        <form class='form-horizontal' action="<?php eh(url('user/authenticate')); ?>" method="post">
+        <form class='form-horizontal' action="<?php eh(url(LOGIN_URL)); ?>" method="post">
             <div class="form-group">
                 <div class="col-sm-12">
                     <h3>Login</h3>

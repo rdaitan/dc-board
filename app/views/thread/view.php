@@ -20,7 +20,7 @@
             <!--Comment Form-->
             <hr>
             <?php if (User::getAuthenticated()): ?>
-                <form class='form-horizontal' action="<?php eh(url('comment/create')); ?>" class="well" method="post">
+                <form class='form-horizontal' action="<?php eh(url(POST_COMMENT_URL)); ?>" class="well" method="post">
                     <div class="form-group">
                         <div class="col-sm-12">
                             <h3>Create comment</h3>
@@ -41,7 +41,7 @@
                     </div>
                 </form>
             <?php else: ?>
-                <a href="<?php eh(url('user/authenticate')) ?>" class="btn btn-primary">Log in to comment</a>
+                <a href="<?php eh(url(LOGIN_URL)) ?>" class="btn btn-primary">Log in to comment</a>
             <?php endif; ?>
         </div>
     </div>

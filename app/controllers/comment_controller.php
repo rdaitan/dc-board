@@ -3,7 +3,7 @@ class CommentController extends AppController
 {
     public function create()
     {
-        redirect_guest_user('user/authenticate');
+        redirect_guest_user(LOGIN_URL);
 
         $thread     = Thread::get(Param::get('thread_id'));
         $page       = Param::get('page_next');
