@@ -5,22 +5,16 @@
     <title>DietCake <?php eh($title) ?></title>
 
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-      body {
-        padding-top: 60px;
-      }
-    </style>
+    <link href="/css/board-style.css" rel="stylesheet">
   </head>
 
   <body>
 
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
+    <nav class="navbar navbar-default">
         <div class="container">
-          <a class="brand" href="#">DietCake Hello</a>
+            <div class="navbar-header"><a href="<?php eh(url(APP_URL)); ?>" class="navbar-brand">DietCake Board</a></div>
         </div>
-      </div>
-    </div>
+    </nav>
 
     <div class="container">
 
