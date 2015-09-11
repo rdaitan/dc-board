@@ -42,26 +42,21 @@ class CommentController extends AppController
         $id             = Param::get('id');
         $page           = Param::get('page_next', 'edit');
         $auth_user      = User::getAuthenticated();
-        $return_url     = Param::get('return_url', '');
+        $comment        = Comment::getOrFail($id);
 
-        if(!$auth_user || !$id) {
-            return;
+        if ($auth_user->id !== $comment->user_id) {
+            throw new PermissionException();
         }
-
 
         switch($page) {
         case 'edit':
-            $comment = Comment::get($id);
             break;
         case 'edit_end':
-            $comment = new Comment();
-            $comment->id = Param::get('id');
-            $comment->body = Param::get('body');
-            $comment->user_id = $auth_user->id;
-
             try {
+                $comment->body = Param::get('body');
                 $comment->update();
-                redirect($return_url);
+
+                redirect(LIST_THREADS_URL);
             } catch (ValidationException $e) {
                 $page = 'edit';
             }
@@ -78,7 +73,7 @@ class CommentController extends AppController
     }
 
     public function view() {
-        $comment = Comment::get(Param::get('id'));
+        $comment = Comment::getOrFail(Param::get('id'));
         $auth_user = User::getAuthenticated();
 
         if(!$comment) {

@@ -54,6 +54,16 @@ class Comment extends AppModel
         return $row ? new self($row) : false;
     }
 
+    public static function getOrFail($id) {
+        $comment = self::get($id);
+
+        if($comment) {
+            return $comment;
+        } else {
+            throw new RecordNotFoundException();
+        }
+    }
+
     public function create(Thread $thread)
     {
         if (!$this->validate()) {
@@ -77,7 +87,7 @@ class Comment extends AppModel
         $db->update(
             'comment',
             array('body' => $this->body),
-            array('id' => $this->id, 'user_id' => $this->user_id)
+            array('id' => $this->id)
         );
     }
 
