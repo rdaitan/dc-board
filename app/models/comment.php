@@ -47,6 +47,23 @@ class Comment extends AppModel
         return $comments;
     }
 
+    public static function get($id) {
+        $db     = DB::conn();
+        $row    = $db->row("SELECT * FROM comment WHERE id=?", array($id));
+
+        return $row ? new self($row) : false;
+    }
+
+    public static function getOrFail($id) {
+        $comment = self::get($id);
+
+        if($comment) {
+            return $comment;
+        } else {
+            throw new RecordNotFoundException();
+        }
+    }
+
     public function create(Thread $thread)
     {
         if (!$this->validate()) {
@@ -61,4 +78,30 @@ class Comment extends AppModel
         ));
     }
 
+    public function update() {
+        if (!$this->validate()) {
+            throw new ValidationException('Invalid comment.');
+        }
+
+        $db = DB::conn();
+        $db->update(
+            'comment',
+            array('body' => $this->body),
+            array('id' => $this->id)
+        );
+    }
+
+    public function delete() {
+        $db = DB::conn();
+        $db->query('DELETE FROM comment WHERE id=?', array($this->id));
+    }
+
+    public function isOwnedBy($user)
+    {
+        if (!$user) {
+            return false;
+        }
+
+        return $user->id == $this->user_id;
+    }
 }

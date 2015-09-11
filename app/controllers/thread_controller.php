@@ -33,6 +33,7 @@ class ThreadController extends AppController
      */
     public function view()
     {
+        // paginate comments
         $page       = Param::get('page', 1);
 
         $pagination = new SimplePagination($page, self::COMMENTS_PERPAGE);
@@ -49,6 +50,15 @@ class ThreadController extends AppController
         $total = Comment::countAll($thread->id);
         $pages = ceil($total / self::COMMENTS_PERPAGE);
 
+        // set other comment information needed by the view.
+        $auth_user = User::getAuthenticated();
+
+        foreach ($comments as $comment) {
+            $comment->url       = url('comment/view', array('id' => $comment->id));
+            $comment->edit_url  = $comment->isOwnedBy($auth_user) ? get_edit_url($comment) : '';
+        }
+
+        // set other variables needed by the view
         $title = $thread->title;
         $this->set(get_defined_vars());
     }

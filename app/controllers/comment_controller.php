@@ -34,4 +34,75 @@ class CommentController extends AppController
         $this->set(get_defined_vars());
         $this->render($page);
     }
+
+    public function edit()
+    {
+        redirect_guest_user(LOGIN_URL);
+
+        $id             = Param::get('id');
+        $page           = Param::get('page_next', 'edit');
+        $auth_user      = User::getAuthenticated();
+        $comment        = Comment::getOrFail($id);
+
+        if (!$comment->isOwnedBy($auth_user)) {
+            throw new PermissionException();
+        }
+
+        switch($page) {
+        case 'edit':
+            break;
+        case 'edit_end':
+            try {
+                $comment->body = Param::get('body');
+                $comment->update();
+
+                redirect(LIST_THREADS_URL);
+            } catch (ValidationException $e) {
+                $page = 'edit';
+            }
+
+            break;
+        default:
+            throw new PageNotFoundException("{$page} is not found");
+            break;
+        }
+
+        $title = 'Edit comment';
+        $this->set(get_defined_vars());
+        $this->render($page);
+    }
+
+    public function view() {
+        $comment = Comment::getOrFail(Param::get('id'));
+        $auth_user = User::getAuthenticated();
+
+        $thread = Thread::get($comment->thread_id);
+
+        $comment->thread_title  = $thread->title;
+        $comment->url           = get_current_url();
+        $comment->edit_url      = $comment->isOwnedBy($auth_user) ? get_edit_url($comment) : '';
+
+        $this->set(get_defined_vars());
+    }
+
+    public function delete()
+    {
+        redirect_guest_user(LOGIN_URL);
+
+        $id         = Param::get('id');
+        $comment    = Comment::getOrFail($id);
+        $auth_user  = User::getAuthenticated();
+
+        if (!$comment->isOwnedBy($auth_user)) {
+            throw new PermissionException();
+        }
+
+        try {
+            $comment->delete();
+            redirect(LIST_THREADS_URL);
+        } catch (PermissionException $e) {
+            echo ("YOU DON'T HAVE PERMISSION TO DELETE THIS COMMENT.");
+            die();
+        }
+    }
 }
