@@ -54,14 +54,8 @@ class ThreadController extends AppController
         $auth_user = User::getAuthenticated();
 
         foreach ($comments as $comment) {
-            $comment->url = url('comment/view', array('id' => $comment->id));
-
-            if($auth_user && ($comment->user_id == $auth_user->id)) {
-                $comment->edit_url = get_edit_url($comment);
-            } else {
-                $comment->edit_url = '';
-            }
-
+            $comment->url       = url('comment/view', array('id' => $comment->id));
+            $comment->edit_url  = $comment->isOwnedBy($auth_user) ? get_edit_url($comment) : '';
         }
 
         // set other variables needed by the view

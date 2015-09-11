@@ -95,4 +95,13 @@ class Comment extends AppModel
         $db = DB::conn();
         $db->query('DELETE FROM comment WHERE id=?', array($this->id));
     }
+
+    public function isOwnedBy($user)
+    {
+        if (!$user) {
+            return false;
+        }
+
+        return $user->id == $this->user_id;
+    }
 }

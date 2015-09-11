@@ -44,7 +44,7 @@ class CommentController extends AppController
         $auth_user      = User::getAuthenticated();
         $comment        = Comment::getOrFail($id);
 
-        if ($auth_user->id !== $comment->user_id) {
+        if (!$comment->isOwnedBy($auth_user)) {
             throw new PermissionException();
         }
 
@@ -76,22 +76,11 @@ class CommentController extends AppController
         $comment = Comment::getOrFail(Param::get('id'));
         $auth_user = User::getAuthenticated();
 
-        if(!$comment) {
-            // TODO: GO TO 404
-            echo ('404');
-            die();
-        }
-
         $thread = Thread::get($comment->thread_id);
 
-        $comment->thread_title = $thread->title;
-        $comment->url = get_current_url();
-
-        if($auth_user && ($comment->user_id == $auth_user->id)) {
-            $comment->edit_url = get_edit_url($comment);
-        } else {
-            $comment->edit_url = '';
-        }
+        $comment->thread_title  = $thread->title;
+        $comment->url           = get_current_url();
+        $comment->edit_url      = $comment->isOwnedBy($auth_user) ? get_edit_url($comment) : '';
 
         $this->set(get_defined_vars());
     }
@@ -101,25 +90,18 @@ class CommentController extends AppController
         redirect_guest_user(LOGIN_URL);
 
         $id         = Param::get('id');
-        $comment    = Comment::get($id);
-
+        $comment    = Comment::getOrFail($id);
         $auth_user  = User::getAuthenticated();
 
+        if (!$comment->isOwnedBy($auth_user)) {
+            throw new PermissionException();
+        }
+
         try {
-
-            if (!$comment) {
-                throw new RecordNotFoundException();
-            } else if (!$auth_user || $comment->user_id != $auth_user->id) {
-                throw new PermissionException();
-            }
-
             $comment->delete();
             redirect(LIST_THREADS_URL);
         } catch (PermissionException $e) {
             echo ("YOU DON'T HAVE PERMISSION TO DELETE THIS COMMENT.");
-            die();
-        } catch (RecordNotFoundException $e) {
-            echo ("COMMENT DOES NOT EXIST");
             die();
         }
     }
