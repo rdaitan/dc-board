@@ -11,6 +11,9 @@
                     $comment_num = ($page - 1) * ThreadController::COMMENTS_PERPAGE + $n  + 1;
                     eh(("{$comment_num} : {$comment->username} {$comment->created}")); ?><br />
                     <?php echo readable_text($comment->body) ?>
+                    <?php if ($comment->can_edit): ?>
+                        <a href="<?php eh(url('comment/edit', array('id' => $comment->id, 'return_url' => $return_url))); ?>">edit</a>
+                    <?php endif; ?>
                 </div>
             <?php endforeach; ?>
 
