@@ -50,18 +50,22 @@ class ThreadController extends AppController
         $total = Comment::countAll($thread->id);
         $pages = ceil($total / self::COMMENTS_PERPAGE);
 
-        // Set which comments can be shown with an edit button
+        // set other comment information needed by the view.
         $auth_user = User::getAuthenticated();
 
-        if ($auth_user) {
-            foreach ($comments as $comment) {
-                $comment->can_edit = $comment->user_id == $auth_user->id;
+        foreach ($comments as $comment) {
+            $comment->url = url('comment/view', array('id' => $comment->id));
+
+            if($auth_user && ($comment->user_id == $auth_user->id)) {
+                $comment->edit_url = get_edit_url($comment);
+            } else {
+                $comment->edit_url = '';
             }
+
         }
 
         // set other variables needed by the view
         $title = $thread->title;
-        $return_url = APP_URL . url();
         $this->set(get_defined_vars());
     }
 

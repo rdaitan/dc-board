@@ -76,4 +76,28 @@ class CommentController extends AppController
         $this->set(get_defined_vars());
         $this->render($page);
     }
+
+    public function view() {
+        $comment = Comment::get(Param::get('id'));
+        $auth_user = User::getAuthenticated();
+
+        if(!$comment) {
+            // TODO: GO TO 404
+            echo ('404');
+            die();
+        }
+
+        $thread = Thread::get($comment->thread_id);
+
+        $comment->thread_title = $thread->title;
+        $comment->url = get_current_url();
+
+        if($auth_user && ($comment->user_id == $auth_user->id)) {
+            $comment->edit_url = get_edit_url($comment);
+        } else {
+            $comment->edit_url = '';
+        }
+
+        $this->set(get_defined_vars());
+    }
 }

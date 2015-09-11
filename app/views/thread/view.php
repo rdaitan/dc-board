@@ -7,12 +7,20 @@
         <div class="offset-top">
             <?php foreach ($comments as $n => $comment): ?>
                 <div class="plank">
-                    <?php
-                    $comment_num = ($page - 1) * ThreadController::COMMENTS_PERPAGE + $n  + 1;
-                    eh(("{$comment_num} : {$comment->username} {$comment->created}")); ?><br />
+                    <small>
+                        <a href="<?php eh($comment->url); ?>">no.<?php eh($comment->id); ?></a>
+                        <?php eh($comment->username); ?>
+                        <?php eh($comment->created_at); ?>
+                        <?php
+                            if ($comment->created_at != $comment->edited_at):
+                                eh($comment->edited_at);
+                            endif;
+                        ?>
+                    </small>
+                    <br />
                     <?php echo readable_text($comment->body) ?>
-                    <?php if ($comment->can_edit): ?>
-                        <a href="<?php eh(url('comment/edit', array('id' => $comment->id, 'return_url' => $return_url))); ?>">edit</a>
+                    <?php if ($comment->edit_url): ?>
+                        <a href="<?php eh($comment->edit_url); ?>">edit</a>
                     <?php endif; ?>
                 </div>
             <?php endforeach; ?>
