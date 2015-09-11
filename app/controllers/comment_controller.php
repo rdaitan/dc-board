@@ -100,4 +100,32 @@ class CommentController extends AppController
 
         $this->set(get_defined_vars());
     }
+
+    public function delete()
+    {
+        redirect_guest_user(LOGIN_URL);
+
+        $id         = Param::get('id');
+        $comment    = Comment::get($id);
+
+        $auth_user  = User::getAuthenticated();
+
+        try {
+
+            if (!$comment) {
+                throw new RecordNotFoundException();
+            } else if (!$auth_user || $comment->user_id != $auth_user->id) {
+                throw new PermissionException();
+            }
+
+            $comment->delete();
+            redirect(LIST_THREADS_URL);
+        } catch (PermissionException $e) {
+            echo ("YOU DON'T HAVE PERMISSION TO DELETE THIS COMMENT.");
+            die();
+        } catch (RecordNotFoundException $e) {
+            echo ("COMMENT DOES NOT EXIST");
+            die();
+        }
+    }
 }

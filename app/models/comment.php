@@ -80,4 +80,9 @@ class Comment extends AppModel
             array('id' => $this->id, 'user_id' => $this->user_id)
         );
     }
+
+    public function delete() {
+        $db = DB::conn();
+        $db->query('DELETE FROM comment WHERE id=?', array($this->id));
+    }
 }
