@@ -3,10 +3,12 @@
 --
 DROP DATABASE board1_1;
 CREATE DATABASE board1_1;
-GRANT SELECT, INSERT, UPDATE, DELETE ON board1_1.* TO board_root@localhost
-IDENTIFIED BY 'board_root';
-FLUSH PRIVILEGES;
 
+--
+-- Assume that the user have been created.
+--
+GRANT SELECT, INSERT, UPDATE, DELETE ON board1_1.* TO board_root@localhost;
+FLUSH PRIVILEGES;
 USE board1_1;
 
 --
@@ -68,3 +70,15 @@ CREATE TABLE follow (
         ON DELETE CASCADE,
     UNIQUE (thread_id, user_id)
 ) ENGINE=InnoDB;
+
+
+--
+-- categories
+--
+
+START TRANSACTION;
+INSERT INTO category (name) VALUES ('Anime & Manga');
+INSERT INTO category (name) VALUES ('Computers');
+INSERT INTO category (name) VALUES ('Movies & TV');
+INSERT INTO category (name) VALUES ('Random');
+INSERT INTO category (name) VALUES ('Video Games');
