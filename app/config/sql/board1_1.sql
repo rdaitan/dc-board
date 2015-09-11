@@ -47,7 +47,7 @@ CREATE TABLE comment (
     user_id     INT UNSIGNED NOT NULL,
     body        TEXT NOT NULL,
     created_at  TIMESTAMP NOT NULL DEFAULT 0,
-    edited_at   TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    edited_at   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     FOREIGN KEY (thread_id) REFERENCES thread(id)
         ON UPDATE CASCADE
@@ -82,3 +82,19 @@ INSERT INTO category (name) VALUES ('Computers');
 INSERT INTO category (name) VALUES ('Movies & TV');
 INSERT INTO category (name) VALUES ('Random');
 INSERT INTO category (name) VALUES ('Video Games');
+
+--
+-- users
+--
+INSERT INTO user (username, first_name, last_name, email, password) VALUES ('renchon', 'Renge', 'Miyauchi', 'renchon@nnb.jp', '$2a$11$486dec38427dc6f51d34dOaC5qS29DLysGydcIRSWb64kwDBq58ZW');
+
+--
+-- Thread
+--
+INSERT INTO thread (title, category_id) VALUES ('GUTEN MORGEN', 4);
+
+--
+-- Comments
+--
+INSERT INTO comment (thread_id, user_id, body, created_at) VALUES (1, 1, 'Guten morgen', NULL);
+COMMIT;
