@@ -47,6 +47,13 @@ class Comment extends AppModel
         return $comments;
     }
 
+    public static function get($id) {
+        $db     = DB::conn();
+        $row    = $db->row("SELECT * FROM comment WHERE id=?", array($id));
+
+        return $row ? new self($row) : false;
+    }
+
     public function create(Thread $thread)
     {
         if (!$this->validate()) {
@@ -61,4 +68,16 @@ class Comment extends AppModel
         ));
     }
 
+    public function update() {
+        if (!$this->validate()) {
+            throw new ValidationException('Invalid comment.');
+        }
+
+        $db = DB::conn();
+        $db->update(
+            'comment',
+            array('body' => $this->body),
+            array('id' => $this->id, 'user_id' => $this->user_id)
+        );
+    }
 }
