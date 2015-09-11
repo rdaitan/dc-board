@@ -28,7 +28,7 @@
         </div>
         <div class='offset-top offset-bottom'>
             <?php if ($auth_user): ?>
-                <a href="<?php eh(url(CREATE_THREAD_URl)); ?>" class="btn btn-block btn-primary">Create Thread</a>
+                <a href="<?php eh(url(CREATE_THREAD_URL)); ?>" class="btn btn-block btn-primary">Create Thread</a>
                 <hr>
                 <a href="<?php eh(url(LOGOUT_URL)); ?>" class="btn btn-block btn-danger">Log out</a>
             <?php else: ?>
