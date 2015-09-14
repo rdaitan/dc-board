@@ -145,4 +145,31 @@ class ThreadController extends AppController
         $this->set(get_defined_vars());
         $this->render($page);
     }
+
+    public function delete()
+    {
+        redirect_guest_user(LOGIN_URL);
+
+        $page = Param::get('page_next', 'delete');
+        $thread = Thread::get(Param::get('id'));
+        $auth_user = User::getAuthenticated();
+
+        if (!$thread->isOwnedBy($auth_user)) {
+            throw new PermissionException();
+        }
+
+        switch($page) {
+        case 'delete':
+            break;
+        case 'delete_end':
+            $thread->delete();
+            redirect(LIST_THREADS_URL);
+            break;
+        default:
+            break;
+        }
+
+        $title = 'Delete thread';
+        $this->set(get_defined_vars());
+    }
 }
