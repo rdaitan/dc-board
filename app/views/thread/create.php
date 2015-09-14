@@ -11,14 +11,6 @@
                         characters in length.
                     </div>
                 <?php endif; ?>
-                <?php if (!empty($comment->validation_errors['username']['length'])) : ?>
-                    <div>
-                        <em>Your name</em> must be between
-                        <?php eh($comment->validation['username']['length'][1]); ?> and
-                        <?php eh($comment->validation['username']['length'][2]); ?>
-                        characters in length.
-                    </div>
-                <?php endif; ?>
                 <?php if (!empty($comment->validation_errors['body']['length'])) : ?>
                     <div>
                         <em>Comment</em> must be between
@@ -44,7 +36,17 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class='col-sm-2 control-label' for="">Comment</label>
+                <label  class='col-sm-2 control-label' for="">Category</label>
+                <div class="col-sm-10">
+                    <select name="category" id="category">
+                        <?php foreach ($categories as $category): ?>
+                            <option value="<?php eh($category->id); ?>"><?php eh($category->name); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class='col-sm-2 control-label' for="">Body</label>
                 <div class="col-sm-10">
                     <textarea class='form-control' name="body"><?php eh(Param::get('body')); ?></textarea>
                 </div>
