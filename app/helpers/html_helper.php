@@ -24,9 +24,9 @@ function trim_collapse($str)
     return $str;
 }
 
-function redirect($url)
+function redirect($url, $query)
 {
-    header("Location: " . url($url));
+    header("Location: " . url($url, $query));
     die();
 }
 
