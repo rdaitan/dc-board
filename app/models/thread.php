@@ -3,6 +3,7 @@ class Thread extends AppModel
 {
     const MIN_TITLE_LENGTH  = 1;
     const MAX_TITLE_LENGTH  = 30;
+    const TABLE_NAME        = 'thread';
     const ERR_CATEGORY      = 1452; // actually a foreign key constraint failure.
 
     public $validation = array(
@@ -62,6 +63,32 @@ class Thread extends AppModel
             $this->id = $db->lastInsertId();
             $comment->create($this);
 
+            $db->commit();
+        } catch (PDOException $e) {
+            if ($e->errorInfo[1] == self::ERR_CATEGORY) {
+                throw new CategoryException();
+            }
+
+            $db->rollback();
+        }
+    }
+
+    public function update(Comment $comment)
+    {
+        if(!$this->validate() | !$comment->validate()) {
+            throw new ValidationException();
+        }
+
+        $db = DB::conn();
+
+        try {
+            $db->begin();
+            $db->update(
+                self::TABLE_NAME,
+                array('title' => $this->title, 'category_id' => $this->category_id),
+                array('id' => $this->id)
+            );
+            $comment->update();
             $db->commit();
         } catch (PDOException $e) {
             if ($e->errorInfo[1] == self::ERR_CATEGORY) {

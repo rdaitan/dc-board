@@ -106,7 +106,7 @@ class ThreadController extends AppController
         redirect_guest_user(LOGIN_URL);
 
         $page       = Param::get('page_next', 'edit');
-        $thread     = Thread::getOrFail(Param::get('id'));
+        $thread     = Thread::get(Param::get('id'));
         $comment    = Comment::getFirstInthread($thread);
         $auth_user  = User::getAuthenticated();
 
@@ -118,9 +118,9 @@ class ThreadController extends AppController
         case 'edit':
             break;
         case 'edit_end':
-            $thread->title      = trim_collapse(Param::get('title'));
-            $thread->category   = Param::get('category');
-            $comment->body      = Param::get('body');
+            $thread->title          = trim_collapse(Param::get('title'));
+            $thread->category_id    = Param::get('category');
+            $comment->body          = Param::get('body');
 
             try {
                 $thread->update($comment);

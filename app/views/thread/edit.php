@@ -13,7 +13,7 @@
                 <?php endif; ?>
                 <?php if (!empty($thread->validation_errors['category']['exists'])) : ?>
                     <div>
-                        <em>Category</em> must be exist.
+                        <em>Category</em> must exist.
                     </div>
                 <?php endif; ?>
                 <?php if (!empty($comment->validation_errors['body']['length'])) : ?>
