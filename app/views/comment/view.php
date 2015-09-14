@@ -14,5 +14,6 @@
     <?php echo readable_text($comment->body) ?>
     <?php if ($comment->isOwnedBy($auth_user)): ?>
         <a href="<?php eh(url(EDIT_COMMENT_URL, array('id' => $comment->id))); ?>">edit</a>
+        <a href="<?php eh(url(DELETE_COMMENT_URL, array('id' => $comment->id))); ?>">delete</a>
     <?php endif; ?>
 </div>
