@@ -9,10 +9,11 @@
             <?php endif; ?>
         </div>
         <div class="offset-top">
+            <!--comment-->
             <?php foreach ($comments as $n => $comment): ?>
                 <div class="plank">
                     <small>
-                        <a href="<?php eh($comment->url); ?>">no.<?php eh($comment->id); ?></a>
+                        <a href="<?php eh(url(VIEW_COMMENT_URL, array('id' => $comment->id))); ?>">no.<?php eh($comment->id); ?></a>
                         <?php eh($comment->username); ?>
                         <?php eh($comment->created_at); ?>
                         <?php
@@ -23,8 +24,9 @@
                     </small>
                     <br />
                     <?php echo readable_text($comment->body) ?>
-                    <?php if ($comment->edit_url): ?>
-                        <a href="<?php eh($comment->edit_url); ?>">edit</a>
+                    <?php if ($comment->isOwnedBy($auth_user)): ?>
+                        <a href="<?php eh(url(EDIT_COMMENT_URL, array('id' => $comment->id))); ?>">edit</a>
+                        <a href="<?php eh(url(DELETE_COMMENT_URL, array('id' => $comment->id))); ?>">delete</a>
                     <?php endif; ?>
                 </div>
             <?php endforeach; ?>

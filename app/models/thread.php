@@ -50,6 +50,20 @@ class Thread extends AppModel
         return $db->value(sprintf("SELECT COUNT(*) FROM thread %s", $where));
     }
 
+    public static function getTrending($limit)
+    {
+        $trends = Comment::getTrendingThreadIds($limit);
+        $threads = array();
+
+        foreach ($trends as $trend) {
+            $thread = Thread::get($trend['thread_id']);
+            $thread->count = $trend['count'];
+            $threads[] = $thread;
+        }
+
+        return $threads;
+    }
+
     public function create(Comment $comment)
     {
         // before calling $this->validate(), $this->title was set first
@@ -61,7 +75,7 @@ class Thread extends AppModel
 
         try {
             $db->begin();
-            $db->insert('thread', array('title' => $this->title, 'category_id' => $this->category));
+            $db->insert('thread', array('title' => $this->title, 'category_id' => $this->category_id));
 
             // write first comment
             $this->id = $db->lastInsertId();
@@ -103,7 +117,8 @@ class Thread extends AppModel
         }
     }
 
-    public function delete() {
+    public function delete()
+    {
         $db = DB::conn();
         $db->query(sprintf('DELETE FROM %s WHERE id=?', self::TABLE_NAME), array($this->id));
     }

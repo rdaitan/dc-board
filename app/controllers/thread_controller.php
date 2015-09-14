@@ -3,6 +3,7 @@ class ThreadController extends AppController
 {
     const THREADS_PERPAGE   = 10;
     const COMMENTS_PERPAGE  = 15;
+    const TRENDING_LIMIT    = 10;
 
     /*
      * Show all threads.
@@ -12,9 +13,10 @@ class ThreadController extends AppController
         $page   = Param::get('page', 1);
         $filter = Param::get('filter');
 
+        // pagination
         $pagination = new SimplePagination($page, self::THREADS_PERPAGE);
 
-        $threads    = Thread::getAll(
+        $threads = Thread::getAll(
             $pagination->start_index - 1,
             $pagination->count + 1,
             $filter
@@ -25,9 +27,11 @@ class ThreadController extends AppController
         $total = Thread::countAll($filter);
         $pages = ceil($total / self::THREADS_PERPAGE);
 
-        $auth_user  = User::getAuthenticated();
+        // get other variables needed by the view
         $title      = 'All Threads';
+        $auth_user  = User::getAuthenticated();
         $categories = Category::getAll();
+        $trending   = Thread::getTrending(self::TRENDING_LIMIT);
         $this->set(get_defined_vars());
     }
 
@@ -37,11 +41,11 @@ class ThreadController extends AppController
     public function view()
     {
         // paginate comments
-        $page       = Param::get('page', 1);
+        $page = Param::get('page', 1);
 
         $pagination = new SimplePagination($page, self::COMMENTS_PERPAGE);
 
-        $thread     = Thread::get(Param::get('thread_id'));
+        $thread     = Thread::get(Param::get('id'));
         $comments   = Comment::getAll(
             $thread->id,
             $pagination->start_index - 1,
@@ -55,11 +59,6 @@ class ThreadController extends AppController
 
         // set other comment information needed by the view.
         $auth_user = User::getAuthenticated();
-
-        foreach ($comments as $comment) {
-            $comment->url       = url('comment/view', array('id' => $comment->id));
-            $comment->edit_url  = $comment->isOwnedBy($auth_user) ? get_edit_url($comment) : '';
-        }
 
         // set other variables needed by the view
         $title = $thread->title;
@@ -79,10 +78,10 @@ class ThreadController extends AppController
             $categories = Category::getAll();
             break;
         case 'create_end':
-            $thread->title      = trim_collapse(Param::get('title'));
-            $thread->category   = Param::get('category');
-            $comment->user_id   = User::getAuthenticated()->id;
-            $comment->body      = Param::get('body');
+            $thread->title          = trim_collapse(Param::get('title'));
+            $thread->category_id    = Param::get('category');
+            $comment->user_id       = User::getAuthenticated()->id;
+            $comment->body          = Param::get('body');
 
             try {
                 $thread->create($comment);
@@ -153,9 +152,9 @@ class ThreadController extends AppController
     {
         redirect_guest_user(LOGIN_URL);
 
-        $page = Param::get('page_next', 'delete');
-        $thread = Thread::get(Param::get('id'));
-        $auth_user = User::getAuthenticated();
+        $page       = Param::get('page_next', 'delete');
+        $thread     = Thread::get(Param::get('id'));
+        $auth_user  = User::getAuthenticated();
 
         if (!$thread->isOwnedBy($auth_user)) {
             throw new PermissionException();
@@ -173,6 +172,14 @@ class ThreadController extends AppController
         }
 
         $title = 'Delete thread';
+        $this->set(get_defined_vars());
+    }
+
+    public function rank()
+    {
+        $threads = Thread::getTrending(self::TRENDING_LIMIT);
+
+        $title = 'Trending';
         $this->set(get_defined_vars());
     }
 }
