@@ -100,4 +100,49 @@ class ThreadController extends AppController
         $this->set(get_defined_vars());
         $this->render($page);
     }
+
+    public function edit()
+    {
+        redirect_guest_user(LOGIN_URL);
+
+        $page       = Param::get('page_next', 'edit');
+        $thread     = Thread::getOrFail(Param::get('id'));
+        $comment    = Comment::getFirstInthread($thread);
+        $auth_user  = User::getAuthenticated();
+
+        if (!$thread->isOwnedBy($auth_user)) {
+            throw new PermissionException();
+        }
+
+        switch($page) {
+        case 'edit':
+            break;
+        case 'edit_end':
+            $thread->title      = trim_collapse(Param::get('title'));
+            $thread->category   = Param::get('category');
+            $comment->body      = Param::get('body');
+
+            try {
+                $thread->update($comment);
+                redirect(APP_URL);  // TODO: redirect to actual thread
+            } catch (ValidationException $e) {
+                $page = 'edit';
+            } catch (CategoryException $e) {
+                $thread->validation_errors['category']['exists'] = true;
+                $page = 'edit';
+            }
+
+            break;
+        default:
+            throw new PageNotFoundException();
+            break;
+        }
+
+        // set other variables needed by the view
+        $categories = Category::getAll();
+
+        $title = 'Edit thread';
+        $this->set(get_defined_vars());
+        $this->render($page);
+    }
 }
