@@ -12,11 +12,13 @@ class Thread extends AppModel
         ),
     );
 
-    public static function getAll($offset, $limit)
+    public static function getAll($offset, $limit, $filter = null)
     {
+        $where = is_null($filter) ? '' : sprintf('WHERE category_id=%d', $filter);
+
         $db = DB::conn();
         $rows = $db->rows(
-            sprintf("SELECT * FROM thread ORDER BY id DESC LIMIT %d, %d", $offset, $limit)
+            sprintf("SELECT * FROM thread %s ORDER BY id DESC LIMIT %d, %d", $where, $offset, $limit)
         );
 
         $threads = array();
@@ -40,10 +42,12 @@ class Thread extends AppModel
         return new self($row);
     }
 
-    public static function countAll()
+    public static function countAll($filter = null)
     {
+        $where = is_null($filter) ? '' : sprintf('WHERE category_id=%d', $filter);
+
         $db = DB::conn();
-        return $db->value("SELECT COUNT(*) FROM thread");
+        return $db->value(sprintf("SELECT COUNT(*) FROM thread %s", $where));
     }
 
     public function create(Comment $comment)
