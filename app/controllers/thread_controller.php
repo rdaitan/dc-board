@@ -9,18 +9,20 @@ class ThreadController extends AppController
      */
     public function index()
     {
-        $page = Param::get('page', 1);
+        $page   = Param::get('page', 1);
+        $filter = Param::get('filter');
 
         $pagination = new SimplePagination($page, self::THREADS_PERPAGE);
 
         $threads    = Thread::getAll(
             $pagination->start_index - 1,
-            $pagination->count + 1
+            $pagination->count + 1,
+            $filter
         );
 
         $pagination->checkLastPage($threads);
 
-        $total = Thread::countAll();
+        $total = Thread::countAll($filter);
         $pages = ceil($total / self::THREADS_PERPAGE);
 
         $auth_user  = User::getAuthenticated();
