@@ -71,4 +71,13 @@ class Thread extends AppModel
             $db->rollback();
         }
     }
+
+    public function isOwnedBy($user)
+    {
+        if (!$user) {
+            return false;
+        }
+
+        return $user->id == Comment::getFirstInThread($this)->user_id;
+    }
 }
