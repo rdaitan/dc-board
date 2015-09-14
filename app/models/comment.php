@@ -1,8 +1,8 @@
 <?php
 class Comment extends AppModel
 {
-    const MIN_BODY_LENGTH = 1;
-    const MAX_BODY_LENGTH = 200;
+    const MIN_BODY_LENGTH   = 1;
+    const MAX_BODY_LENGTH   = 200;
     const TABLE_NAME        = 'comment';
 
     public $validation = array(
@@ -48,14 +48,16 @@ class Comment extends AppModel
         return $comments;
     }
 
-    public static function get($id) {
+    public static function get($id)
+    {
         $db     = DB::conn();
         $row    = $db->row("SELECT * FROM comment WHERE id=?", array($id));
 
         return $row ? new self($row) : false;
     }
 
-    public static function getOrFail($id) {
+    public static function getOrFail($id)
+    {
         $comment = self::get($id);
 
         if($comment) {
@@ -65,7 +67,8 @@ class Comment extends AppModel
         }
     }
 
-    public static function getFirstInThread(Thread $thread) {
+    public static function getFirstInThread(Thread $thread)
+    {
         $db = DB::conn();
         $row = $db->row(sprintf('SELECT * FROM %s WHERE thread_id=?', self::TABLE_NAME), array($thread->id));
 
@@ -79,7 +82,7 @@ class Comment extends AppModel
             sprintf(
                 'SELECT thread_id, COUNT(*) AS count FROM %s
                     WHERE DATE(created_at)=DATE(CURRENT_TIMESTAMP) GROUP BY
-                    thread_id ORDER BY count DESC, created_at LIMIT 0, %d',
+                    thread_id ORDER BY count DESC, created_at DESC LIMIT 0, %d',
                 self::TABLE_NAME,
                 $limit
             )
@@ -93,15 +96,19 @@ class Comment extends AppModel
         }
 
         $db = DB::conn();
-        $db->insert('comment', array(
-            'thread_id' => $thread->id,
-            'user_id'   => $this->user_id,
-            'body'      => $this->body,
-            'created_at'=> null
-        ));
+        $db->insert(
+            'comment',
+            array(
+                'thread_id' => $thread->id,
+                'user_id'   => $this->user_id,
+                'body'      => $this->body,
+                'created_at'=> null
+            )
+        );
     }
 
-    public function update() {
+    public function update()
+    {
         if (!$this->validate()) {
             throw new ValidationException('Invalid comment.');
         }

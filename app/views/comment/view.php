@@ -1,4 +1,4 @@
-<h2><?php eh($comment->thread_title) ?></h2>
+<h2><?php eh($thread->title) ?></h2>
 <div class="plank">
     <small>
         <a href="<?php eh($comment->url); ?>">no.<?php eh($comment->id); ?></a>
@@ -12,7 +12,7 @@
     </small>
     <br />
     <?php echo readable_text($comment->body) ?>
-    <?php if ($comment->edit_url): ?>
-        <a href="<?php eh($comment->edit_url); ?>">edit</a>
+    <?php if ($comment->isOwnedBy($auth_user)): ?>
+        <a href="<?php eh(url(EDIT_COMMENT_URL, array('id' => $comment->id))); ?>">edit</a>
     <?php endif; ?>
 </div>

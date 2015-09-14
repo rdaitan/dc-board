@@ -39,10 +39,10 @@ class CommentController extends AppController
     {
         redirect_guest_user(LOGIN_URL);
 
-        $id             = Param::get('id');
-        $page           = Param::get('page_next', 'edit');
-        $auth_user      = User::getAuthenticated();
-        $comment        = Comment::getOrFail($id);
+        $id         = Param::get('id');
+        $page       = Param::get('page_next', 'edit');
+        $auth_user  = User::getAuthenticated();
+        $comment    = Comment::getOrFail($id);
 
         if (!$comment->isOwnedBy($auth_user)) {
             throw new PermissionException();
@@ -69,18 +69,13 @@ class CommentController extends AppController
 
         $title = 'Edit comment';
         $this->set(get_defined_vars());
-        $this->render($page);
     }
 
     public function view() {
-        $comment = Comment::getOrFail(Param::get('id'));
-        $auth_user = User::getAuthenticated();
+        $comment    = Comment::getOrFail(Param::get('id'));
+        $auth_user  = User::getAuthenticated();
 
         $thread = Thread::get($comment->thread_id);
-
-        $comment->thread_title  = $thread->title;
-        $comment->url           = get_current_url();
-        $comment->edit_url      = $comment->isOwnedBy($auth_user) ? get_edit_url($comment) : '';
 
         $this->set(get_defined_vars());
     }
@@ -97,12 +92,7 @@ class CommentController extends AppController
             throw new PermissionException();
         }
 
-        try {
-            $comment->delete();
-            redirect(LIST_THREADS_URL);
-        } catch (PermissionException $e) {
-            echo ("YOU DON'T HAVE PERMISSION TO DELETE THIS COMMENT.");
-            die();
-        }
+        $comment->delete();
+        redirect(LIST_THREADS_URL);
     }
 }

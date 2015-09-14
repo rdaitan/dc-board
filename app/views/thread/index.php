@@ -13,7 +13,7 @@
         <div  id="thread_list">
             <?php foreach ($threads as $thread): ?>
                 <div class='plank'>
-                    <a href="<?php eh(url(VIEW_THREAD_URL, array('thread_id' => $thread->id))) ?>">
+                    <a href="<?php eh(url(VIEW_THREAD_URL, array('id' => $thread->id))) ?>">
                         <?php eh($thread->title); ?>
                     </a>
                 </div>

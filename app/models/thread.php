@@ -75,7 +75,7 @@ class Thread extends AppModel
 
         try {
             $db->begin();
-            $db->insert('thread', array('title' => $this->title, 'category_id' => $this->category));
+            $db->insert('thread', array('title' => $this->title, 'category_id' => $this->category_id));
 
             // write first comment
             $this->id = $db->lastInsertId();
@@ -117,7 +117,8 @@ class Thread extends AppModel
         }
     }
 
-    public function delete() {
+    public function delete()
+    {
         $db = DB::conn();
         $db->query(sprintf('DELETE FROM %s WHERE id=?', self::TABLE_NAME), array($this->id));
     }
