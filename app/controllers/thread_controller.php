@@ -73,9 +73,11 @@ class ThreadController extends AppController
 
         switch ($page) {
         case 'create':
+            $categories = Category::getAll();
             break;
         case 'create_end':
             $thread->title      = trim_collapse(Param::get('title'));
+            $thread->category   = Param::get('category');
             $comment->user_id   = User::getAuthenticated()->id;
             $comment->body      = Param::get('body');
 
