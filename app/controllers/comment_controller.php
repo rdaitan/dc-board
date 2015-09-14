@@ -87,12 +87,25 @@ class CommentController extends AppController
         $id         = Param::get('id');
         $comment    = Comment::getOrFail($id);
         $auth_user  = User::getAuthenticated();
+        $page       = Param::get('page_next', 'delete');
 
         if (!$comment->isOwnedBy($auth_user)) {
             throw new PermissionException();
         }
 
-        $comment->delete();
-        redirect(LIST_THREADS_URL);
+        switch($page) {
+        case 'delete':
+            break;
+        case 'delete_end':
+            $comment->delete();
+            redirect(LIST_THREADS_URL);
+            break;
+        default:
+            throw new PageNotFoundException();
+            break;
+        }
+
+        $title = 'Delete comment';
+        $this->set(get_defined_vars());
     }
 }
