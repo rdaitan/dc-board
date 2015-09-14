@@ -1,8 +1,9 @@
 <?php
 class Thread extends AppModel
 {
-    const MIN_TITLE_LENGTH = 1;
-    const MAX_TITLE_LENGTH = 30;
+    const MIN_TITLE_LENGTH  = 1;
+    const MAX_TITLE_LENGTH  = 30;
+    const ERR_CATEGORY      = 1452; // actually a foreign key constraint failure.
 
     public $validation = array(
         'title' => array(
@@ -55,7 +56,7 @@ class Thread extends AppModel
 
         try {
             $db->begin();
-            $db->insert('thread', array('title' => $this->title));
+            $db->insert('thread', array('title' => $this->title, 'category_id' => $this->category));
 
             // write first comment
             $this->id = $db->lastInsertId();
@@ -63,6 +64,10 @@ class Thread extends AppModel
 
             $db->commit();
         } catch (PDOException $e) {
+            if ($e->errorInfo[1] == self::ERR_CATEGORY) {
+                throw new CategoryException();
+            }
+
             $db->rollback();
         }
     }
