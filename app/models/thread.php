@@ -131,4 +131,9 @@ class Thread extends AppModel
 
         return $user->id == Comment::getFirstInThread($this)->user_id;
     }
+
+    public function isFollowedBy($user)
+    {
+        return Follow::getByThreadAndUser($this->id, $user->id) ? true : false;
+    }
 }
