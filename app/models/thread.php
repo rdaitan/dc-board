@@ -99,6 +99,11 @@ class Thread extends AppModel
         }
     }
 
+    public function delete() {
+        $db = DB::conn();
+        $db->query(sprintf('DELETE FROM %s WHERE id=?', self::TABLE_NAME), array($this->id));
+    }
+
     public function isOwnedBy($user)
     {
         if (!$user) {
