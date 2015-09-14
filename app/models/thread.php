@@ -50,6 +50,20 @@ class Thread extends AppModel
         return $db->value(sprintf("SELECT COUNT(*) FROM thread %s", $where));
     }
 
+    public static function getTrending($limit)
+    {
+        $trends = Comment::getTrendingThreadIds($limit);
+        $threads = array();
+
+        foreach ($trends as $trend) {
+            $thread = Thread::get($trend['thread_id']);
+            $thread->count = $trend['count'];
+            $threads[] = $thread;
+        }
+
+        return $threads;
+    }
+
     public function create(Comment $comment)
     {
         // before calling $this->validate(), $this->title was set first

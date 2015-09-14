@@ -13,6 +13,7 @@ class ThreadController extends AppController
         $page   = Param::get('page', 1);
         $filter = Param::get('filter');
 
+        // pagination
         $pagination = new SimplePagination($page, self::THREADS_PERPAGE);
 
         $threads    = Thread::getAll(
@@ -26,9 +27,11 @@ class ThreadController extends AppController
         $total = Thread::countAll($filter);
         $pages = ceil($total / self::THREADS_PERPAGE);
 
-        $auth_user  = User::getAuthenticated();
+        // get other variables needed by the view
         $title      = 'All Threads';
+        $auth_user  = User::getAuthenticated();
         $categories = Category::getAll();
+        $trending   = Thread::getTrending(self::TRENDING_LIMIT);
         $this->set(get_defined_vars());
     }
 
@@ -179,15 +182,7 @@ class ThreadController extends AppController
 
     public function rank()
     {
-        $trends = Comment::getTrendingThreadIds(self::TRENDING_LIMIT);
-        $threads = array();
-
-        foreach ($trends as $trend) {
-            $thread = Thread::get($trend['thread_id']);
-            $thread->count = $trend['count'];
-            $threads[] = $thread;
-        }
-
+        $threads = Thread::getTrending(self::TRENDING_LIMIT);
         $title = 'Trending';
         $this->set(get_defined_vars());
     }
