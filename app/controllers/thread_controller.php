@@ -85,6 +85,10 @@ class ThreadController extends AppController
                 $thread->create($comment);
             } catch (ValidationException $e) {
                 $page = 'create';
+            } catch (CategoryException $e) {
+                $thread->validation_errors['category']['exists'] = true;
+                $categories = Category::getAll();
+                $page = 'create';
             }
             break;
         default:
