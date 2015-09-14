@@ -9,22 +9,25 @@ class ThreadController extends AppController
      */
     public function index()
     {
-        $page = Param::get('page', 1);
+        $page   = Param::get('page', 1);
+        $filter = Param::get('filter');
 
         $pagination = new SimplePagination($page, self::THREADS_PERPAGE);
 
         $threads    = Thread::getAll(
             $pagination->start_index - 1,
-            $pagination->count + 1
+            $pagination->count + 1,
+            $filter
         );
 
         $pagination->checkLastPage($threads);
 
-        $total = Thread::countAll();
+        $total = Thread::countAll($filter);
         $pages = ceil($total / self::THREADS_PERPAGE);
 
         $auth_user  = User::getAuthenticated();
         $title      = 'All Threads';
+        $categories = Category::getAll();
         $this->set(get_defined_vars());
     }
 
@@ -73,15 +76,21 @@ class ThreadController extends AppController
 
         switch ($page) {
         case 'create':
+            $categories = Category::getAll();
             break;
         case 'create_end':
             $thread->title      = trim_collapse(Param::get('title'));
+            $thread->category   = Param::get('category');
             $comment->user_id   = User::getAuthenticated()->id;
             $comment->body      = Param::get('body');
 
             try {
                 $thread->create($comment);
             } catch (ValidationException $e) {
+                $page = 'create';
+            } catch (CategoryException $e) {
+                $thread->validation_errors['category']['exists'] = true;
+                $categories = Category::getAll();
                 $page = 'create';
             }
             break;
@@ -93,5 +102,77 @@ class ThreadController extends AppController
         $title = 'Create Thread';
         $this->set(get_defined_vars());
         $this->render($page);
+    }
+
+    public function edit()
+    {
+        redirect_guest_user(LOGIN_URL);
+
+        $page       = Param::get('page_next', 'edit');
+        $thread     = Thread::get(Param::get('id'));
+        $comment    = Comment::getFirstInthread($thread);
+        $auth_user  = User::getAuthenticated();
+
+        if (!$thread->isOwnedBy($auth_user)) {
+            throw new PermissionException();
+        }
+
+        switch($page) {
+        case 'edit':
+            break;
+        case 'edit_end':
+            $thread->title          = trim_collapse(Param::get('title'));
+            $thread->category_id    = Param::get('category');
+            $comment->body          = Param::get('body');
+
+            try {
+                $thread->update($comment);
+                redirect(APP_URL);  // TODO: redirect to actual thread
+            } catch (ValidationException $e) {
+                $page = 'edit';
+            } catch (CategoryException $e) {
+                $thread->validation_errors['category']['exists'] = true;
+                $page = 'edit';
+            }
+
+            break;
+        default:
+            throw new PageNotFoundException();
+            break;
+        }
+
+        // set other variables needed by the view
+        $categories = Category::getAll();
+
+        $title = 'Edit thread';
+        $this->set(get_defined_vars());
+        $this->render($page);
+    }
+
+    public function delete()
+    {
+        redirect_guest_user(LOGIN_URL);
+
+        $page = Param::get('page_next', 'delete');
+        $thread = Thread::get(Param::get('id'));
+        $auth_user = User::getAuthenticated();
+
+        if (!$thread->isOwnedBy($auth_user)) {
+            throw new PermissionException();
+        }
+
+        switch($page) {
+        case 'delete':
+            break;
+        case 'delete_end':
+            $thread->delete();
+            redirect(LIST_THREADS_URL);
+            break;
+        default:
+            break;
+        }
+
+        $title = 'Delete thread';
+        $this->set(get_defined_vars());
     }
 }

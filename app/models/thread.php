@@ -1,8 +1,10 @@
 <?php
 class Thread extends AppModel
 {
-    const MIN_TITLE_LENGTH = 1;
-    const MAX_TITLE_LENGTH = 30;
+    const MIN_TITLE_LENGTH  = 1;
+    const MAX_TITLE_LENGTH  = 30;
+    const TABLE_NAME        = 'thread';
+    const ERR_CATEGORY      = 1452; // actually a foreign key constraint failure.
 
     public $validation = array(
         'title' => array(
@@ -10,11 +12,13 @@ class Thread extends AppModel
         ),
     );
 
-    public static function getAll($offset, $limit)
+    public static function getAll($offset, $limit, $filter = null)
     {
+        $where = is_null($filter) ? '' : sprintf('WHERE category_id=%d', $filter);
+
         $db = DB::conn();
         $rows = $db->rows(
-            sprintf("SELECT * FROM thread ORDER BY id DESC LIMIT %d, %d", $offset, $limit)
+            sprintf("SELECT * FROM thread %s ORDER BY id DESC LIMIT %d, %d", $where, $offset, $limit)
         );
 
         $threads = array();
@@ -38,10 +42,12 @@ class Thread extends AppModel
         return new self($row);
     }
 
-    public static function countAll()
+    public static function countAll($filter = null)
     {
+        $where = is_null($filter) ? '' : sprintf('WHERE category_id=%d', $filter);
+
         $db = DB::conn();
-        return $db->value("SELECT COUNT(*) FROM thread");
+        return $db->value(sprintf("SELECT COUNT(*) FROM thread %s", $where));
     }
 
     public function create(Comment $comment)
@@ -55,7 +61,7 @@ class Thread extends AppModel
 
         try {
             $db->begin();
-            $db->insert('thread', array('title' => $this->title));
+            $db->insert('thread', array('title' => $this->title, 'category_id' => $this->category));
 
             // write first comment
             $this->id = $db->lastInsertId();
@@ -63,7 +69,51 @@ class Thread extends AppModel
 
             $db->commit();
         } catch (PDOException $e) {
+            if ($e->errorInfo[1] == self::ERR_CATEGORY) {
+                throw new CategoryException();
+            }
+
             $db->rollback();
         }
+    }
+
+    public function update(Comment $comment)
+    {
+        if(!$this->validate() | !$comment->validate()) {
+            throw new ValidationException();
+        }
+
+        $db = DB::conn();
+
+        try {
+            $db->begin();
+            $db->update(
+                self::TABLE_NAME,
+                array('title' => $this->title, 'category_id' => $this->category_id),
+                array('id' => $this->id)
+            );
+            $comment->update();
+            $db->commit();
+        } catch (PDOException $e) {
+            if ($e->errorInfo[1] == self::ERR_CATEGORY) {
+                throw new CategoryException();
+            }
+
+            $db->rollback();
+        }
+    }
+
+    public function delete() {
+        $db = DB::conn();
+        $db->query(sprintf('DELETE FROM %s WHERE id=?', self::TABLE_NAME), array($this->id));
+    }
+
+    public function isOwnedBy($user)
+    {
+        if (!$user) {
+            return false;
+        }
+
+        return $user->id == Comment::getFirstInThread($this)->user_id;
     }
 }

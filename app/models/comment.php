@@ -3,6 +3,7 @@ class Comment extends AppModel
 {
     const MIN_BODY_LENGTH = 1;
     const MAX_BODY_LENGTH = 200;
+    const TABLE_NAME        = 'comment';
 
     public $validation = array(
         'body' => array(
@@ -62,6 +63,13 @@ class Comment extends AppModel
         } else {
             throw new RecordNotFoundException();
         }
+    }
+
+    public static function getFirstInThread(Thread $thread) {
+        $db = DB::conn();
+        $row = $db->row(sprintf('SELECT * FROM %s WHERE thread_id=?', self::TABLE_NAME), array($thread->id));
+
+        return $row ? new self($row) : false;
     }
 
     public function create(Thread $thread)

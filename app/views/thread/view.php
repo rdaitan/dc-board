@@ -3,6 +3,10 @@
         <div>
             <h1><?php eh($thread->title) ?></h1>
             <a href='<?php eh(url(APP_URL)); ?>'>&larr; All threads</a>
+            <?php if ($thread->isOwnedBy($auth_user)): ?>
+                <a href='<?php eh(url(EDIT_THREAD_URL, array('id' => $thread->id))); ?>'>Edit thread</a>
+                <a href='<?php eh(url(DELETE_THREAD_URL, array('id' => $thread->id))); ?>'>Delete thread</a>
+            <?php endif; ?>
         </div>
         <div class="offset-top">
             <?php foreach ($comments as $n => $comment): ?>
