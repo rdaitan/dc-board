@@ -3,6 +3,7 @@ class ThreadController extends AppController
 {
     const THREADS_PERPAGE   = 10;
     const COMMENTS_PERPAGE  = 15;
+    const TRENDING_LIMIT    = 10;
 
     /*
      * Show all threads.
@@ -173,6 +174,21 @@ class ThreadController extends AppController
         }
 
         $title = 'Delete thread';
+        $this->set(get_defined_vars());
+    }
+
+    public function rank()
+    {
+        $trends = Comment::getTrendingThreadIds(self::TRENDING_LIMIT);
+        $threads = array();
+
+        foreach ($trends as $trend) {
+            $thread = Thread::get($trend['thread_id']);
+            $thread->count = $trend['count'];
+            $threads[] = $thread;
+        }
+
+        $title = 'Trending';
         $this->set(get_defined_vars());
     }
 }

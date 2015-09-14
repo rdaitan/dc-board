@@ -72,6 +72,20 @@ class Comment extends AppModel
         return $row ? new self($row) : false;
     }
 
+    public static function getTrendingThreadIds($limit)
+    {
+        $db = DB::conn();
+        return  $db->rows(
+            sprintf(
+                'SELECT thread_id, COUNT(*) AS count FROM %s
+                    WHERE DATE(created_at)=DATE(CURRENT_TIMESTAMP) GROUP BY
+                    thread_id ORDER BY count DESC, created_at LIMIT 0, %d',
+                self::TABLE_NAME,
+                $limit
+            )
+        );
+    }
+
     public function create(Thread $thread)
     {
         if (!$this->validate()) {
@@ -82,7 +96,8 @@ class Comment extends AppModel
         $db->insert('comment', array(
             'thread_id' => $thread->id,
             'user_id'   => $this->user_id,
-            'body'      => $this->body
+            'body'      => $this->body,
+            'created_at'=> null
         ));
     }
 
