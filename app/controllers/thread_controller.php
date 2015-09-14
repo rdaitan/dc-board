@@ -25,6 +25,7 @@ class ThreadController extends AppController
 
         $auth_user  = User::getAuthenticated();
         $title      = 'All Threads';
+        $categories = Category::getAll();
         $this->set(get_defined_vars());
     }
 

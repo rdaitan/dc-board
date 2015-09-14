@@ -3,6 +3,13 @@
         <div>
             <h1>All Threads</h1>
         </div>
+        <ul>
+            <strong>Filter by:</strong>
+            <li><a href="<?php eh(url(LIST_THREADS_URL)); ?>">All</a></li>
+            <?php foreach ($categories as $category): ?>
+                <li><a href="<?php eh(url(LIST_THREADS_URL, array('filter' => $category->id))); ?>"><?php eh($category->name); ?></a></li>
+            <?php endforeach; ?>
+        </ul>
         <div  id="thread_list">
             <?php foreach ($threads as $thread): ?>
                 <div class='plank'>
