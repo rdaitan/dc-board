@@ -57,6 +57,11 @@
                         in length.
                     </div>
                 <?php endif; ?>
+                <?php if (!empty($user->validation_errors['email']['unique'])): ?>
+                    <div>
+                        <em>Email</em> must be unique.
+                    </div>
+                <?php endif; ?>
                 <?php if (!empty($user->validation_errors['email']['chars'])): ?>
                     <div>
                         <em>Email</em> must follow email format.
