@@ -134,6 +134,10 @@ class Thread extends AppModel
 
     public function isFollowedBy($user)
     {
+        if (!$user) {
+            return false;
+        }
+        
         return Follow::getByThreadAndUser($this->id, $user->id) ? true : false;
     }
 }
