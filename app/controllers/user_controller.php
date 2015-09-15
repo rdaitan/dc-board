@@ -85,4 +85,14 @@ class UserController extends AppController
         }
         redirect(APP_URL);;
     }
+
+    public function view()
+    {
+        $user = User::getOrFail(Param::get('id'));
+
+        $threads = Thread::getAllByUser($user);
+        $comments = Comment::getAllByUser($user);
+
+        $this->set(get_defined_vars());
+    }
 }
