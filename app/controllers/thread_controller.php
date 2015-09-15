@@ -19,7 +19,7 @@ class ThreadController extends AppController
         $threads = Thread::getAll(
             $pagination->start_index - 1,
             $pagination->count + 1,
-            $filter ? array('category_id' => $filter) : array()
+            $filter
         );
 
         $pagination->checkLastPage($threads);
