@@ -24,7 +24,16 @@ class UserController extends AppController
             } catch (ValidationException $e) {
                 $page = 'create';
             } catch (DuplicateEntryException $e) {
-                $user->validation_errors['username']['unique'] = true;
+                switch ($e->message) {
+                case User::ERR_DUPLICATE_USERNAME:
+                    $user->validation_errors['username']['unique'] = true;
+                    break;
+                case User::ERR_DUPLICATE_EMAIL:
+                    $user->validation_errors['email']['unique'] = true;
+                    break;
+                default:
+                    break;
+                }
                 $page = 'create';
             }
             break;
