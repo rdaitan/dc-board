@@ -117,16 +117,7 @@ class User extends AppModel
     {
         $user = User::getByUsername($username);
 
-        // Retrieve salt
-        $salt = substr(
-            $user->password,
-            strlen(CRYPT_BFISH),
-            BFISH_SALT_LENGTH
-        );
-
-        $hashedPassword = bhash($password, $salt);
-
-        if ($hashedPassword !== $user->password) {
+        if (!verify_hash($password, $user->password)) {
             return false;
         }
 

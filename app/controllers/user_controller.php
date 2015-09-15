@@ -105,4 +105,39 @@ class UserController extends AppController
 
         $this->set(get_defined_vars());
     }
+
+    public function edit()
+    {
+        redirect_guest_user(LOGIN_URL);
+
+        $page = Param::get('page_next', 'edit');
+        $auth_user = User::getAuthenticated();
+
+        switch($page) {
+        case 'edit':
+            break;
+        case 'edit_end':
+            $auth_user->first_name = trim_collapse(Param::get('first_name'));
+            $auth_user->last_name = trim_collapse(Param::get('last_name'));
+            $auth_user->old_password = Param::get('password');
+            $auth_user->new_password = Param::get('new_password');
+
+            if (!verify_hash($auth_user->old_password, $auth_user->password)) {
+                $auth_user->validation_errors['password']['match_old'] = true;
+                $page = 'edit';
+                break;
+            }
+
+            $auth_user->password = $auth_user->new_password;
+
+            $auth_user->update();
+            redirect(VIEW_USER_URL);
+            break;
+        default:
+            throw new PageNotFoundException();
+            break;
+        }
+
+        $this->set(get_defined_vars());
+    }
 }
