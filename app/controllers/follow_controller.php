@@ -46,4 +46,20 @@ class FollowController extends AppController
 
         redirect(VIEW_THREAD_URL, array('id' => $follow->thread_id));
     }
+
+    public function listAll()
+    {
+        redirect_guest_user(LOGIN_URL);
+
+        $auth_user = User::getAuthenticated();
+        $follows = Follow::getAll($auth_user);
+
+        $threads = array();
+
+        foreach ($follows as $follow) {
+            $threads[] = Thread::get($follow->thread_id);
+        }
+
+        $this->set(get_defined_vars());
+    }
 }
