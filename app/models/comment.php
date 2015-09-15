@@ -48,6 +48,24 @@ class Comment extends AppModel
         return $comments;
     }
 
+    public static function getAllByUser(User $user)
+    {
+        $db = DB::conn();
+        $rows = $db->rows(
+            sprintf('SELECT * FROM %s WHERE id=? ORDER BY id DESC', self::TABLE_NAME),
+            array($user->id)
+        );
+
+        $comments = array();
+
+        foreach ($rows as $row) {
+            $comments[] = new self($row);
+        }
+
+        return $comments;
+    }
+
+
     public static function get($id)
     {
         $db     = DB::conn();
@@ -133,5 +151,13 @@ class Comment extends AppModel
         }
 
         return $user->id == $this->user_id;
+    }
+
+    public function isThreadBody()
+    {
+        $thread = Thread::get($this->thread_id);
+        $first_comment = Comment::getFirstInThread($thread);
+
+        return $first_comment->id == $this->id;
     }
 }

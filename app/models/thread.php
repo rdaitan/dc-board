@@ -30,6 +30,23 @@ class Thread extends AppModel
         return $threads;
     }
 
+    public static function getAllByUser(User $user)
+    {
+        $db = DB::conn();
+        $rows = $db->rows(
+            sprintf('SELECT * FROM thread %s WHERE id=? ORDER BY id DESC', self::TABLE_NAME),
+            array($user->id)
+        );
+
+        $threads = array();
+
+        foreach ($rows as $row) {
+            $threads[] = new self($row);
+        }
+
+        return $threads;
+    }
+
     public static function get($id)
     {
         $db = DB::conn();
