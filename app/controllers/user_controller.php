@@ -13,9 +13,11 @@ class UserController extends AppController
 
         switch ($page) {
         case 'create_end':
-            $user->username = trim(Param::get('username'));
-            $user->email    = trim(Param::get('email'));
-            $user->password = Param::get('password');
+            $user->username     = trim(Param::get('username'));
+            $user->first_name   = trim_collapse(Param::get('first_name'));
+            $user->last_name    = trim_collapse(Param::get('last_name'));
+            $user->email        = trim(Param::get('email'));
+            $user->password     = Param::get('password');
 
             try {
                 $user->create();
