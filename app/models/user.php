@@ -1,20 +1,32 @@
 <?php
 class User extends AppModel
 {
-    const AUTH_SESS_KEY         = 'auth_user';
-    const MIN_USERNAME_LENGTH   = 1;
-    const MAX_USERNAME_LENGTH   = 16;
-    const MIN_EMAIL_LENGTH      = 1;
-    const MAX_EMAIL_LENGTH      = 30;
-    const MIN_PASSWORD_LENGTH   = 6;
-    const MAX_PASSWORD_LENGTH   = 20;
-    const ERR_DUPLICATE_ENTRY   = 1062;
+    const AUTH_SESS_KEY             = 'auth_user';
+    const MIN_USERNAME_LENGTH       = 1;
+    const MAX_USERNAME_LENGTH       = 16;
+    const MIN_NAME_LENGTH           = 1;
+    const MAX_NAME_LENGTH           = 30;
+    const MIN_EMAIL_LENGTH          = 1;
+    const MAX_EMAIL_LENGTH          = 30;
+    const MIN_PASSWORD_LENGTH       = 6;
+    const MAX_PASSWORD_LENGTH       = 20;
+    const ERR_DUPLICATE_ENTRY       = 1062;
+    const ERR_DUPLICATE_USERNAME    = 1;
+    const ERR_DUPLICATE_EMAIL       = 2;
 
     public $validation = array(
         'username'      => array(
             'length'    => array('validate_between', self::MIN_USERNAME_LENGTH, self::MAX_USERNAME_LENGTH),
             'chars'     => array('validate_username'),
             // 'unique'    => array('validate_unique_name')
+        ),
+        'first_name'    => array(
+            'length'    => array('validate_between', self::MIN_NAME_LENGTH, self::MAX_NAME_LENGTH),
+            'chars'     => array('validate_name')
+        ),
+        'last_name'     => array(
+            'length'    => array('validate_between', self::MIN_NAME_LENGTH, self::MAX_NAME_LENGTH),
+            'chars'     => array('validate_name')
         ),
         'email'         => array(
             'length'    => array('validate_between', self::MIN_EMAIL_LENGTH, self::MAX_EMAIL_LENGTH),
@@ -35,14 +47,27 @@ class User extends AppModel
             $db->insert(
                 'user',
                 array(
-                    'username'  => $this->username,
-                    'email'     => $this->email,
-                    'password'  => bhash($this->password)
+                    'username'      => $this->username,
+                    'first_name'    => $this->first_name,
+                    'last_name'     => $this->last_name,
+                    'email'         => $this->email,
+                    'password'      => bhash($this->password)
                 )
             );
         } catch (PDOException $e) {
-            if ($e->errorInfo[1] == self::ERR_DUPLICATE_ENTRY) {
-                throw new DuplicateEntryException('Duplicate username');
+            if ($e->errorInfo[1] != self::ERR_DUPLICATE_ENTRY) {
+                return;
+            }
+
+            $duplicate_key_email    = "'email'";
+            $duplicate_key_username = "'username'";
+
+            if (substr($e->errorInfo[2], -strlen($duplicate_key_email)) == $duplicate_key_email) {
+                throw new DuplicateEntryException(self::ERR_DUPLICATE_EMAIL);
+            }
+
+            if (substr($e->errorInfo[2], -strlen($duplicate_key_username)) == $duplicate_key_username) {
+                throw new DuplicateEntryException(self::ERR_DUPLICATE_USERNAME);
             }
         }
     }

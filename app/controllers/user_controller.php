@@ -3,6 +3,8 @@ class UserController extends AppController
 {
     const ERROR_VAR                 = 'error';
     const ERROR_MESSAGE_USERPASS    = 'Incorrect username or password';
+    const PROFILE_THREAD_LIMIT      = 5;
+    const PROFILE_COMMENT_LIMIT     = 5;
 
     public function create()
     {
@@ -13,16 +15,27 @@ class UserController extends AppController
 
         switch ($page) {
         case 'create_end':
-            $user->username = trim(Param::get('username'));
-            $user->email    = trim(Param::get('email'));
-            $user->password = Param::get('password');
+            $user->username     = trim(Param::get('username'));
+            $user->first_name   = trim_collapse(Param::get('first_name'));
+            $user->last_name    = trim_collapse(Param::get('last_name'));
+            $user->email        = trim(Param::get('email'));
+            $user->password     = Param::get('password');
 
             try {
                 $user->create();
             } catch (ValidationException $e) {
                 $page = 'create';
             } catch (DuplicateEntryException $e) {
-                $user->validation_errors['username']['unique'] = true;
+                switch ($e->getMessage()) {
+                case User::ERR_DUPLICATE_USERNAME:
+                    $user->validation_errors['username']['unique'] = true;
+                    break;
+                case User::ERR_DUPLICATE_EMAIL:
+                    $user->validation_errors['email']['unique'] = true;
+                    break;
+                default:
+                    break;
+                }
                 $page = 'create';
             }
             break;
@@ -73,5 +86,15 @@ class UserController extends AppController
             session_destroy();
         }
         redirect(APP_URL);;
+    }
+
+    public function view()
+    {
+        $user = User::getOrFail(Param::get('id'));
+
+        $threads = Thread::getAll(0, self::PROFILE_THREAD_LIMIT, array('user_id' => $user->id));
+        $comments = Comment::getAll(0, self::PROFILE_COMMENT_LIMIT, array('user_id' => $user->id));
+
+        $this->set(get_defined_vars());
     }
 }

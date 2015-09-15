@@ -3,14 +3,36 @@
         <div>
             <h1><?php eh($thread->title) ?></h1>
             <a href='<?php eh(url(APP_URL)); ?>'>&larr; All threads</a>
+            <?php if ($thread->isOwnedBy($auth_user)): ?>
+                <a href='<?php eh(url(EDIT_THREAD_URL, array('id' => $thread->id))); ?>'>Edit thread</a>
+                <a href='<?php eh(url(DELETE_THREAD_URL, array('id' => $thread->id))); ?>'>Delete thread</a>
+            <?php endif; ?>
+            <?php if ($thread->isFollowedBy($auth_user)): ?>
+                <a href="<?php eh(url(UNFOLLOW_URL, array('id' => $thread->id))); ?>">Unfollow</a>
+            <?php else: ?>
+                <a href="<?php eh(url(FOLLOW_URL, array('id' => $thread->id))); ?>">Follow</a>
+            <?php endif; ?>
         </div>
         <div class="offset-top">
+            <!--comment-->
             <?php foreach ($comments as $n => $comment): ?>
                 <div class="plank">
-                    <?php
-                    $comment_num = ($page - 1) * ThreadController::COMMENTS_PERPAGE + $n  + 1;
-                    eh(("{$comment_num} : {$comment->username} {$comment->created}")); ?><br />
+                    <small>
+                        <a href="<?php eh(url(VIEW_COMMENT_URL, array('id' => $comment->id))); ?>">no.<?php eh($comment->id); ?></a>
+                        <?php eh($comment->username); ?>
+                        <?php eh($comment->created_at); ?>
+                        <?php
+                            if ($comment->created_at != $comment->edited_at):
+                                eh($comment->edited_at);
+                            endif;
+                        ?>
+                    </small>
+                    <br />
                     <?php echo readable_text($comment->body) ?>
+                    <?php if ($comment->isOwnedBy($auth_user)): ?>
+                        <a href="<?php eh(url(EDIT_COMMENT_URL, array('id' => $comment->id))); ?>">edit</a>
+                        <a href="<?php eh(url(DELETE_COMMENT_URL, array('id' => $comment->id))); ?>">delete</a>
+                    <?php endif; ?>
                 </div>
             <?php endforeach; ?>
 

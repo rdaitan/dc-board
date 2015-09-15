@@ -9,6 +9,7 @@ require_once APP_DIR.'app_exception.php';
 require_once HELPERS_DIR.'html_helper.php';
 require_once HELPERS_DIR.'validation_helper.php';
 require_once HELPERS_DIR.'authentication_helper.php';
+require_once HELPERS_DIR.'exception_helper.php';
 
 // vendor
 require_once VENDOR_DIR.'SimpleDBI/SimpleDBI.php';
@@ -20,7 +21,7 @@ require_once LIB_DIR.'SimplePagination/SimplePagination.php';
 require_once CONFIG_DIR.'log.php';
 require_once CONFIG_DIR.'router.php';
 require_once CONFIG_DIR.'database.php';
-require_once CONFIG_DIR.'urls.php';
+require_once CONFIG_DIR.'url.php';
 
 spl_autoload_register(function($name) {
     $filename = Inflector::underscore($name) . '.php';

@@ -18,3 +18,11 @@ class PageNotFoundException extends AppException
 class DuplicateEntryException extends AppException
 {
 }
+
+class PermissionException extends AppException
+{
+}
+
+class CategoryException extends AppException
+{
+}

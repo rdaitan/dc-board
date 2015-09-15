@@ -24,9 +24,9 @@ function trim_collapse($str)
     return $str;
 }
 
-function redirect($url)
+function redirect($url, $query)
 {
-    header("Location: " . url($url));
+    header("Location: " . url($url, $query));
     die();
 }
 
@@ -79,4 +79,15 @@ function print_pagination($pagination, $pages)
     }
 
     echo '</ul></nav>';
+}
+
+function get_current_url() {
+    return 'http://' . APP_HOST . url();
+}
+
+function get_edit_url($model) {
+    return url(
+        strtolower(get_class($model)) . '/edit',
+        array('id' => $model->id, 'return_url' => get_current_url())
+    );
 }
