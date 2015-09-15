@@ -122,16 +122,22 @@ class UserController extends AppController
             $auth_user->old_password = Param::get('password');
             $auth_user->new_password = Param::get('new_password');
 
-            if (!verify_hash($auth_user->old_password, $auth_user->password)) {
+
+
+            try {
+                if (!verify_hash($auth_user->old_password, $auth_user->password)) {
+                    throw new ValidationException();
+                }
+
+                $auth_user->password = $auth_user->new_password;
+
+                $auth_user->update();
+                redirect(VIEW_USER_URL);
+            } catch (ValidationException $e) {
                 $auth_user->validation_errors['password']['match_old'] = true;
                 $page = 'edit';
                 break;
             }
-
-            $auth_user->password = $auth_user->new_password;
-
-            $auth_user->update();
-            redirect(VIEW_USER_URL);
             break;
         default:
             throw new PageNotFoundException();

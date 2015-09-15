@@ -13,6 +13,7 @@ class User extends AppModel
     const ERR_DUPLICATE_ENTRY       = 1062;
     const ERR_DUPLICATE_USERNAME    = 1;
     const ERR_DUPLICATE_EMAIL       = 2;
+    const TABLE_NAME                = 'user';
 
     public $validation = array(
         'username'      => array(
@@ -79,6 +80,27 @@ class User extends AppModel
             if (substr($e->errorInfo[2], -strlen($duplicate_key_username)) == $duplicate_key_username) {
                 throw new DuplicateEntryException(self::ERR_DUPLICATE_USERNAME);
             }
+        }
+    }
+
+    public function update()
+    {
+        if (!$this->validate()) {
+            throw new ValidationException('Invalid user information');
+        }
+
+        $db = DB::conn();
+        try {
+            $db->update(
+                self::TABLE_NAME,
+                array(
+                    'first_name'    => $this->first_name,
+                    'last_name'     => $this->last_name,
+                    'password'      => bhash($this->password)
+                ),
+                array('id' => $this->id)
+            );
+        } catch (PDOException $e) {
         }
     }
 
