@@ -72,6 +72,7 @@ class ThreadController extends AppController
         $thread  = new Thread();
         $comment = new Comment();
         $page    = Param::get('page_next', 'create');
+        $auth_user = User::getAuthenticated();
 
         switch ($page) {
         case 'create':
@@ -80,17 +81,29 @@ class ThreadController extends AppController
         case 'create_end':
             $thread->title          = trim_collapse(Param::get('title'));
             $thread->category_id    = Param::get('category');
-            $comment->user_id       = User::getAuthenticated()->id;
+            $comment->user_id       = $auth_user->id;
             $comment->body          = Param::get('body');
 
+            $db = DB::conn();
             try {
+                $db->begin();
                 $thread->create($comment);
+
+                $follow             = new Follow();
+                $follow->thread_id  = $thread->id;
+                $follow->user_id    = $auth_user->id;
+
+                $follow->create();
+
+                $db->commit();
             } catch (ValidationException $e) {
                 $page = 'create';
+                $db->rollback();
             } catch (CategoryException $e) {
                 $thread->validation_errors['category']['exists'] = true;
                 $categories = Category::getAll();
                 $page = 'create';
+                $db->rollback();
             }
             break;
         default:
