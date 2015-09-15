@@ -1,6 +1,9 @@
 <h4><?php eh($user->username) ?></h4>
 <strong><?php eh("{$user->first_name} {$user->last_name}") ?></strong>
 
+<!--TESTING ONLY-->
+<a href="<?php eh(url(EDIT_USER_URL)); ?>">EDIT PROFILE</a>
+
 <h5>Threads</h5>
 <ul>
     <?php foreach ($threads as $thread): ?>

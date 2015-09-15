@@ -14,3 +14,4 @@ define('DELETE_COMMENT_URL',    'comment/delete');
 define('FOLLOW_URL',            'follow/add');
 define('UNFOLLOW_URL',          'follow/remove');
 define('VIEW_USER_URL',         'user/view');
+define('EDIT_USER_URL',         'user/edit');
