@@ -26,4 +26,24 @@ class FollowController extends AppController
 
         redirect(VIEW_THREAD_URL, array('id' => $follow->thread_id));
     }
+
+    public function remove()
+    {
+        redirect_guest_user(LOGIN_URL);
+
+        $thread = Thread::get(Param::get('id'));
+        $auth_user = User::getAuthenticated();
+
+        if (!$auth_user) {
+            die();
+        }
+
+        $follow = Follow::getByThreadAndUser($thread->id, $auth_user->id);
+
+        if ($follow) {
+            $follow->remove();
+        }
+
+        redirect(VIEW_THREAD_URL, array('id' => $follow->thread_id));
+    }
 }
