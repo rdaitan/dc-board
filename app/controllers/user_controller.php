@@ -90,7 +90,17 @@ class UserController extends AppController
 
     public function view()
     {
-        $user = User::getOrFail(Param::get('id'));
+        $id = Param::get('id');
+
+        if($id) {
+            $user = User::getOrFail($id);
+        } else {
+            $user = User::getAuthenticated();
+
+            if (!$user) {
+                throw new RecordNotFoundException();
+            }
+        }
 
         $threads = Thread::getAll(0, self::PROFILE_THREAD_LIMIT, array('user_id' => $user->id));
         $comments = Comment::getAll(0, self::PROFILE_COMMENT_LIMIT, array('user_id' => $user->id));
