@@ -12,9 +12,14 @@ class Thread extends AppModel
         ),
     );
 
-    public static function getAll($offset, $limit, $filter = null)
+    public static function getAll($offset, $limit, $filters = array())
     {
-        $where = is_null($filter) ? '' : sprintf('WHERE category_id=%d', $filter);
+        $where = '';
+
+        foreach ($filters as $column => $value) {
+            $where .= !$where ? 'WHERE ' : ', ';
+            $where .= "{$column}={$value}";
+        }
 
         $db = DB::conn();
         $rows = $db->rows(
