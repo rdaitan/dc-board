@@ -23,4 +23,4 @@
     <?php endforeach; ?>
 </ul>
 
-<a href="<?php eh(url(VIEW_USER_COMMENTS_URL)); ?>">See more</a>
+<a href="<?php eh(url(VIEW_USER_COMMENTS_URL, array('id' => $user->id))); ?>">See more</a>
