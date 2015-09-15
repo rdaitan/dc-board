@@ -3,8 +3,6 @@ class UserController extends AppController
 {
     const ERROR_VAR                 = 'error';
     const ERROR_MESSAGE_USERPASS    = 'Incorrect username or password';
-    const PROFILE_THREAD_LIMIT      = 5;
-    const PROFILE_COMMENT_LIMIT     = 5;
 
     public function create()
     {
@@ -102,8 +100,8 @@ class UserController extends AppController
             }
         }
 
-        $threads = Thread::getAll(0, self::PROFILE_THREAD_LIMIT, array('user_id' => $user->id));
-        $comments = Comment::getAll(0, self::PROFILE_COMMENT_LIMIT, array('user_id' => $user->id));
+        $threads = Thread::getAllByUser($user);
+        $comments = Comment::getAllByUser($user);
 
         $this->set(get_defined_vars());
     }
