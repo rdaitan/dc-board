@@ -50,9 +50,9 @@ class Comment extends AppModel
 
     public static function getAllByUser(User $user)
     {
-        $db = DB::conn();
-        $rows = $db->rows(
-            sprintf('SELECT * FROM %s WHERE id=? ORDER BY id DESC', self::TABLE_NAME),
+        $db     = DB::conn();
+        $rows   = $db->rows(
+            sprintf('SELECT * FROM %s WHERE user_id=? ORDER BY id DESC', self::TABLE_NAME),
             array($user->id)
         );
 
@@ -87,8 +87,8 @@ class Comment extends AppModel
 
     public static function getFirstInThread(Thread $thread)
     {
-        $db = DB::conn();
-        $row = $db->row(sprintf('SELECT * FROM %s WHERE thread_id=?', self::TABLE_NAME), array($thread->id));
+        $db     = DB::conn();
+        $row    = $db->row(sprintf('SELECT * FROM %s WHERE thread_id=?', self::TABLE_NAME), array($thread->id));
 
         return $row ? new self($row) : false;
     }
@@ -155,8 +155,8 @@ class Comment extends AppModel
 
     public function isThreadBody()
     {
-        $thread = Thread::get($this->thread_id);
-        $first_comment = Comment::getFirstInThread($thread);
+        $thread         = Thread::get($this->thread_id);
+        $first_comment  = Comment::getFirstInThread($thread);
 
         return $first_comment->id == $this->id;
     }

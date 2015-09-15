@@ -81,6 +81,7 @@ class ThreadController extends AppController
         case 'create_end':
             $thread->title          = trim_collapse(Param::get('title'));
             $thread->category_id    = Param::get('category');
+            $thread->user_id        = $auth_user->id;
             $comment->user_id       = $auth_user->id;
             $comment->body          = Param::get('body');
 

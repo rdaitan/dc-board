@@ -10,8 +10,6 @@
     <?php endforeach; ?>
 </ul>
 
-<a href="<?php eh(url(VIEW_USER_THREADS_URL)); ?>">See more</a>
-
 <h5>Comments</h5>
 <ul>
     <?php foreach ($comments as $comment): ?>
@@ -22,5 +20,3 @@
         <?php endif; ?>
     <?php endforeach; ?>
 </ul>
-
-<a href="<?php eh(url(VIEW_USER_COMMENTS_URL, array('id' => $user->id))); ?>">See more</a>

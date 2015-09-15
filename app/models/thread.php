@@ -16,8 +16,8 @@ class Thread extends AppModel
     {
         $where = is_null($filter) ? '' : sprintf('WHERE category_id=%d', $filter);
 
-        $db = DB::conn();
-        $rows = $db->rows(
+        $db     = DB::conn();
+        $rows   = $db->rows(
             sprintf("SELECT * FROM thread %s ORDER BY id DESC LIMIT %d, %d", $where, $offset, $limit)
         );
 
@@ -32,9 +32,9 @@ class Thread extends AppModel
 
     public static function getAllByUser(User $user)
     {
-        $db = DB::conn();
-        $rows = $db->rows(
-            sprintf('SELECT * FROM thread %s WHERE id=? ORDER BY id DESC', self::TABLE_NAME),
+        $db     = DB::conn();
+        $rows   = $db->rows(
+            sprintf('SELECT * FROM thread %s WHERE user_id=? ORDER BY id DESC', self::TABLE_NAME),
             array($user->id)
         );
 
@@ -49,8 +49,8 @@ class Thread extends AppModel
 
     public static function get($id)
     {
-        $db = DB::conn();
-        $row = $db->row('SELECT * FROM thread WHERE id=?', array($id));
+        $db     = DB::conn();
+        $row    = $db->row('SELECT * FROM thread WHERE id=?', array($id));
 
         if (!$row) {
             throw new RecordNotFoundException('No record found');
@@ -70,14 +70,12 @@ class Thread extends AppModel
     public static function getTrending($limit)
     {
         // $trends = Comment::getTrendingThreadIds($limit);
-        $trends = Comment::countToday();
-        $threads = array();
+        $trends     = Comment::countToday();
+        $threads    = array();
 
         foreach ($trends as $trend) {
             $thread = Thread::get($trend['thread_id']);
-            $comment = Comment::getFirstInThread($thread);
             $thread->count = $trend['count'];
-            $thread->created_at = $comment->created_at;
             $threads[] = $thread;
         }
 
@@ -90,11 +88,7 @@ class Thread extends AppModel
                 if ($diff != 0) {
                     return $diff;
                 } else {
-                    $datetime_a = new DateTime($thread_a->created_at);
-                    $datetime_b = new DateTime($thread_b->created_at);
-
-                    $datetime_diff = $datetime_a->diff($datetime_b);
-                    return $datetime_diff->invert ? -$datetime_diff->s : $datetime_diff->s;
+                    return $thread_b->id - $thread_a->id;
                 }
             }
         );
@@ -113,7 +107,14 @@ class Thread extends AppModel
 
         try {
             $db->begin();
-            $db->insert('thread', array('title' => $this->title, 'category_id' => $this->category_id));
+            $db->insert(
+                'thread',
+                array(
+                    'title'         => $this->title,
+                    'category_id'   => $this->category_id,
+                    'user_id'       => $this->user_id
+                )
+            );
 
             // write first comment
             $this->id = $db->lastInsertId();
@@ -167,7 +168,7 @@ class Thread extends AppModel
             return false;
         }
 
-        return $user->id == Comment::getFirstInThread($this)->user_id;
+        return $user->id == $this->user_id;
     }
 
     public function isFollowedBy($user)
