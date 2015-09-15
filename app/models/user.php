@@ -4,6 +4,8 @@ class User extends AppModel
     const AUTH_SESS_KEY         = 'auth_user';
     const MIN_USERNAME_LENGTH   = 1;
     const MAX_USERNAME_LENGTH   = 16;
+    const MIN_NAME_LENGTH       = 1;
+    const MAX_NAME_LENGTH       = 30;
     const MIN_EMAIL_LENGTH      = 1;
     const MAX_EMAIL_LENGTH      = 30;
     const MIN_PASSWORD_LENGTH   = 6;
@@ -15,6 +17,14 @@ class User extends AppModel
             'length'    => array('validate_between', self::MIN_USERNAME_LENGTH, self::MAX_USERNAME_LENGTH),
             'chars'     => array('validate_username'),
             // 'unique'    => array('validate_unique_name')
+        ),
+        'first_name'    => array(
+            'length'    => array('validate_between', self::MIN_NAME_LENGTH, self::MAX_NAME_LENGTH),
+            'chars'     => array('validate_name')
+        ),
+        'last_name'     => array(
+            'length'    => array('validate_between', self::MIN_NAME_LENGTH, self::MAX_NAME_LENGTH),
+            'chars'     => array('validate_name')
         ),
         'email'         => array(
             'length'    => array('validate_between', self::MIN_EMAIL_LENGTH, self::MAX_EMAIL_LENGTH),
@@ -35,9 +45,11 @@ class User extends AppModel
             $db->insert(
                 'user',
                 array(
-                    'username'  => $this->username,
-                    'email'     => $this->email,
-                    'password'  => bhash($this->password)
+                    'username'      => $this->username,
+                    'first_name'    => $this->first_name,
+                    'last_name'     => $this->last_name,
+                    'email'         => $this->email,
+                    'password'      => bhash($this->password)
                 )
             );
         } catch (PDOException $e) {
