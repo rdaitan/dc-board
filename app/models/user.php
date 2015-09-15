@@ -36,6 +36,16 @@ class User extends AppModel
             'length'    => array('validate_between', self::MIN_PASSWORD_LENGTH, self::MAX_PASSWORD_LENGTH))
     );
 
+    public static function getOrFail($id) {
+        $user = self::getById($id);
+
+        if($user) {
+            return $user;
+        } else {
+            throw new RecordNotFoundException();
+        }
+    }
+
     public function create()
     {
         if (!$this->validate()) {
