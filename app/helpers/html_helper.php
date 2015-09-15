@@ -91,3 +91,13 @@ function get_edit_url($model) {
         array('id' => $model->id, 'return_url' => get_current_url())
     );
 }
+
+function verify_hash($str, $hash)
+{
+    // Retrieve salt
+    $salt = substr($hash, strlen(CRYPT_BFISH), BFISH_SALT_LENGTH);
+
+    $hashedPassword = bhash($str, $salt);
+
+    return $hashedPassword === $hash;
+}

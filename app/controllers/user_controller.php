@@ -13,16 +13,27 @@ class UserController extends AppController
 
         switch ($page) {
         case 'create_end':
-            $user->username = trim(Param::get('username'));
-            $user->email    = trim(Param::get('email'));
-            $user->password = Param::get('password');
+            $user->username     = trim(Param::get('username'));
+            $user->first_name   = trim_collapse(Param::get('first_name'));
+            $user->last_name    = trim_collapse(Param::get('last_name'));
+            $user->email        = trim(Param::get('email'));
+            $user->password     = Param::get('password');
 
             try {
                 $user->create();
             } catch (ValidationException $e) {
                 $page = 'create';
             } catch (DuplicateEntryException $e) {
-                $user->validation_errors['username']['unique'] = true;
+                switch ($e->getMessage()) {
+                case User::ERR_DUPLICATE_USERNAME:
+                    $user->validation_errors['username']['unique'] = true;
+                    break;
+                case User::ERR_DUPLICATE_EMAIL:
+                    $user->validation_errors['email']['unique'] = true;
+                    break;
+                default:
+                    break;
+                }
                 $page = 'create';
             }
             break;
@@ -73,5 +84,66 @@ class UserController extends AppController
             session_destroy();
         }
         redirect(APP_URL);;
+    }
+
+    public function view()
+    {
+        $id = Param::get('id');
+
+        if($id) {
+            $user = User::getOrFail($id);
+        } else {
+            $user = User::getAuthenticated();
+
+            if (!$user) {
+                throw new RecordNotFoundException();
+            }
+        }
+
+        $threads = Thread::getAllByUser($user);
+        $comments = Comment::getAllByUser($user);
+
+        $this->set(get_defined_vars());
+    }
+
+    public function edit()
+    {
+        redirect_guest_user(LOGIN_URL);
+
+        $page = Param::get('page_next', 'edit');
+        $auth_user = User::getAuthenticated();
+
+        switch($page) {
+        case 'edit':
+            break;
+        case 'edit_end':
+            $auth_user->first_name = trim_collapse(Param::get('first_name'));
+            $auth_user->last_name = trim_collapse(Param::get('last_name'));
+            $auth_user->old_password = Param::get('password');
+            $auth_user->new_password = Param::get('new_password');
+
+
+
+            try {
+                if (!verify_hash($auth_user->old_password, $auth_user->password)) {
+                    throw new ValidationException();
+                }
+
+                $auth_user->password = $auth_user->new_password;
+
+                $auth_user->update();
+                redirect(VIEW_USER_URL);
+            } catch (ValidationException $e) {
+                $auth_user->validation_errors['password']['match_old'] = true;
+                $page = 'edit';
+                break;
+            }
+            break;
+        default:
+            throw new PageNotFoundException();
+            break;
+        }
+
+        $this->set(get_defined_vars());
     }
 }
