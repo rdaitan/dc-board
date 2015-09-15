@@ -21,16 +21,6 @@ CREATE TABLE category (
     PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
-CREATE TABLE thread (
-    id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    title       VARCHAR(30),
-    category_id TINYINT UNSIGNED NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (category_id) REFERENCES category(id)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
-) ENGINE=InnoDB;
-
 CREATE TABLE user (
     id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
     username    VARCHAR(16) NOT NULL UNIQUE,
@@ -39,6 +29,20 @@ CREATE TABLE user (
     email       VARCHAR(30) NOT NULL UNIQUE,
     password    VARCHAR(60),
     PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+CREATE TABLE thread (
+    id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    title       VARCHAR(30),
+    category_id TINYINT UNSIGNED NOT NULL,
+    user_id     INT UNSIGNED NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (category_id) REFERENCES category(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES user(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE comment (
@@ -91,7 +95,7 @@ INSERT INTO user (username, first_name, last_name, email, password) VALUES ('ren
 --
 -- Thread
 --
-INSERT INTO thread (title, category_id) VALUES ('GUTEN MORGEN', 4);
+INSERT INTO thread (title, category_id, user_id) VALUES ('GUTEN MORGEN', 4, 1);
 
 --
 -- Comments
