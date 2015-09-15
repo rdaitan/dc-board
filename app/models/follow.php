@@ -20,6 +20,23 @@ class Follow extends AppModel
         return !$row ? false : new self($row);
     }
 
+    public static function getAll($user) {
+        if (!$user) {
+            return array();
+        }
+
+        $db     = DB::conn();
+        $rows   = $db->rows(sprintf('SELECT * FROM %s WHERE user_id=?', self::TABLE_NAME), array($user->id));
+
+        $follows = array();
+
+        foreach ($rows as $row) {
+            $follows[] = new self($row);
+        }
+
+        return $follows;
+    }
+
     public function create()
     {
         $db = DB::conn();
