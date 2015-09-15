@@ -25,4 +25,10 @@ class Follow extends AppModel
         $db = DB::conn();
         $db->insert(self::TABLE_NAME, array('thread_id' => $this->thread_id, 'user_id' => $this->user_id));
     }
+
+    public function remove()
+    {
+        $db = DB::conn();
+        $db->query(sprintf('DELETE FROM %s WHERE id=?', self::TABLE_NAME), array($this->id));
+    }
 }

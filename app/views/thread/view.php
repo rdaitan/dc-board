@@ -8,9 +8,9 @@
                 <a href='<?php eh(url(DELETE_THREAD_URL, array('id' => $thread->id))); ?>'>Delete thread</a>
             <?php endif; ?>
             <?php if ($thread->isFollowedBy($auth_user)): ?>
-                <a href="<?php eh(url(FOLLOW_URL, array('id' => $thread->id))); ?>">Unfollow</a>
+                <a href="<?php eh(url(UNFOLLOW_URL, array('id' => $thread->id))); ?>">Unfollow</a>
             <?php else: ?>
-                <a href="<?php eh(url(UNFOLLOW_URL, array('id' => $thread->id))); ?>">Follow</a>
+                <a href="<?php eh(url(FOLLOW_URL, array('id' => $thread->id))); ?>">Follow</a>
             <?php endif; ?>
         </div>
         <div class="offset-top">
