@@ -75,16 +75,16 @@ class Comment extends AppModel
         return $row ? new self($row) : false;
     }
 
-    public static function getTrendingThreadIds($limit)
+    // return the count of new comments today in each thread
+    public static function countToday()
     {
         $db = DB::conn();
-        return  $db->rows(
+        return $db->rows(
             sprintf(
                 'SELECT thread_id, COUNT(*) AS count FROM %s
-                    WHERE DATE(created_at)=DATE(CURRENT_TIMESTAMP) GROUP BY
-                    thread_id ORDER BY count DESC, created_at DESC LIMIT 0, %d',
-                self::TABLE_NAME,
-                $limit
+                    WHERE DATE(created_at)=DATE(CURRENT_TIMESTAMP)
+                    GROUP BY thread_id',
+                self::TABLE_NAME
             )
         );
     }
