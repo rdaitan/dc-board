@@ -13,6 +13,10 @@ class SearchController extends AppController
         $page       = Param::get('page', 1);
         $pagination = new SimplePagination($page, self::RESULTS_PERPAGE);
 
+        if (!$query) {
+            redirect(APP_URL);
+        }
+
         $search = new stdClass();
         switch($type) {
         case self::TYPE_THREAD:
