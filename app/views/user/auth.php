@@ -1,11 +1,15 @@
 <div class="row">
+    <h3>Login</h3>
+</div>
+<div class="row">
+    <?php if (isset($error)):?>
+        <div class="red">
+            <?php eh($error); ?>
+        </div>
+    <?php endif; ?>
+</div>
+<div class="row">
     <div class="col-md-6 col-md-offset-3">
-        <?php if (isset($error)):?>
-            <div class="alert alert-danger">
-                <h4>Error</h4>
-                <div><?php eh($error); ?></div>
-            </div>
-        <?php endif; ?>
         <form class='form-horizontal' action="<?php eh(url(LOGIN_URL)); ?>" method="post">
             <div class="form-group">
                 <div class="col-sm-12">
