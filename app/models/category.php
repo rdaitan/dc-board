@@ -15,4 +15,9 @@ class Category extends AppModel
 
         return $categories;
     }
+
+    public static function getName($id) {
+        $db = DB::conn();
+        return $db->value(sprintf("SELECT name FROM %s WHERE id=?", self::TABLE_NAME), array($id));
+    }
 }

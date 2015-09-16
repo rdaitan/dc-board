@@ -157,7 +157,7 @@ class User extends AppModel
     {
         $db = DB::conn();
 
-        $row = $db->row('SELECT * FROM user WHERE id=?', array($id));
+        $row = $db->row(sprintf('SELECT * FROM %s WHERE id=?', self::TABLE_NAME), array($id));
 
         return !$row ? false : new self($row);
     }
@@ -166,7 +166,7 @@ class User extends AppModel
     {
         $db = DB::conn();
 
-        $row = $db->row('SELECT * FROM user WHERE username=?', array($username));
+        $row = $db->row(sprintf('SELECT * %s WHERE username=?', self::TABLE_NAME), array($username));
 
         return !$row ? false : new self($row);
     }

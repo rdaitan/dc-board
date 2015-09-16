@@ -50,7 +50,7 @@ function print_pagination($pagination, $pages)
 {
     $page = Param::get('page', 1);
 
-    echo '<nav><ul class="pagination">';
+    echo '<ul class="pagination">';
 
     // previous button
     if ($pagination->current > 1) {
@@ -78,7 +78,7 @@ function print_pagination($pagination, $pages)
         echo "<li><a href='{$url}'>&raquo;</a></li>";
     }
 
-    echo '</ul></nav>';
+    echo '</ul>';
 }
 
 function get_current_url() {
