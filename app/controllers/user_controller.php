@@ -3,6 +3,7 @@ class UserController extends AppController
 {
     const ERROR_VAR                 = 'error';
     const ERROR_MESSAGE_USERPASS    = 'Incorrect username or password';
+    const ERROR_PASS_NOT_MATCH      = 1;
 
     public function create()
     {
@@ -13,15 +14,22 @@ class UserController extends AppController
 
         switch ($page) {
         case 'create_end':
-            $user->username     = trim(Param::get('username'));
-            $user->first_name   = trim_collapse(Param::get('first_name'));
-            $user->last_name    = trim_collapse(Param::get('last_name'));
-            $user->email        = trim(Param::get('email'));
-            $user->password     = Param::get('password');
+            $user->username         = trim(Param::get('username'));
+            $user->first_name       = trim_collapse(Param::get('first_name'));
+            $user->last_name        = trim_collapse(Param::get('last_name'));
+            $user->email            = trim(Param::get('email'));
+            $user->password         = Param::get('password');
+            $user->password_confirm = Param::get('password_confirm');
 
             try {
+                if ($user->password_confirm != $user->password_confirm) {
+                    throw new ValidationException (self::ERROR_PASS_NOT_MATCH);
+                }
                 $user->create();
             } catch (ValidationException $e) {
+                if ($e->getMessage() == self::ERROR_PASS_NOT_MATCH) {
+                    $user->validation_errors['password_confirm']['match'] = true;
+                }
                 $page = 'create';
             } catch (DuplicateEntryException $e) {
                 switch ($e->getMessage()) {

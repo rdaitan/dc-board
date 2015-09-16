@@ -13,7 +13,7 @@
 <body>
     <div class="nav">
         <!--Logo-->
-        <span class="brand">dc-board</span>
+        <span class="brand"><a href="<?php eh(url(APP_URL)); ?>">dc-board</a></span>
         <!--Search bar-->
         <form class="" action="<?php eh(url(SEARCH_URL)); ?>" method="get">
             <select class="" name="type">
