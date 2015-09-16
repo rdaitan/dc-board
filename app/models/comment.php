@@ -23,6 +23,33 @@ class Comment extends AppModel
         $this->username = $user->username;
     }
 
+    public static function search($query, $offset, $limit)
+    {
+        $db = DB::conn();
+        $rows = $db->rows(
+            sprintf(
+                "SELECT * FROM %s WHERE body LIKE ? ORDER BY id DESC LIMIT %d, %d",
+                self::TABLE_NAME,
+                $offset,
+                $limit
+            ),
+            array("%{$query}%")
+        );
+
+        $search                 = new Search(get_called_class(), $rows);
+        $search->total_result   = self::countResults($query);
+        return $search;
+    }
+
+    public static function countResults($query)
+    {
+        $db = DB::conn();
+        return $db->value(
+            sprintf("SELECT COUNT(*) FROM %s WHERE body LIKE ?", self::TABLE_NAME),
+            array("%{$query}%")
+        );
+    }
+
     public static function countAll($thread_id)
     {
         $db = DB::conn();

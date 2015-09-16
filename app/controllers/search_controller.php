@@ -23,6 +23,11 @@ class SearchController extends AppController
             );
             break;
         case self::TYPE_COMMENT:
+            $search = Comment::search(
+                $query,
+                $pagination->start_index - 1,
+                $pagination->count + 1
+            );
             break;
         case self::TYPE_USER:
             break;
