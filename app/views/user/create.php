@@ -73,6 +73,11 @@
                     in length.
                 </div>
             <?php endif; ?>
+            <?php if (!empty($user->validation_errors['password_confirm']['match'])): ?>
+                <div>
+                    <em>Passwords</em> does not match.
+                </div>
+            <?php endif; ?>
         </div>
     <?php endif; ?>
     <div>
@@ -90,29 +95,21 @@
                     <input class='u-full-width' type="text" name="last_name" id="last_name" value="<?php eh(Param::get('last_name')); ?>">
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-sm-10">
+            <label for="email">Email</label>
+            <input class='u-full-width' type="email" name="email" id="email" value="<?php eh(Param::get('email')); ?>">
+            <div class="row">
+                <div class="six columns">
+                    <label for="password">Password</label>
+                    <input class='u-full-width' type="password" name="password" id="password">
+                </div>
+                <div class="six columns">
+                    <label for="password_confirm">Confirm Password</label>
+                    <input class='u-full-width' type="password" name="password_confirm" id="password_confirm">
                 </div>
             </div>
-            <div class="form-group">
-                <label class='col-sm-2 control-label' for="email">Email</label>
-                <div class="col-sm-10">
-                    <input class='form-control' type="email" name="email" id="email" value="<?php eh(Param::get('email')); ?>">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class='col-sm-2 control-label' for="password">Password</label>
-                <div class="col-sm-10">
-                    <input class='form-control' type="password" name="password" id="password" value="<?php eh(Param::get('password')); ?>">
-                </div>
-            </div>
-            <div class="form-group">
-                <input type="hidden" name="page_next" value="create_end">
-                <div class="col-sm-10 col-sm-offset-2">
-                    <button class='btn btn-primary' type="submit">Register</button> or
-                    <a href="<?php eh(url(APP_URL)); ?>">cancel</a>
-                </div>
-            </div>
+            <input type="hidden" name="page_next" value="create_end">
+            <button class='btn btn-primary' type="submit">Register</button> or
+            <a href="<?php eh(url(APP_URL)); ?>">cancel</a>
         </form>
     </div>
 </div>
