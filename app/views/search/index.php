@@ -34,3 +34,5 @@
 <?php break; ?>
 <?php endswitch; ?>
 <?php endforeach; ?>
+
+<?php print_pagination($pagination, $pages) ?>
