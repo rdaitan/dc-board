@@ -105,7 +105,7 @@ class Comment extends AppModel
     {
         $comment = self::get($id);
 
-        if($comment) {
+        if ($comment) {
             return $comment;
         } else {
             throw new RecordNotFoundException();
@@ -166,7 +166,8 @@ class Comment extends AppModel
         );
     }
 
-    public function delete() {
+    public function delete()
+    {
         $db = DB::conn();
         $db->query(sprintf('DELETE FROM %s WHERE id=?', self::TABLE_NAME), array($this->id));
     }

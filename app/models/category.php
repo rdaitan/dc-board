@@ -3,7 +3,8 @@ class Category extends AppModel
 {
     const TABLE_NAME = 'category';
 
-    public static function getAll() {
+    public static function getAll()
+    {
         $db = DB::conn();
         $rows = $db->rows(sprintf('SELECT * FROM %s', self::TABLE_NAME));
 
@@ -16,7 +17,8 @@ class Category extends AppModel
         return $categories;
     }
 
-    public static function getName($id) {
+    public static function getName($id)
+    {
         $db = DB::conn();
         return $db->value(sprintf("SELECT name FROM %s WHERE id=?", self::TABLE_NAME), array($id));
     }

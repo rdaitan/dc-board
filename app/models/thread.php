@@ -108,8 +108,7 @@ class Thread extends AppModel
 
         usort(
             $threads,
-            function ($thread_a, $thread_b)
-            {
+            function ($thread_a, $thread_b) {
                 $diff = $thread_b->count - $thread_a->count;
 
                 if ($diff != 0) {
@@ -159,7 +158,7 @@ class Thread extends AppModel
 
     public function update(Comment $comment)
     {
-        if(!$this->validate() | !$comment->validate()) {
+        if (!$this->validate() | !$comment->validate()) {
             throw new ValidationException();
         }
 
