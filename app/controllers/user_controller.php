@@ -83,14 +83,14 @@ class UserController extends AppController
         if (User::getAuthenticated()) {
             session_destroy();
         }
-        redirect(APP_URL);;
+        redirect(APP_URL);
     }
 
     public function view()
     {
         $id = Param::get('id');
 
-        if($id) {
+        if ($id) {
             $user = User::getOrFail($id);
         } else {
             $user = User::getAuthenticated();

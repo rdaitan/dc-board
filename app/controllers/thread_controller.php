@@ -28,7 +28,7 @@ class ThreadController extends AppController
         $pages = ceil($total / self::THREADS_PERPAGE);
 
         // Get other info for each thread
-        foreach($threads as $thread) {
+        foreach ($threads as $thread) {
             $thread->creator        = User::getByID($thread->user_id);
             $thread->category       = Category::getName($thread->category_id);
             $thread->replies_count  = Comment::countAll($thread->id);
