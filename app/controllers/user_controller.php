@@ -22,7 +22,7 @@ class UserController extends AppController
             $user->password_confirm = Param::get('password_confirm');
 
             try {
-                if ($user->password_confirm != $user->password_confirm) {
+                if ($user->password_confirm != $user->password) {
                     throw new ValidationException (self::ERROR_PASS_NOT_MATCH);
                 }
                 $user->create();
