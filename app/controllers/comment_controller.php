@@ -9,7 +9,7 @@ class CommentController extends AppController
         $page       = Param::get('page_next');
         $auth_user  = User::getAuthenticated();
 
-        if(!$auth_user) {
+        if (!$auth_user) {
             return;
         }
 
@@ -71,7 +71,8 @@ class CommentController extends AppController
         $this->set(get_defined_vars());
     }
 
-    public function view() {
+    public function view()
+    {
         $comment    = Comment::getOrFail(Param::get('id'));
         $auth_user  = User::getAuthenticated();
 

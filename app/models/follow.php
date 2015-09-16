@@ -20,7 +20,8 @@ class Follow extends AppModel
         return !$row ? false : new self($row);
     }
 
-    public static function getAll($user) {
+    public static function getAll($user)
+    {
         if (!$user) {
             return array();
         }

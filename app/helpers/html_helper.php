@@ -50,7 +50,7 @@ function print_pagination($pagination, $pages)
 {
     $page = Param::get('page', 1);
 
-    echo '<nav><ul class="pagination">';
+    echo '<ul class="pagination">';
 
     // previous button
     if ($pagination->current > 1) {
@@ -78,18 +78,7 @@ function print_pagination($pagination, $pages)
         echo "<li><a href='{$url}'>&raquo;</a></li>";
     }
 
-    echo '</ul></nav>';
-}
-
-function get_current_url() {
-    return 'http://' . APP_HOST . url();
-}
-
-function get_edit_url($model) {
-    return url(
-        strtolower(get_class($model)) . '/edit',
-        array('id' => $model->id, 'return_url' => get_current_url())
-    );
+    echo '</ul>';
 }
 
 function verify_hash($str, $hash)

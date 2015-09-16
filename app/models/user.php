@@ -37,10 +37,11 @@ class User extends AppModel
             'length'    => array('validate_between', self::MIN_PASSWORD_LENGTH, self::MAX_PASSWORD_LENGTH))
     );
 
-    public static function getOrFail($id) {
+    public static function getOrFail($id)
+    {
         $user = self::getById($id);
 
-        if($user) {
+        if ($user) {
             return $user;
         } else {
             throw new RecordNotFoundException();
@@ -157,7 +158,7 @@ class User extends AppModel
     {
         $db = DB::conn();
 
-        $row = $db->row('SELECT * FROM user WHERE id=?', array($id));
+        $row = $db->row(sprintf('SELECT * FROM %s WHERE id=?', self::TABLE_NAME), array($id));
 
         return !$row ? false : new self($row);
     }
@@ -166,7 +167,7 @@ class User extends AppModel
     {
         $db = DB::conn();
 
-        $row = $db->row('SELECT * FROM user WHERE username=?', array($username));
+        $row = $db->row(sprintf('SELECT * FROM %s WHERE username=?', self::TABLE_NAME), array($username));
 
         return !$row ? false : new self($row);
     }

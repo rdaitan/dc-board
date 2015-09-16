@@ -53,7 +53,7 @@ class Comment extends AppModel
     public static function countAll($thread_id)
     {
         $db = DB::conn();
-        return $db->value("SELECT COUNT(*) FROM comment WHERE thread_id=?", array($thread_id));
+        return $db->value(sprintf("SELECT COUNT(*) FROM %s WHERE thread_id=?", self::TABLE_NAME), array($thread_id));
     }
 
     public static function getAll($thread_id, $offset, $limit)
@@ -62,7 +62,7 @@ class Comment extends AppModel
 
         $db     = DB::conn();
         $rows   = $db->rows(
-            sprintf("SELECT * FROM comment WHERE thread_id=? LIMIT %d, %d", $offset, $limit),
+            sprintf("SELECT * FROM %s WHERE thread_id=? LIMIT %d, %d", self::TABLE_NAME, $offset, $limit),
             array($thread_id)
         );
 
@@ -96,7 +96,7 @@ class Comment extends AppModel
     public static function get($id)
     {
         $db     = DB::conn();
-        $row    = $db->row("SELECT * FROM comment WHERE id=?", array($id));
+        $row    = $db->row(sprintf("SELECT * FROM %s WHERE id=?", self::TABLE_NAME), array($id));
 
         return $row ? new self($row) : false;
     }
@@ -105,7 +105,7 @@ class Comment extends AppModel
     {
         $comment = self::get($id);
 
-        if($comment) {
+        if ($comment) {
             return $comment;
         } else {
             throw new RecordNotFoundException();
@@ -166,9 +166,10 @@ class Comment extends AppModel
         );
     }
 
-    public function delete() {
+    public function delete()
+    {
         $db = DB::conn();
-        $db->query('DELETE FROM comment WHERE id=?', array($this->id));
+        $db->query(sprintf('DELETE FROM %s WHERE id=?', self::TABLE_NAME), array($this->id));
     }
 
     public function isOwnedBy($user)
