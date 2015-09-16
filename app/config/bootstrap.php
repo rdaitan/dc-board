@@ -16,6 +16,8 @@ require_once VENDOR_DIR.'SimpleDBI/SimpleDBI.php';
 
 // lib
 require_once LIB_DIR.'SimplePagination/SimplePagination.php';
+require_once LIB_DIR.'Search/Search.php';
+
 
 // config
 require_once CONFIG_DIR.'log.php';

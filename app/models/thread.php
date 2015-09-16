@@ -12,6 +12,33 @@ class Thread extends AppModel
         ),
     );
 
+    public static function search($query, $offset, $limit)
+    {
+        $db = DB::conn();
+        $rows = $db->rows(
+            sprintf(
+                "SELECT * FROM %s WHERE title LIKE ? ORDER BY id DESC LIMIT %d, %d",
+                self::TABLE_NAME,
+                $offset,
+                $limit
+            ),
+            array("%{$query}%")
+        );
+
+        $search                 = new Search(get_called_class(), $rows);
+        $search->total_result   = self::countResults($query);
+        return $search;
+    }
+
+    public static function countResults($query)
+    {
+        $db = DB::conn();
+        return $db->value(
+            sprintf("SELECT COUNT(*) FROM %s WHERE title LIKE ?", self::TABLE_NAME),
+            array("%{$query}%")
+        );
+    }
+
     public static function getAll($offset, $limit, $filter = null)
     {
         $where = is_null($filter) ? '' : sprintf('WHERE category_id=%d', $filter);

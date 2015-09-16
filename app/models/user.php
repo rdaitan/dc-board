@@ -47,6 +47,45 @@ class User extends AppModel
         }
     }
 
+    public static function search($query, $offset, $limit)
+    {
+        $db = DB::conn();
+        $rows = $db->rows(
+            sprintf(
+                "SELECT * FROM %s WHERE
+                    username LIKE :query OR
+                    first_name LIKE :query OR
+                    last_name LIKE :query OR
+                    email LIKE :query
+                    LIMIT %d, %d",
+                self::TABLE_NAME,
+                $offset,
+                $limit
+            ),
+            array('query' => "%{$query}%")
+        );
+
+        $search                 = new Search(get_called_class(), $rows);
+        $search->total_result   = self::countResults($query);
+        return $search;
+    }
+
+    public static function countResults($query)
+    {
+        $db = DB::conn();
+        return $db->value(
+            sprintf(
+                "SELECT * FROM %s WHERE
+                    username LIKE :query OR
+                    first_name LIKE :query OR
+                    last_name LIKE :query OR
+                    email LIKE :query",
+                self::TABLE_NAME
+            ),
+            array('query' => "%{$query}%")
+        );
+    }
+
     public function create()
     {
         if (!$this->validate()) {
