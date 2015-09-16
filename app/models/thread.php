@@ -25,13 +25,8 @@ class Thread extends AppModel
             array("%{$query}%")
         );
 
-        $search                 = new stdClass();
-        $search->result         = array();
+        $search                 = new Search(get_called_class(), $rows);
         $search->total_result   = self::countResults($query);
-
-        foreach ($rows as $row) {
-            $search->result[] = new Thread($row);
-        }
         return $search;
     }
 
