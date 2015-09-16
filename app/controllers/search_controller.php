@@ -30,6 +30,11 @@ class SearchController extends AppController
             );
             break;
         case self::TYPE_USER:
+            $search = User::search(
+                $query,
+                $pagination->start_index - 1,
+                $pagination->count + 1
+            );
             break;
         default:
             throw new PageNotFoundException();
