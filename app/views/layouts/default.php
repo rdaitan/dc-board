@@ -5,6 +5,8 @@
     <title>dc-board | <?php eh($title) ?></title>
     <link href="https://rawgit.com/dhg/Skeleton/master/css/normalize.css" rel="stylesheet" type="text/css">
     <link href="https://rawgit.com/dhg/Skeleton/master/css/skeleton.css" rel="stylesheet" type="text/css">
+    <!-- <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'> -->
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
     <link href="/css/dietcake-board.css" rel="stylesheet" type="text/css">
 </head>
 
@@ -29,6 +31,7 @@
                 <li><a href="<?php eh(url(LOGOUT_URL)); ?>">logout</a></li>
             <?php else: ?>
                 <li><a href="<?php eh(url(LOGIN_URL)); ?>">login</a></li>
+                <li><a href="<?php eh(url(REGISTER_URL)); ?>">register</a></li>
             <?php endif; ?>
         </ul>
     </div>
