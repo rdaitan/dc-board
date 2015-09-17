@@ -95,6 +95,10 @@ class CommentController extends AppController
             throw new PermissionException();
         }
 
+        if ($comment->isThreadBody()) {
+            redirect(DELETE_THREAD_URL, array('id' => $comment->thread_id));
+        }
+
         switch($page) {
         case 'delete':
             break;
