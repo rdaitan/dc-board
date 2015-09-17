@@ -26,6 +26,7 @@
         </form>
         <ul class="user-panel u-pull-right">
             <?php if ($auth_u = User::getAuthenticated()): ?>
+                <li><a href="<?php eh(url(VIEW_FOLLOWS_URL)); ?>">follows</a></li>
                 <li><a href="<?php eh(url(CREATE_THREAD_URL)) ?>">create_thread</a></li>
                 <li><a href="<?php eh(url(VIEW_USER_URL)); ?>"><?php eh($auth_u->username); ?></a></li>
                 <li><a href="<?php eh(url(LOGOUT_URL)); ?>">logout</a></li>

@@ -13,6 +13,7 @@ define('EDIT_COMMENT_URL',      'comment/edit');
 define('DELETE_COMMENT_URL',    'comment/delete');
 define('FOLLOW_URL',            'follow/add');
 define('UNFOLLOW_URL',          'follow/remove');
+define('VIEW_FOLLOWS_URL',      'follow/listall');
 define('VIEW_USER_URL',         'user/view');
 define('EDIT_USER_URL',         'user/edit');
 define('SEARCH_URL',            'search/index');
