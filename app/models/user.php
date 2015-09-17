@@ -125,23 +125,26 @@ class User extends AppModel
 
     public function update()
     {
-        if (!$this->validate()) {
-            throw new ValidationException('Invalid user information');
+        $this->validate();
+
+        if (!$this->change_password && $this->validation_errors['password']) {
+            unset ($this->validation_errors['password']);
+        }
+
+        if ($this->hasError()) {
+            throw new ValidationException();
         }
 
         $db = DB::conn();
-        try {
-            $db->update(
-                self::TABLE_NAME,
-                array(
-                    'first_name'    => $this->first_name,
-                    'last_name'     => $this->last_name,
-                    'password'      => bhash($this->password)
-                ),
-                array('id' => $this->id)
-            );
-        } catch (PDOException $e) {
-        }
+        $db->update(
+            self::TABLE_NAME,
+            array(
+                'first_name'    => $this->first_name,
+                'last_name'     => $this->last_name,
+                'password'      => $this->change_password ? bhash($this->password) : $this->password
+            ),
+            array('id' => $this->id)
+        );
     }
 
     // Returns the user that is authenticated via authenticate()

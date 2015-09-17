@@ -143,16 +143,20 @@ class UserController extends AppController
 
 
             try {
-                if (!verify_hash($auth_user->old_password, $auth_user->password)) {
-                    throw new ValidationException();
+                $auth_user->change_password = $auth_user->old_password || $auth_user->new_password;
+
+                if ($auth_user->change_password) {
+                    if (verify_hash($auth_user->old_password, $auth_user->password)) {
+                        $auth_user->password = $auth_user->new_password;
+                    } else {
+                        throw new ValidationException();
+                    }
                 }
-
-                $auth_user->password = $auth_user->new_password;
-
+                
                 $auth_user->update();
                 redirect(VIEW_USER_URL);
             } catch (ValidationException $e) {
-                $auth_user->validation_errors['password']['match_old'] = true;
+                $auth_user->validation_errors['password']['match_old'] = $auth_user->change_password;
                 $page = 'edit';
                 break;
             }

@@ -21,9 +21,11 @@ class CommentController extends AppController
 
             try {
                 $comment->create($thread);
+                redirect(VIEW_THREAD_URL, array('id' => $thread->id));
             } catch (ValidationException $e) {
                 $page = 'create';
             }
+
             break;
         default:
             throw new PageNotFoundException("{$page} is not found");
