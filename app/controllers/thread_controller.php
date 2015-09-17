@@ -4,6 +4,7 @@ class ThreadController extends AppController
     const THREADS_PERPAGE   = 10;
     const COMMENTS_PERPAGE  = 15;
     const TRENDING_LIMIT    = 10;
+    const LAST_PAGE         = 'last';
 
     /*
      * Show all threads.
@@ -47,22 +48,28 @@ class ThreadController extends AppController
      */
     public function view()
     {
-        // paginate comments
-        $page = Param::get('page', 1);
+        // get total number of pages
+        $thread = Thread::get(Param::get('id'));
+        $total  = Comment::countAll($thread->id);
+        $pages  = ceil($total / self::COMMENTS_PERPAGE);
 
+        $page = Param::get('page', 1) ;
+
+        // go to last page
+        if ($page == self::LAST_PAGE) {
+            $page = $pages;
+        }
+
+        // paginate comments
         $pagination = new SimplePagination($page, self::COMMENTS_PERPAGE);
 
-        $thread     = Thread::get(Param::get('id'));
-        $comments   = Comment::getAll(
+        $comments = Comment::getAll(
             $thread->id,
             $pagination->start_index - 1,
             $pagination->count + 1
         );
 
         $pagination->checkLastPage($comments);
-
-        $total = Comment::countAll($thread->id);
-        $pages = ceil($total / self::COMMENTS_PERPAGE);
 
         // set other variables needed by the view
         $auth_user = User::getAuthenticated();
@@ -95,9 +102,10 @@ class ThreadController extends AppController
                 $db->begin();
                 $thread->create($comment);
 
-                $follow             = new Follow();
-                $follow->thread_id  = $thread->id;
-                $follow->user_id    = $auth_user->id;
+                $follow                 = new Follow();
+                $follow->thread_id      = $thread->id;
+                $follow->user_id        = $auth_user->id;
+                $follow->last_comment   = Comment::getFirstInThread($thread)->id;
 
                 $follow->create();
 

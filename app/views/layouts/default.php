@@ -7,7 +7,8 @@
     <link href="https://rawgit.com/dhg/Skeleton/master/css/skeleton.css" rel="stylesheet" type="text/css">
     <!-- <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'> -->
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
-    <link href="/css/dietcake-board.css" rel="stylesheet" type="text/css">
+    <!-- <link href="/css/dietcake-board.css" rel="stylesheet" type="text/css"> -->
+    <link rel="stylesheet" href="https://cdn.rawgit.com/rdaitan/b3fb99b97ef11fe6b1ef/raw/d2055bdbe78a73b438f9521e61c0e43b42d04bd9/dietcake-board.css">
 </head>
 
 <body>
@@ -26,6 +27,7 @@
         </form>
         <ul class="user-panel u-pull-right">
             <?php if ($auth_u = User::getAuthenticated()): ?>
+                <li><a id='follow' href="<?php eh(url(VIEW_FOLLOWS_URL)); ?>">follows</a></li>
                 <li><a href="<?php eh(url(CREATE_THREAD_URL)) ?>">create_thread</a></li>
                 <li><a href="<?php eh(url(VIEW_USER_URL)); ?>"><?php eh($auth_u->username); ?></a></li>
                 <li><a href="<?php eh(url(LOGOUT_URL)); ?>">logout</a></li>
@@ -39,6 +41,9 @@
 
         <?php echo $_content_ ?>
     </div>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- <script src='/js/follow_updater.js'></script> -->
+    <script src='https://cdn.rawgit.com/rdaitan/85add4bed682318ec817/raw/176dccafa55638fa6452bf45fe4f2694f32d16ec/follow_updater.js'></script>
     <script>
     console.log(<?php eh(round(microtime(true) - TIME_START, 3)) ?> + 'sec');
     </script>

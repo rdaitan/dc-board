@@ -38,7 +38,7 @@
                         <a href="<?php eh(url(VIEW_USER_URL, array('id' => $thread->user_id))); ?>"><?php eh($thread->creator->username); ?></a>
                     </small>
                     <small class='u-pull-right'>
-                        replies: <i><?php eh($thread->replies_count); ?></i>
+                        replies: <i><?php eh($thread->replies_count - 1); ?></i>
                     </small>
 
                 </div>

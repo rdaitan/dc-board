@@ -113,11 +113,7 @@ class UserController extends AppController
 
         foreach ($follows as $follow_key => $follow_element) {
             $thread = Thread::get($follow_element->thread_id);
-            if ($thread->isOwnedBy($user)) {
-                unset($follows[$follow_key]);
-            } else {
-                $follow_element->thread_title = $thread->title;
-            }
+            $follow_element->thread_title = $thread->title;
         }
 
         $title = $user->username;
@@ -143,16 +139,20 @@ class UserController extends AppController
 
 
             try {
-                if (!verify_hash($auth_user->old_password, $auth_user->password)) {
-                    throw new ValidationException();
-                }
+                $auth_user->change_password = $auth_user->old_password || $auth_user->new_password;
 
-                $auth_user->password = $auth_user->new_password;
+                if ($auth_user->change_password) {
+                    if (verify_hash($auth_user->old_password, $auth_user->password)) {
+                        $auth_user->password = $auth_user->new_password;
+                    } else {
+                        throw new ValidationException();
+                    }
+                }
 
                 $auth_user->update();
                 redirect(VIEW_USER_URL);
             } catch (ValidationException $e) {
-                $auth_user->validation_errors['password']['match_old'] = true;
+                $auth_user->validation_errors['password']['match_old'] = $auth_user->change_password;
                 $page = 'edit';
                 break;
             }

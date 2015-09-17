@@ -62,9 +62,10 @@ CREATE TABLE comment (
 ) ENGINE=InnoDB;
 
 CREATE TABLE follow (
-    id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    thread_id   INT UNSIGNED NOT NULL,
-    user_id     INT UNSIGNED NOT NULL,
+    id              INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    thread_id       INT UNSIGNED NOT NULL,
+    user_id         INT UNSIGNED NOT NULL,
+    last_comment    INT UNSIGNED DEFAULT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (thread_id) REFERENCES thread(id)
         ON UPDATE CASCADE

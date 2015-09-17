@@ -90,3 +90,9 @@ function verify_hash($str, $hash)
 
     return $hashedPassword === $hash;
 }
+
+function send_json($json) {
+    header('Content-type: application/json; charset=utf-8');
+    echo json_encode($json);
+    die();
+}

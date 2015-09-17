@@ -51,15 +51,51 @@ class FollowController extends AppController
     {
         redirect_guest_user(LOGIN_URL);
 
-        $auth_user = User::getAuthenticated();
-        $follows = Follow::getAll($auth_user);
+        $auth_user  = User::getAuthenticated();
+        $follows    = Follow::getAll($auth_user);
+        $updates    = Follow::getUpdates($auth_user);
 
-        $threads = array();
+        $threads            = array();
+        $updated_threads    = array();
 
         foreach ($follows as $follow) {
             $threads[] = Thread::get($follow->thread_id);
         }
 
+        foreach ($updates as $update) {
+            $thread                 = Thread::get($update->thread_id);
+            $thread->update_count   = $update->count;
+            $thread->follow_id      = $update->id;
+            $updated_threads[]      = $thread;
+        }
+
         $this->set(get_defined_vars());
+    }
+
+    public function redirect()
+    {
+        $follow = Follow::getOrFail(Param::get('id'));
+        $thread = Thread::get($follow->thread_id);
+        $last_comment = Comment::getLastInThread($thread);
+
+        if (!$last_comment) {
+            throw new RecordNotFoundException();
+        }
+
+        $follow->last_comment = $last_comment->id;
+        $follow->update();
+
+        redirect(VIEW_THREAD_URL, array('id' => $thread->id, 'page' => ThreadController::LAST_PAGE));
+    }
+
+    public function update()
+    {
+        $auth_user = User::getAuthenticated();
+
+        if (!$auth_user) {
+            throw new PermissionException();
+        }
+        
+        send_json(array('hasUpdates' => Follow::getUpdates($auth_user) ? true : false));
     }
 }
