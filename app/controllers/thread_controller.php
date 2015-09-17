@@ -147,7 +147,7 @@ class ThreadController extends AppController
 
             try {
                 $thread->update($comment);
-                redirect(APP_URL);  // TODO: redirect to actual thread
+                redirect(VIEW_THREAD_URL, array('id' => $thread->id));  // TODO: redirect to actual thread
             } catch (ValidationException $e) {
                 $page = 'edit';
             } catch (CategoryException $e) {
