@@ -1,9 +1,6 @@
 <div class="row">
     <h3><?php eh($thread->title) ?></h3>
 </div>
-<div class="row">
-
-</div>
 <!--thread controls-->
 <div class="row">
     <a href='<?php eh(url(APP_URL)); ?>'>&larr; All threads</a>
