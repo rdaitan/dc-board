@@ -30,7 +30,7 @@
         <textarea class='u-full-width' id='body' name="body"><?php eh(Param::get('body')); ?></textarea>
         <input type="hidden" name="thread_id" value="<?php eh($thread->id) ?>">
         <input type="hidden" name="page_next" value="create_end">
-        <button type="submit" class="btn btn-primary">Submit</button> or
+        <button type="submit">Submit</button> or
         <a href="<?php eh(url(VIEW_THREAD_URL, array('id' => $thread->id))); ?>">cancel</a>
     </form>
 </div>

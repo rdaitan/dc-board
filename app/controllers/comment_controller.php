@@ -43,6 +43,7 @@ class CommentController extends AppController
         $page       = Param::get('page_next', 'edit');
         $auth_user  = User::getAuthenticated();
         $comment    = Comment::getOrFail($id);
+        $thread     = Thread::get($comment->thread_id);
 
         if (!$comment->isOwnedBy($auth_user)) {
             throw new PermissionException();
@@ -56,7 +57,7 @@ class CommentController extends AppController
                 $comment->body = Param::get('body');
                 $comment->update();
 
-                redirect(LIST_THREADS_URL);
+                redirect(VIEW_THREAD_URL, array('id' => $thread->id));
             } catch (ValidationException $e) {
                 $page = 'edit';
             }
