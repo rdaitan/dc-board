@@ -64,10 +64,8 @@ class ThreadController extends AppController
         $total = Comment::countAll($thread->id);
         $pages = ceil($total / self::COMMENTS_PERPAGE);
 
-        // set other comment information needed by the view.
-        $auth_user = User::getAuthenticated();
-
         // set other variables needed by the view
+        $auth_user = User::getAuthenticated();
         $title = $thread->title;
         $this->set(get_defined_vars());
     }
@@ -80,10 +78,10 @@ class ThreadController extends AppController
         $comment = new Comment();
         $page    = Param::get('page_next', 'create');
         $auth_user = User::getAuthenticated();
+        $categories = Category::getAll();
 
         switch ($page) {
         case 'create':
-            $categories = Category::getAll();
             break;
         case 'create_end':
             $thread->title          = trim_collapse(Param::get('title'));
@@ -104,12 +102,12 @@ class ThreadController extends AppController
                 $follow->create();
 
                 $db->commit();
+                redirect(VIEW_THREAD_URL, array('id' => $thread->id));
             } catch (ValidationException $e) {
                 $page = 'create';
                 $db->rollback();
             } catch (CategoryException $e) {
                 $thread->validation_errors['category']['exists'] = true;
-                $categories = Category::getAll();
                 $page = 'create';
                 $db->rollback();
             }
@@ -147,7 +145,7 @@ class ThreadController extends AppController
 
             try {
                 $thread->update($comment);
-                redirect(APP_URL);  // TODO: redirect to actual thread
+                redirect(VIEW_THREAD_URL, array('id' => $thread->id));  // TODO: redirect to actual thread
             } catch (ValidationException $e) {
                 $page = 'edit';
             } catch (CategoryException $e) {

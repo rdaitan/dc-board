@@ -179,7 +179,7 @@ class User extends AppModel
     {
         $user = User::getByUsername($username);
 
-        if (!verify_hash($password, $user->password)) {
+        if (!$user || !verify_hash($password, $user->password)) {
             return false;
         }
 

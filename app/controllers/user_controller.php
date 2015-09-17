@@ -96,21 +96,31 @@ class UserController extends AppController
 
     public function view()
     {
-        $id = Param::get('id');
+        $id         = Param::get('id');
+        $auth_user  = User::getAuthenticated();
 
         if ($id) {
             $user = User::getOrFail($id);
+        } elseif ($auth_user) {
+            $user = $auth_user;
         } else {
-            $user = User::getAuthenticated();
+            throw new RecordNotFoundException();
+        }
 
-            if (!$user) {
-                throw new RecordNotFoundException();
+        $threads    = Thread::getAllByUser($user);
+        $comments   = Comment::getAllByUser($user);
+        $follows    = Follow::getAll($user);
+
+        foreach ($follows as $follow_key => $follow_element) {
+            $thread = Thread::get($follow_element->thread_id);
+            if ($thread->isOwnedBy($user)) {
+                unset($follows[$follow_key]);
+            } else {
+                $follow_element->thread_title = $thread->title;
             }
         }
 
-        $threads = Thread::getAllByUser($user);
-        $comments = Comment::getAllByUser($user);
-
+        $title = $user->username;
         $this->set(get_defined_vars());
     }
 
@@ -152,6 +162,7 @@ class UserController extends AppController
             break;
         }
 
+        $title = 'Edit Profile';
         $this->set(get_defined_vars());
     }
 }

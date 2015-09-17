@@ -19,8 +19,8 @@ class Comment extends AppModel
             return;
         }
 
-        $user = User::getById($this->user_id);
-        $this->username = $user->username;
+        $user       = User::getById($this->user_id);
+        $this->user = $user;
     }
 
     public static function search($query, $offset, $limit)
