@@ -21,6 +21,18 @@ class CommentController extends AppController
 
             try {
                 $comment->create($thread);
+
+                $follow = Follow::getByThreadAndUser($thread->id, $comment->user_id);
+
+                if ($follow) {
+                    $thread = Thread::get($thread->id);
+                    $last_comment = Comment::getLastInThread($thread);
+                    if ($last_comment) {
+                        $follow->last_comment = $last_comment->id;
+                        $follow->update();
+                    }
+                }
+
                 redirect(VIEW_THREAD_URL, array('id' => $thread->id));
             } catch (ValidationException $e) {
                 $page = 'create';

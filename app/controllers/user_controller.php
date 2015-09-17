@@ -113,11 +113,7 @@ class UserController extends AppController
 
         foreach ($follows as $follow_key => $follow_element) {
             $thread = Thread::get($follow_element->thread_id);
-            if ($thread->isOwnedBy($user)) {
-                unset($follows[$follow_key]);
-            } else {
-                $follow_element->thread_title = $thread->title;
-            }
+            $follow_element->thread_title = $thread->title;
         }
 
         $title = $user->username;
@@ -152,7 +148,7 @@ class UserController extends AppController
                         throw new ValidationException();
                     }
                 }
-                
+
                 $auth_user->update();
                 redirect(VIEW_USER_URL);
             } catch (ValidationException $e) {
