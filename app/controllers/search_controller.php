@@ -25,6 +25,12 @@ class SearchController extends AppController
                 $pagination->start_index - 1,
                 $pagination->count + 1
             );
+            // Get other info for each thread
+            foreach ($search->result as $thread) {
+                $thread->creator        = User::getByID($thread->user_id);
+                $thread->category       = Category::getName($thread->category_id);
+                $thread->replies_count  = Comment::countAll($thread->id);
+            }
             break;
         case self::TYPE_COMMENT:
             $search = Comment::search(

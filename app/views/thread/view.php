@@ -23,7 +23,7 @@
             <div>
                 <small>
                     <a href="<?php eh(url(VIEW_COMMENT_URL, array('id' => $comment->id))); ?>">#<?php eh($comment->id); ?></a>
-                    <strong><a href="<?php eh(url(VIEW_USER_URL, array('id' => $user->id))); ?>"><?php eh($comment->username); ?></a></strong>
+                    <strong><a href="<?php eh(url(VIEW_USER_URL, array('id' => $comment->user->id))); ?>"><?php eh($comment->user->username); ?></a></strong>
                         <span class='pad'>
                             created at:
                             <?php eh($comment->created_at); ?>

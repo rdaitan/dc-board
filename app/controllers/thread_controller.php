@@ -64,10 +64,8 @@ class ThreadController extends AppController
         $total = Comment::countAll($thread->id);
         $pages = ceil($total / self::COMMENTS_PERPAGE);
 
-        // set other comment information needed by the view.
-        $auth_user = User::getAuthenticated();
-
         // set other variables needed by the view
+        $auth_user = User::getAuthenticated();
         $title = $thread->title;
         $this->set(get_defined_vars());
     }

@@ -2,7 +2,7 @@
 <div class="plank">
     <small>
         <a href="<?php eh($comment->url); ?>">no.<?php eh($comment->id); ?></a>
-        <?php eh($comment->username); ?>
+        <?php eh($comment->user->username); ?>
         <?php eh($comment->created_at); ?>
         <?php
             if ($comment->created_at != $comment->edited_at):
