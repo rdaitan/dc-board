@@ -17,3 +17,4 @@ define('VIEW_FOLLOWS_URL',      'follow/listall');
 define('VIEW_USER_URL',         'user/view');
 define('EDIT_USER_URL',         'user/edit');
 define('SEARCH_URL',            'search/index');
+define('REDIRECT_FOLLOW_URL',   'follow/redirect');

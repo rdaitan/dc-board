@@ -56,6 +56,15 @@ class Comment extends AppModel
         return $db->value(sprintf("SELECT COUNT(*) FROM %s WHERE thread_id=?", self::TABLE_NAME), array($thread_id));
     }
 
+    public static function countAllAfter($thread_id, $comment_id)
+    {
+        $db = DB::conn();
+        return $db->value(
+            sprintf("SELECT COUNT(*) FROM %s WHERE id > ? AND thread_id=? GROUP BY thread_id", self::TABLE_NAME),
+            array($comment_id, $thread_id)
+        );
+    }
+
     public static function getAll($thread_id, $offset, $limit)
     {
 
@@ -115,7 +124,15 @@ class Comment extends AppModel
     public static function getFirstInThread(Thread $thread)
     {
         $db     = DB::conn();
-        $row    = $db->row(sprintf('SELECT * FROM %s WHERE thread_id=?', self::TABLE_NAME), array($thread->id));
+        $row    = $db->row(sprintf('SELECT * FROM %s WHERE thread_id=? LIMIT 0, 1', self::TABLE_NAME), array($thread->id));
+
+        return $row ? new self($row) : false;
+    }
+
+    public static function getLastInThread(Thread $thread)
+    {
+        $db     = DB::conn();
+        $row    = $db->row(sprintf('SELECT * FROM %s WHERE thread_id=? ORDER BY id DESC LIMIT 0, 1', self::TABLE_NAME), array($thread->id));
 
         return $row ? new self($row) : false;
     }
@@ -160,7 +177,7 @@ class Comment extends AppModel
 
         $db = DB::conn();
         $db->update(
-            'comment',
+            self::TABLE_NAME,
             array('body' => $this->body),
             array('id' => $this->id)
         );
