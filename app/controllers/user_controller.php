@@ -120,6 +120,7 @@ class UserController extends AppController
             }
         }
 
+        $title = $user->username;
         $this->set(get_defined_vars());
     }
 
@@ -161,6 +162,7 @@ class UserController extends AppController
             break;
         }
 
+        $title = 'Edit Profile';
         $this->set(get_defined_vars());
     }
 }
