@@ -1,68 +1,58 @@
 <div class="row">
-    <div class="col-md-6 col-md-offset-3">
-        <?php if ($thread->hasError() || $comment->hasError()) : ?>
-            <div class="alert alert-danger">
-                <h4 class="alert-heading">Validation error!</h4>
-                <?php if (!empty($thread->validation_errors['title']['length'])) : ?>
-                    <div>
-                        <em>Title</em> must be between
-                        <?php eh($thread->validation['title']['length'][1]); ?> and
-                        <?php eh($thread->validation['title']['length'][2]); ?>
-                        characters in length.
-                    </div>
-                <?php endif; ?>
-                <?php if (!empty($thread->validation_errors['category']['exists'])) : ?>
-                    <div>
-                        <em>Category</em> must be exist.
-                    </div>
-                <?php endif; ?>
-                <?php if (!empty($comment->validation_errors['body']['length'])) : ?>
-                    <div>
-                        <em>Comment</em> must be between
-                        <?php eh($comment->validation['body']['length'][1]); ?> and
-                        <?php eh($comment->validation['body']['length'][2]); ?>
-                        characters in length.
-                    </div>
-                <?php endif; ?>
-            </div>
-        <?php endif; ?>
-
-        <!--Thread creation form-->
-        <form action="<?php eh(url('')); ?>" class="form-horizontal" method="post">
-            <div class="form-group">
-                <div class="col-sm-12">
-                    <h3>Create a thread</h3>
+    <h3>Create thread</h3>
+</div>
+<div class="row">
+    <?php if ($thread->hasError() || $comment->hasError()) : ?>
+        <div class="red">
+            <?php if (!empty($thread->validation_errors['title']['length'])) : ?>
+                <div>
+                    <em>Title</em> must be between
+                    <?php eh($thread->validation['title']['length'][1]); ?> and
+                    <?php eh($thread->validation['title']['length'][2]); ?>
+                    characters in length.
                 </div>
-            </div>
-            <div class="form-group">
-                <label  class='col-sm-2 control-label' for="">Title</label>
-                <div class="col-sm-10">
-                    <input type="text" class='form-control' name="title" class="span2" value="<?php eh(Param::get('title')); ?>">
+            <?php endif; ?>
+            <?php if (!empty($thread->validation_errors['category']['exists'])) : ?>
+                <div>
+                    <em>Category</em> must be exist.
                 </div>
-            </div>
-            <div class="form-group">
-                <label  class='col-sm-2 control-label' for="">Category</label>
-                <div class="col-sm-10">
-                    <select name="category" id="category">
-                        <?php foreach ($categories as $category): ?>
-                            <option value="<?php eh($category->id); ?>"><?php eh($category->name); ?></option>
-                        <?php endforeach; ?>
-                    </select>
+            <?php endif; ?>
+            <?php if (!empty($comment->validation_errors['body']['length'])) : ?>
+                <div>
+                    <em>Comment</em> must be between
+                    <?php eh($comment->validation['body']['length'][1]); ?> and
+                    <?php eh($comment->validation['body']['length'][2]); ?>
+                    characters in length.
                 </div>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
+</div>
+<!--Thread creation form-->
+<div class="row">
+    <form action="<?php eh(url('')); ?>" method="post">
+        <div class="row">
+            <div class="six columns">
+                <label for="title">Title</label>
+                <input type="text" class='u-full-width' id='title' name="title" value="<?php eh(Param::get('title')); ?>">
             </div>
-            <div class="form-group">
-                <label class='col-sm-2 control-label' for="">Body</label>
-                <div class="col-sm-10">
-                    <textarea class='form-control' name="body"><?php eh(Param::get('body')); ?></textarea>
-                </div>
+            <div class="six columns">
+                <label  class='col-sm-2 control-label' for="category">Category</label>
+                <select class='u-full-width' name="category" id="category">
+                    <?php foreach ($categories as $category): ?>
+                        <option value="<?php eh($category->id); ?>" <?php eh(isset($thread->category_id) && $thread->category_id == $category->id ? 'selected' : '')?>><?php eh($category->name); ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
-            <div class="form-group">
-                <input type="hidden" name="page_next" value="create_end">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-primary">Submit</button> or
-                    <a href="<?php eh(url(APP_URL)) ?>">cancel</a>
-                </div>
-            </div>
-        </form>
-    </div>
+        </div>
+        <div class="row">
+            <label class='col-sm-2 control-label' for="body">Body</label>
+            <textarea class='u-full-width' name="body" id='body'><?php eh(Param::get('body')); ?></textarea>
+        </div>
+        <div class="row">
+            <input type="hidden" name="page_next" value="create_end">
+            <button type="submit">Submit</button> or
+            <a href="<?php eh(url(APP_URL)) ?>">cancel</a>
+        </div>
+    </form>
 </div>
