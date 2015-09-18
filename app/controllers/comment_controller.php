@@ -16,7 +16,7 @@ class CommentController extends AppController
         switch ($page) {
         case 'create_end':
             $comment            = new Comment();
-            $comment->body      = Param::get('body');
+            $comment->body      = trim(Param::get('body'));
             $comment->user_id   = $auth_user->id;
 
             try {
@@ -68,7 +68,7 @@ class CommentController extends AppController
             break;
         case 'edit_end':
             try {
-                $comment->body = Param::get('body');
+                $comment->body = trim(Param::get('body'));
                 $comment->update();
 
                 redirect(VIEW_THREAD_URL, array('id' => $thread->id));
