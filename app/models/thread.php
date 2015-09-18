@@ -3,7 +3,6 @@ class Thread extends AppModel
 {
     const MIN_TITLE_LENGTH  = 1;
     const MAX_TITLE_LENGTH  = 30;
-    const TABLE_NAME        = 'thread';
     const ERR_CATEGORY      = 1452; // actually a foreign key constraint failure.
 
     public $validation = array(
@@ -17,8 +16,7 @@ class Thread extends AppModel
         $db = DB::conn();
         $rows = $db->rows(
             sprintf(
-                "SELECT * FROM %s WHERE title LIKE ? ORDER BY id DESC LIMIT %d, %d",
-                self::TABLE_NAME,
+                "SELECT * FROM thread WHERE title LIKE ? ORDER BY id DESC LIMIT %d, %d",
                 $offset,
                 $limit
             ),
@@ -34,7 +32,7 @@ class Thread extends AppModel
     {
         $db = DB::conn();
         return $db->value(
-            sprintf("SELECT COUNT(*) FROM %s WHERE title LIKE ?", self::TABLE_NAME),
+            "SELECT COUNT(*) FROM thread WHERE title LIKE ?",
             array("%{$query}%")
         );
     }
@@ -45,7 +43,7 @@ class Thread extends AppModel
 
         $db     = DB::conn();
         $rows   = $db->rows(
-            sprintf("SELECT * FROM %s %s ORDER BY id DESC LIMIT %d, %d", self::TABLE_NAME, $where, $offset, $limit)
+            sprintf("SELECT * FROM thread %s ORDER BY id DESC LIMIT %d, %d", $where, $offset, $limit)
         );
 
         $threads = array();
@@ -61,7 +59,7 @@ class Thread extends AppModel
     {
         $db     = DB::conn();
         $rows   = $db->rows(
-            sprintf('SELECT * FROM %s WHERE user_id=? ORDER BY id DESC', self::TABLE_NAME),
+            'SELECT * FROM thread WHERE user_id=? ORDER BY id DESC',
             array($user->id)
         );
 
@@ -77,7 +75,7 @@ class Thread extends AppModel
     public static function get($id)
     {
         $db     = DB::conn();
-        $row    = $db->row(sprintf('SELECT * FROM %s WHERE id=?', self::TABLE_NAME), array($id));
+        $row    = $db->row('SELECT * FROM thread WHERE id=?', array($id));
 
         if (!$row) {
             throw new RecordNotFoundException('No record found');
@@ -91,7 +89,7 @@ class Thread extends AppModel
         $where = is_null($filter) ? '' : sprintf('WHERE category_id=%d', $filter);
 
         $db = DB::conn();
-        return $db->value(sprintf("SELECT COUNT(*) FROM %s %s", self::TABLE_NAME, $where));
+        return $db->value(sprintf("SELECT COUNT(*) FROM thread %s", $where));
     }
 
     public static function getTrending($limit)
@@ -166,7 +164,7 @@ class Thread extends AppModel
         try {
             $db->begin();
             $db->update(
-                self::TABLE_NAME,
+                'thread',
                 array('title' => $this->title, 'category_id' => $this->category_id),
                 array('id' => $this->id)
             );
@@ -184,7 +182,7 @@ class Thread extends AppModel
     public function delete()
     {
         $db = DB::conn();
-        $db->query(sprintf('DELETE FROM %s WHERE id=?', self::TABLE_NAME), array($this->id));
+        $db->query('DELETE FROM thread WHERE id=?', array($this->id));
     }
 
     public function isAuthor($user)

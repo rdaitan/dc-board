@@ -7,10 +7,7 @@ class Follow extends AppModel
     {
         $db = DB::conn();
         $row = $db->row(
-            sprintf(
-                'SELECT * FROM %s WHERE thread_id=? AND user_id=?',
-                self::TABLE_NAME
-            ),
+                'SELECT * FROM follow WHERE thread_id=? AND user_id=?',
             array(
                 $thread_id,
                 $user_id
@@ -27,7 +24,7 @@ class Follow extends AppModel
         }
 
         $db     = DB::conn();
-        $rows   = $db->rows(sprintf('SELECT * FROM %s WHERE user_id=?', self::TABLE_NAME), array($user->id));
+        $rows   = $db->rows('SELECT * FROM follow WHERE user_id=?', array($user->id));
 
         $follows = array();
 
@@ -40,7 +37,7 @@ class Follow extends AppModel
 
     public static function getOrFail($id) {
         $db = DB::conn();
-        $row = $db->row(sprintf('SELECT * FROM %s WHERE id=?', self::TABLE_NAME), array($id));
+        $row = $db->row('SELECT * FROM follow WHERE id=?', array($id));
 
         if ($row) {
             return new self($row);
@@ -70,7 +67,7 @@ class Follow extends AppModel
         $db = DB::conn();
         try {
             $db->insert(
-                self::TABLE_NAME,
+                'follow',
                 array(
                     'thread_id'     => $this->thread_id,
                     'user_id'       => $this->user_id,
@@ -85,14 +82,14 @@ class Follow extends AppModel
     public function remove()
     {
         $db = DB::conn();
-        $db->query(sprintf('DELETE FROM %s WHERE id=?', self::TABLE_NAME), array($this->id));
+        $db->query('DELETE FROM follow WHERE id=?', array($this->id));
     }
 
     public function update()
     {
         $db = DB::conn();
         $db->update(
-            self::TABLE_NAME,
+            'follow',
             array('last_comment' => $this->last_comment),
             array('id' => $this->id)
         );

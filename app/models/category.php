@@ -6,7 +6,7 @@ class Category extends AppModel
     public static function getAll()
     {
         $db = DB::conn();
-        $rows = $db->rows(sprintf('SELECT * FROM %s', self::TABLE_NAME));
+        $rows = $db->rows('SELECT * FROM category');
 
         $categories = array();
 
@@ -20,6 +20,6 @@ class Category extends AppModel
     public static function getName($id)
     {
         $db = DB::conn();
-        return $db->value(sprintf("SELECT name FROM %s WHERE id=?", self::TABLE_NAME), array($id));
+        return $db->value("SELECT name FROM category WHERE id=?", array($id));
     }
 }

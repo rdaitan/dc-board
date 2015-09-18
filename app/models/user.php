@@ -13,7 +13,6 @@ class User extends AppModel
     const ERR_DUPLICATE_ENTRY       = 1062;
     const ERR_DUPLICATE_USERNAME    = 1;
     const ERR_DUPLICATE_EMAIL       = 2;
-    const TABLE_NAME                = 'user';
 
     public $validation = array(
         'username'      => array(
@@ -52,13 +51,12 @@ class User extends AppModel
         $db = DB::conn();
         $rows = $db->rows(
             sprintf(
-                "SELECT * FROM %s WHERE
+                "SELECT * FROM user WHERE
                     username LIKE :query OR
                     first_name LIKE :query OR
                     last_name LIKE :query OR
                     email LIKE :query
                     LIMIT %d, %d",
-                self::TABLE_NAME,
                 $offset,
                 $limit
             ),
@@ -74,14 +72,11 @@ class User extends AppModel
     {
         $db = DB::conn();
         return $db->value(
-            sprintf(
-                "SELECT * FROM %s WHERE
-                    username LIKE :query OR
-                    first_name LIKE :query OR
-                    last_name LIKE :query OR
-                    email LIKE :query",
-                self::TABLE_NAME
-            ),
+            "SELECT * FROM user WHERE
+                username LIKE :query OR
+                first_name LIKE :query OR
+                last_name LIKE :query OR
+                email LIKE :query",
             array('query' => "%{$query}%")
         );
     }
@@ -149,7 +144,7 @@ class User extends AppModel
 
         $db = DB::conn();
         $db->update(
-            self::TABLE_NAME,
+            'user',
             array(
                 'first_name'    => $this->first_name,
                 'last_name'     => $this->last_name,
@@ -173,7 +168,7 @@ class User extends AppModel
     {
         $db = DB::conn();
 
-        $row = $db->row(sprintf('SELECT * FROM %s WHERE id=?', self::TABLE_NAME), array($id));
+        $row = $db->row('SELECT * FROM user WHERE id=?', array($id));
 
         return !$row ? false : new self($row);
     }
@@ -182,7 +177,7 @@ class User extends AppModel
     {
         $db = DB::conn();
 
-        $row = $db->row(sprintf('SELECT * FROM %s WHERE username=?', self::TABLE_NAME), array($username));
+        $row = $db->row('SELECT * FROM user WHERE username=?', array($username));
 
         return !$row ? false : new self($row);
     }

@@ -3,7 +3,6 @@ class Comment extends AppModel
 {
     const MIN_BODY_LENGTH   = 1;
     const MAX_BODY_LENGTH   = 200;
-    const TABLE_NAME        = 'comment';
 
     public $validation = array(
         'body' => array(
@@ -28,8 +27,7 @@ class Comment extends AppModel
         $db = DB::conn();
         $rows = $db->rows(
             sprintf(
-                "SELECT * FROM %s WHERE body LIKE ? ORDER BY id DESC LIMIT %d, %d",
-                self::TABLE_NAME,
+                "SELECT * FROM comment WHERE body LIKE ? ORDER BY id DESC LIMIT %d, %d",
                 $offset,
                 $limit
             ),
@@ -45,7 +43,7 @@ class Comment extends AppModel
     {
         $db = DB::conn();
         return $db->value(
-            sprintf("SELECT COUNT(*) FROM %s WHERE body LIKE ?", self::TABLE_NAME),
+            "SELECT COUNT(*) FROM comment WHERE body LIKE ?",
             array("%{$query}%")
         );
     }
@@ -53,14 +51,14 @@ class Comment extends AppModel
     public static function countAll($thread_id)
     {
         $db = DB::conn();
-        return $db->value(sprintf("SELECT COUNT(*) FROM %s WHERE thread_id=?", self::TABLE_NAME), array($thread_id));
+        return $db->value("SELECT COUNT(*) FROM comment WHERE thread_id=?", array($thread_id));
     }
 
     public static function countAllAfter($thread_id, $comment_id)
     {
         $db = DB::conn();
         return $db->value(
-            sprintf("SELECT COUNT(*) FROM %s WHERE id > ? AND thread_id=? GROUP BY thread_id", self::TABLE_NAME),
+            "SELECT COUNT(*) FROM comment WHERE id > ? AND thread_id=? GROUP BY thread_id",
             array($comment_id, $thread_id)
         );
     }
@@ -71,7 +69,7 @@ class Comment extends AppModel
 
         $db     = DB::conn();
         $rows   = $db->rows(
-            sprintf("SELECT * FROM %s WHERE thread_id=? LIMIT %d, %d", self::TABLE_NAME, $offset, $limit),
+            sprintf("SELECT * FROM comment WHERE thread_id=? LIMIT %d, %d", $offset, $limit),
             array($thread_id)
         );
 
@@ -88,7 +86,7 @@ class Comment extends AppModel
     {
         $db     = DB::conn();
         $rows   = $db->rows(
-            sprintf('SELECT * FROM %s WHERE user_id=? ORDER BY id DESC', self::TABLE_NAME),
+            'SELECT * FROM comment WHERE user_id=? ORDER BY id DESC',
             array($user->id)
         );
 
@@ -105,7 +103,7 @@ class Comment extends AppModel
     public static function get($id)
     {
         $db     = DB::conn();
-        $row    = $db->row(sprintf("SELECT * FROM %s WHERE id=?", self::TABLE_NAME), array($id));
+        $row    = $db->row("SELECT * FROM comment WHERE id=?", array($id));
 
         return $row ? new self($row) : false;
     }
@@ -124,7 +122,7 @@ class Comment extends AppModel
     public static function getFirstInThread(Thread $thread)
     {
         $db     = DB::conn();
-        $row    = $db->row(sprintf('SELECT * FROM %s WHERE thread_id=?', self::TABLE_NAME), array($thread->id));
+        $row    = $db->row('SELECT * FROM comment WHERE thread_id=?', array($thread->id));
 
         return $row ? new self($row) : false;
     }
@@ -132,7 +130,7 @@ class Comment extends AppModel
     public static function getLastInThread(Thread $thread)
     {
         $db     = DB::conn();
-        $row    = $db->row(sprintf('SELECT * FROM %s WHERE thread_id=? ORDER BY id', self::TABLE_NAME), array($thread->id));
+        $row    = $db->row('SELECT * FROM comment WHERE thread_id=? ORDER BY id DESC', array($thread->id));
 
         return $row ? new self($row) : false;
     }
@@ -142,12 +140,9 @@ class Comment extends AppModel
     {
         $db = DB::conn();
         return $db->rows(
-            sprintf(
-                'SELECT thread_id, COUNT(*) AS count FROM %s
-                    WHERE DATE(created_at)=DATE(CURRENT_TIMESTAMP)
-                    GROUP BY thread_id',
-                self::TABLE_NAME
-            )
+            'SELECT thread_id, COUNT(*) AS count FROM comment
+                WHERE DATE(created_at)=DATE(CURRENT_TIMESTAMP)
+                GROUP BY thread_id'
         );
     }
 
@@ -177,7 +172,7 @@ class Comment extends AppModel
 
         $db = DB::conn();
         $db->update(
-            self::TABLE_NAME,
+            'comment',
             array('body' => $this->body),
             array('id' => $this->id)
         );
@@ -186,7 +181,7 @@ class Comment extends AppModel
     public function delete()
     {
         $db = DB::conn();
-        $db->query(sprintf('DELETE FROM %s WHERE id=?', self::TABLE_NAME), array($this->id));
+        $db->query('DELETE FROM comment WHERE id=?', array($this->id));
     }
 
     public function isAuthor($user)
