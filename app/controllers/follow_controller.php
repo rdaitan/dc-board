@@ -63,6 +63,7 @@ class FollowController extends AppController
             $updated_threads[]      = $thread;
         }
 
+        $title = 'Follows';
         $this->set(get_defined_vars());
     }
 
@@ -71,10 +72,6 @@ class FollowController extends AppController
         $follow = Follow::getOrFail(Param::get('id'));
         $thread = Thread::get($follow->thread_id);
         $last_comment = Comment::getLastInThread($thread);
-
-        if (!$last_comment) {
-            throw new RecordNotFoundException();
-        }
 
         $follow->last_comment = $last_comment->id;
         $follow->update();
