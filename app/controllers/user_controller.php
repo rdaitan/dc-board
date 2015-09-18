@@ -104,7 +104,7 @@ class UserController extends AppController
         } elseif ($auth_user) {
             $user = $auth_user;
         } else {
-            throw new RecordNotFoundException();
+            redirect(LOGIN_URL);
         }
 
         $threads    = Thread::getAllByUser($user);
