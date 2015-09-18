@@ -13,8 +13,7 @@ class CommentController extends AppController
             return;
         }
 
-        switch ($page) {
-        case 'create_end':
+        if ($page == 'create_end') {
             $comment            = new Comment();
             $comment->body      = trim(Param::get('body'));
             $comment->user_id   = $auth_user->id;
@@ -37,11 +36,8 @@ class CommentController extends AppController
             } catch (ValidationException $e) {
                 $page = 'create';
             }
-
-            break;
-        default:
-            throw new PageNotFoundException("{$page} is not found");
-            break;
+        } else {
+            throw new PageNotFoundException();
         }
 
         $title = 'Create Comment';
