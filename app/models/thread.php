@@ -187,7 +187,7 @@ class Thread extends AppModel
         $db->query(sprintf('DELETE FROM %s WHERE id=?', self::TABLE_NAME), array($this->id));
     }
 
-    public function isOwnedBy($user)
+    public function isAuthor($user)
     {
         if (!$user) {
             return false;

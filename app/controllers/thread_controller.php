@@ -135,7 +135,7 @@ class ThreadController extends AppController
         $comment    = Comment::getFirstInthread($thread);
         $auth_user  = User::getAuthenticated();
 
-        if (!$thread->isOwnedBy($auth_user)) {
+        if (!$thread->isAuthor($auth_user)) {
             throw new PermissionException();
         }
 
@@ -179,7 +179,7 @@ class ThreadController extends AppController
         $thread     = Thread::get(Param::get('id'));
         $auth_user  = User::getAuthenticated();
 
-        if (!$thread->isOwnedBy($auth_user)) {
+        if (!$thread->isAuthor($auth_user)) {
             throw new PermissionException();
         }
 
