@@ -25,8 +25,8 @@ class FollowController extends AppController
     {
         redirect_guest_user(LOGIN_URL);
 
-        $thread = Thread::get(Param::get('id'));
-        $auth_user = User::getAuthenticated();
+        $thread     = Thread::get(Param::get('id'));
+        $auth_user  = User::getAuthenticated();
 
         if (!$auth_user) {
             die();
@@ -69,9 +69,9 @@ class FollowController extends AppController
 
     public function redirect()
     {
-        $follow = Follow::getOrFail(Param::get('id'));
-        $thread = Thread::get($follow->thread_id);
-        $last_comment = Comment::getLastInThread($thread);
+        $follow         = Follow::getOrFail(Param::get('id'));
+        $thread         = Thread::get($follow->thread_id);
+        $last_comment   = Comment::getLastInThread($thread);
 
         $follow->last_comment = $last_comment->id;
         $follow->update();

@@ -13,10 +13,9 @@ class CommentController extends AppController
             return;
         }
 
-        switch ($page) {
-        case 'create_end':
+        if ($page == 'create_end') {
             $comment            = new Comment();
-            $comment->body      = Param::get('body');
+            $comment->body      = trim(Param::get('body'));
             $comment->user_id   = $auth_user->id;
 
             try {
@@ -37,11 +36,8 @@ class CommentController extends AppController
             } catch (ValidationException $e) {
                 $page = 'create';
             }
-
-            break;
-        default:
-            throw new PageNotFoundException("{$page} is not found");
-            break;
+        } else {
+            throw new PageNotFoundException();
         }
 
         $title = 'Create Comment';
@@ -68,7 +64,7 @@ class CommentController extends AppController
             break;
         case 'edit_end':
             try {
-                $comment->body = Param::get('body');
+                $comment->body = trim(Param::get('body'));
                 $comment->update();
 
                 redirect(VIEW_THREAD_URL, array('id' => $thread->id));
@@ -93,6 +89,7 @@ class CommentController extends AppController
 
         $thread = Thread::get($comment->thread_id);
 
+        $title = "#{$comment->id}";
         $this->set(get_defined_vars());
     }
 

@@ -26,21 +26,12 @@
         <?php foreach ($threads as $thread): ?>
             <div class='thread'>
                 <div>
-                    <a href="<?php eh(url(VIEW_THREAD_URL, array('id' => $thread->id))) ?>">
-                        <?php eh($thread->title); ?>
-                    </a>
-                    <span class='category-pill'>
-                        <?php eh($thread->category); ?>
-                    </span>
+                    <a href="<?php eh(url(VIEW_THREAD_URL, array('id' => $thread->id))) ?>"><?php eh($thread->title); ?></a>
+                    <span class='category-pill'><?php eh($thread->category); ?></span>
                 </div>
                 <div>
-                    <small>by
-                        <a href="<?php eh(url(VIEW_USER_URL, array('id' => $thread->user_id))); ?>"><?php eh($thread->creator->username); ?></a>
-                    </small>
-                    <small class='u-pull-right'>
-                        replies: <i><?php eh($thread->replies_count - 1); ?></i>
-                    </small>
-
+                    <small>by <a href="<?php eh(url(VIEW_USER_URL, array('id' => $thread->user_id))); ?>"><?php eh($thread->creator->username); ?></a></small>
+                    <small class='u-pull-right'>replies: <i><?php eh($thread->replies_count - 1); ?></i></small>
                 </div>
             </div>
         <?php endforeach; ?>

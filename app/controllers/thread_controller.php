@@ -91,7 +91,7 @@ class ThreadController extends AppController
             $thread->category_id    = Param::get('category');
             $thread->user_id        = $auth_user->id;
             $comment->user_id       = $auth_user->id;
-            $comment->body          = Param::get('body');
+            $comment->body          = trim(Param::get('body'));
 
             $db = DB::conn();
             try {
@@ -145,7 +145,7 @@ class ThreadController extends AppController
         case 'edit_end':
             $thread->title          = trim_collapse(Param::get('title'));
             $thread->category_id    = Param::get('category');
-            $comment->body          = Param::get('body');
+            $comment->body          = trim(Param::get('body'));
 
             try {
                 $thread->update($comment);
