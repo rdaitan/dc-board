@@ -118,7 +118,7 @@ class CommentController extends AppController
             break;
         case 'delete_end':
             $comment->delete();
-            redirect(LIST_THREADS_URL);
+            redirect(VIEW_THREAD_URL, array('id' => $comment->thread_id));
             break;
         default:
             throw new PageNotFoundException();
