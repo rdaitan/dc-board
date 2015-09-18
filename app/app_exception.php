@@ -23,6 +23,6 @@ class PermissionException extends AppException
 {
 }
 
-class CategoryException extends AppException
+class InvalidCategoryException extends AppException
 {
 }
