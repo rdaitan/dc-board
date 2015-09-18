@@ -73,10 +73,6 @@ class FollowController extends AppController
         $thread = Thread::get($follow->thread_id);
         $last_comment_id = Comment::getLastIdInThread($thread);
 
-        // if (!$last_comment) {
-        //     throw new RecordNotFoundException();
-        // }
-
         $follow->last_comment = $last_comment_id;
         $follow->update();
 
