@@ -17,30 +17,30 @@ class SearchController extends AppController
             redirect(APP_URL);
         }
 
-        $search = new Search();
+        $results = new stdClass();
         switch($type) {
         case self::TYPE_THREAD:
-            $search = Thread::search(
+            $results = Thread::search(
                 $query,
                 $pagination->start_index - 1,
                 $pagination->count + 1
             );
             // Get other info for each thread
-            foreach ($search->result as $thread) {
+            foreach ($results->result as $thread) {
                 $thread->creator        = User::getByID($thread->user_id);
                 $thread->category       = Category::getName($thread->category_id);
                 $thread->replies_count  = Comment::countAll($thread->id);
             }
             break;
         case self::TYPE_COMMENT:
-            $search = Comment::search(
+            $results = Comment::search(
                 $query,
                 $pagination->start_index - 1,
                 $pagination->count + 1
             );
             break;
         case self::TYPE_USER:
-            $search = User::search(
+            $results = User::search(
                 $query,
                 $pagination->start_index - 1,
                 $pagination->count + 1
@@ -51,9 +51,10 @@ class SearchController extends AppController
             break;
         }
 
-        $pagination->checkLastPage($search->result);
-        $pages = ceil($search->total_result / self::RESULTS_PERPAGE);
+        $pagination->checkLastPage($results->result);
+        $pages = ceil($results->total_result / self::RESULTS_PERPAGE);
 
+        $title = "Search: '{$query}'";
         $this->set(get_defined_vars());
     }
 }

@@ -65,9 +65,9 @@ class User extends AppModel
             array('query' => "%{$query}%")
         );
 
-        $search                 = new Search(get_called_class(), $rows);
-        $search->total_result   = self::countResults($query);
-        return $search;
+        $results                 = new Search(get_called_class(), $rows);
+        $results->total_result   = self::countResults($query);
+        return $results;
     }
 
     public static function countResults($query)

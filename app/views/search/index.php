@@ -15,7 +15,7 @@
 </div>
 
 <div class="row">
-<?php foreach ($search->result as $result): ?>
+<?php foreach ($results->result as $result): ?>
 <?php switch ($type): ?>
 <?php case SearchController::TYPE_THREAD: ?>
     <div class='thread'>
