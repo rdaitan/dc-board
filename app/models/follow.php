@@ -68,14 +68,18 @@ class Follow extends AppModel
     public function create()
     {
         $db = DB::conn();
-        $db->insert(
-            self::TABLE_NAME,
-            array(
-                'thread_id'     => $this->thread_id,
-                'user_id'       => $this->user_id,
-                'last_comment'  => $this->last_comment
-            )
-        );
+        try {
+            $db->insert(
+                self::TABLE_NAME,
+                array(
+                    'thread_id'     => $this->thread_id,
+                    'user_id'       => $this->user_id,
+                    'last_comment'  => $this->last_comment
+                )
+            );
+        } catch (PDOException $e) {
+            // do nothing
+        }
     }
 
     public function remove()

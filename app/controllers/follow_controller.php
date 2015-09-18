@@ -16,11 +16,7 @@ class FollowController extends AppController
         $follow->thread_id  = $thread->id;
         $follow->user_id    = $auth_user->id;
 
-        try {
-            $follow->create();
-        } catch (PDOException $e) {
-            // do nothing.
-        }
+        $follow->create();
 
         redirect(VIEW_THREAD_URL, array('id' => $follow->thread_id));
     }
