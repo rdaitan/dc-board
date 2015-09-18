@@ -63,6 +63,7 @@ class FollowController extends AppController
             $updated_threads[]      = $thread;
         }
 
+        $title = 'Follows';
         $this->set(get_defined_vars());
     }
 
