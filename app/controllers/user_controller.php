@@ -133,21 +133,10 @@ class UserController extends AppController
         case 'edit_end':
             $auth_user->first_name = trim_collapse(Param::get('first_name'));
             $auth_user->last_name = trim_collapse(Param::get('last_name'));
-            $auth_user->old_password = Param::get('password');
+            $auth_user->current_password = Param::get('password');
             $auth_user->new_password = Param::get('new_password');
 
             try {
-                $auth_user->change_password = $auth_user->old_password || $auth_user->new_password;
-
-                if ($auth_user->change_password) {
-                    if (verify_hash($auth_user->old_password, $auth_user->password)) {
-                        $auth_user->password = $auth_user->new_password;
-                    } else {
-                        $auth_user->validation_errors['password']['match_old'] = true;
-                        throw new ValidationException();
-                    }
-                }
-
                 $auth_user->update();
                 redirect(VIEW_USER_URL);
             } catch (ValidationException $e) {

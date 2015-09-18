@@ -124,10 +124,23 @@ class User extends AppModel
 
     public function update()
     {
+        $change_password = !empty($this->current_password) || !empty($this->new_password);
+
+        if ($change_password) {
+            if (verify_hash($this->current_password, $this->password)) {
+                $this->password = $this->new_password;  // must not be hashed before validation
+            } else {
+                $this->validation_errors['password']['match_old'] = true;
+                throw new ValidationException();
+            }
+        }
+
         $this->validate();
 
-        if (!$this->change_password && $this->validation_errors['password']) {
+        if (!$change_password) {
             unset ($this->validation_errors['password']);
+        } else {
+            $this->password = bhash($this->password);
         }
 
         if ($this->hasError()) {
@@ -140,7 +153,7 @@ class User extends AppModel
             array(
                 'first_name'    => $this->first_name,
                 'last_name'     => $this->last_name,
-                'password'      => $this->change_password ? bhash($this->password) : $this->password
+                'password'      => $this->password
             ),
             array('id' => $this->id)
         );
