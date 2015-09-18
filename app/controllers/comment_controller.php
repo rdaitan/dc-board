@@ -59,7 +59,7 @@ class CommentController extends AppController
         $comment    = Comment::getOrFail($id);
         $thread     = Thread::get($comment->thread_id);
 
-        if (!$comment->isOwnedBy($auth_user)) {
+        if (!$comment->isAuthor($auth_user)) {
             throw new PermissionException();
         }
 
@@ -105,7 +105,7 @@ class CommentController extends AppController
         $auth_user  = User::getAuthenticated();
         $page       = Param::get('page_next', 'delete');
 
-        if (!$comment->isOwnedBy($auth_user)) {
+        if (!$comment->isAuthor($auth_user)) {
             throw new PermissionException();
         }
 
@@ -118,7 +118,7 @@ class CommentController extends AppController
             break;
         case 'delete_end':
             $comment->delete();
-            redirect(LIST_THREADS_URL);
+            redirect(VIEW_THREAD_URL, array('id' => $comment->thread_id));
             break;
         default:
             throw new PageNotFoundException();

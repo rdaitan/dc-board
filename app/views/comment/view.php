@@ -14,9 +14,9 @@
                         created at:
                         <?php eh($comment->created_at); ?>
                     </span>
-                <?php if ($comment->created_at != $comment->edited_at): ?>
-                    edited at:
-                    <?php eh($comment->edited_at); ?>
+                <?php if ($comment->created_at != $comment->modified_at): ?>
+                    modified at:
+                    <?php eh($comment->modified_at); ?>
                 <?php endif; ?>
             </small>
         </div>

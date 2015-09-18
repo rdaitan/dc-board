@@ -104,7 +104,7 @@ class UserController extends AppController
         } elseif ($auth_user) {
             $user = $auth_user;
         } else {
-            throw new RecordNotFoundException();
+            redirect(LOGIN_URL);
         }
 
         $threads    = Thread::getAllByUser($user);
@@ -133,26 +133,13 @@ class UserController extends AppController
         case 'edit_end':
             $auth_user->first_name = trim_collapse(Param::get('first_name'));
             $auth_user->last_name = trim_collapse(Param::get('last_name'));
-            $auth_user->old_password = Param::get('password');
+            $auth_user->current_password = Param::get('password');
             $auth_user->new_password = Param::get('new_password');
 
-
-
             try {
-                $auth_user->change_password = $auth_user->old_password || $auth_user->new_password;
-
-                if ($auth_user->change_password) {
-                    if (verify_hash($auth_user->old_password, $auth_user->password)) {
-                        $auth_user->password = $auth_user->new_password;
-                    } else {
-                        throw new ValidationException();
-                    }
-                }
-
                 $auth_user->update();
                 redirect(VIEW_USER_URL);
             } catch (ValidationException $e) {
-                $auth_user->validation_errors['password']['match_old'] = $auth_user->change_password;
                 $page = 'edit';
                 break;
             }

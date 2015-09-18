@@ -15,7 +15,7 @@
 </div>
 
 <div class="row">
-<?php foreach ($search->result as $result): ?>
+<?php foreach ($results->result as $result): ?>
 <?php switch ($type): ?>
 <?php case SearchController::TYPE_THREAD: ?>
     <div class='thread'>
@@ -48,9 +48,9 @@
                         created at:
                         <?php eh($result->created_at); ?>
                     </span>
-                <?php if ($result->created_at != $result->edited_at): ?>
-                    edited at:
-                    <?php eh($result->edited_at); ?>
+                <?php if ($result->created_at != $result->modified_at): ?>
+                    modified at:
+                    <?php eh($result->modified_at); ?>
                 <?php endif; ?>
             </small>
         </div>

@@ -18,8 +18,7 @@ class User extends AppModel
     public $validation = array(
         'username'      => array(
             'length'    => array('validate_between', self::MIN_USERNAME_LENGTH, self::MAX_USERNAME_LENGTH),
-            'chars'     => array('validate_username'),
-            // 'unique'    => array('validate_unique_name')
+            'chars'     => array('validate_username')
         ),
         'first_name'    => array(
             'length'    => array('validate_between', self::MIN_NAME_LENGTH, self::MAX_NAME_LENGTH),
@@ -66,9 +65,9 @@ class User extends AppModel
             array('query' => "%{$query}%")
         );
 
-        $search                 = new Search(get_called_class(), $rows);
-        $search->total_result   = self::countResults($query);
-        return $search;
+        $results                 = new Search(get_called_class(), $rows);
+        $results->total_result   = self::countResults($query);
+        return $results;
     }
 
     public static function countResults($query)
@@ -125,10 +124,23 @@ class User extends AppModel
 
     public function update()
     {
+        $change_password = !empty($this->current_password) || !empty($this->new_password);
+
+        if ($change_password) {
+            if (verify_hash($this->current_password, $this->password)) {
+                $this->password = $this->new_password;  // must not be hashed before validation
+            } else {
+                $this->validation_errors['password']['match_old'] = true;
+                throw new ValidationException();
+            }
+        }
+
         $this->validate();
 
-        if (!$this->change_password && $this->validation_errors['password']) {
+        if (!$change_password) {
             unset ($this->validation_errors['password']);
+        } else {
+            $this->password = bhash($this->password);
         }
 
         if ($this->hasError()) {
@@ -141,7 +153,7 @@ class User extends AppModel
             array(
                 'first_name'    => $this->first_name,
                 'last_name'     => $this->last_name,
-                'password'      => $this->change_password ? bhash($this->password) : $this->password
+                'password'      => $this->password
             ),
             array('id' => $this->id)
         );

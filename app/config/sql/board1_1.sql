@@ -1,7 +1,7 @@
 --
 -- Create database
 --
-DROP DATABASE board1_1;
+DROP DATABASE IF EXISTS board1_1;
 CREATE DATABASE board1_1;
 
 --
@@ -27,7 +27,7 @@ CREATE TABLE user (
     first_name  VARCHAR(30) NOT NULL,
     last_name   VARCHAR(30) NOT NULL,
     email       VARCHAR(30) NOT NULL UNIQUE,
-    password    VARCHAR(60),
+    password    VARCHAR(60) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
@@ -51,7 +51,7 @@ CREATE TABLE comment (
     user_id     INT UNSIGNED NOT NULL,
     body        TEXT NOT NULL,
     created_at  TIMESTAMP NOT NULL DEFAULT 0,
-    edited_at   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    modified_at   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     FOREIGN KEY (thread_id) REFERENCES thread(id)
         ON UPDATE CASCADE

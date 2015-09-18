@@ -25,9 +25,9 @@ class Thread extends AppModel
             array("%{$query}%")
         );
 
-        $search                 = new Search(get_called_class(), $rows);
-        $search->total_result   = self::countResults($query);
-        return $search;
+        $results                 = new Search(get_called_class(), $rows);
+        $results->total_result   = self::countResults($query);
+        return $results;
     }
 
     public static function countResults($query)
@@ -96,7 +96,6 @@ class Thread extends AppModel
 
     public static function getTrending($limit)
     {
-        // $trends = Comment::getTrendingThreadIds($limit);
         $trends     = Comment::countToday();
         $threads    = array();
 
@@ -188,7 +187,7 @@ class Thread extends AppModel
         $db->query(sprintf('DELETE FROM %s WHERE id=?', self::TABLE_NAME), array($this->id));
     }
 
-    public function isOwnedBy($user)
+    public function isAuthor($user)
     {
         if (!$user) {
             return false;

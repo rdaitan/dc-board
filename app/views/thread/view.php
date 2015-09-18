@@ -10,7 +10,7 @@
         <a href="<?php eh(url(FOLLOW_URL, array('id' => $thread->id))); ?>">Follow</a>
     <?php endif; ?>
     <span class='u-pull-right'>
-        <?php if ($thread->isOwnedBy($auth_user)): ?>
+        <?php if ($thread->isAuthor($auth_user)): ?>
             <a href='<?php eh(url(EDIT_THREAD_URL, array('id' => $thread->id))); ?>'>Edit thread</a>
             <a href='<?php eh(url(DELETE_THREAD_URL, array('id' => $thread->id))); ?>'>Delete thread</a>
         <?php endif; ?>
@@ -28,12 +28,12 @@
                             created at:
                             <?php eh($comment->created_at); ?>
                         </span>
-                    <?php if ($comment->created_at != $comment->edited_at): ?>
-                        edited at:
-                        <?php eh($comment->edited_at); ?>
+                    <?php if ($comment->created_at != $comment->modified_at): ?>
+                        modified at:
+                        <?php eh($comment->modified_at); ?>
                     <?php endif; ?>
                     <span class="u-pull-right">
-                        <?php if ($comment->isOwnedBy($auth_user) && !$comment->isThreadBody()): ?>
+                        <?php if ($comment->isAuthor($auth_user) && !$comment->isThreadBody()): ?>
                             <a href="<?php eh(url(EDIT_COMMENT_URL, array('id' => $comment->id))); ?>">edit</a>
                             <a href="<?php eh(url(DELETE_COMMENT_URL, array('id' => $comment->id))); ?>">delete</a>
                         <?php endif; ?>

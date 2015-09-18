@@ -36,9 +36,9 @@ class Comment extends AppModel
             array("%{$query}%")
         );
 
-        $search                 = new Search(get_called_class(), $rows);
-        $search->total_result   = self::countResults($query);
-        return $search;
+        $results                 = new Search(get_called_class(), $rows);
+        $results->total_result   = self::countResults($query);
+        return $results;
     }
 
     public static function countResults($query)
@@ -124,7 +124,7 @@ class Comment extends AppModel
     public static function getFirstInThread(Thread $thread)
     {
         $db     = DB::conn();
-        $row    = $db->row(sprintf('SELECT * FROM %s WHERE thread_id=? LIMIT 0, 1', self::TABLE_NAME), array($thread->id));
+        $row    = $db->row(sprintf('SELECT * FROM %s WHERE thread_id=?', self::TABLE_NAME), array($thread->id));
 
         return $row ? new self($row) : false;
     }
@@ -132,7 +132,7 @@ class Comment extends AppModel
     public static function getLastInThread(Thread $thread)
     {
         $db     = DB::conn();
-        $row    = $db->row(sprintf('SELECT * FROM %s WHERE thread_id=? ORDER BY id DESC LIMIT 0, 1', self::TABLE_NAME), array($thread->id));
+        $row    = $db->row(sprintf('SELECT * FROM %s WHERE thread_id=? ORDER BY id', self::TABLE_NAME), array($thread->id));
 
         return $row ? new self($row) : false;
     }
@@ -189,7 +189,7 @@ class Comment extends AppModel
         $db->query(sprintf('DELETE FROM %s WHERE id=?', self::TABLE_NAME), array($this->id));
     }
 
-    public function isOwnedBy($user)
+    public function isAuthor($user)
     {
         if (!$user) {
             return false;
