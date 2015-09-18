@@ -18,8 +18,7 @@ class User extends AppModel
     public $validation = array(
         'username'      => array(
             'length'    => array('validate_between', self::MIN_USERNAME_LENGTH, self::MAX_USERNAME_LENGTH),
-            'chars'     => array('validate_username'),
-            // 'unique'    => array('validate_unique_name')
+            'chars'     => array('validate_username')
         ),
         'first_name'    => array(
             'length'    => array('validate_between', self::MIN_NAME_LENGTH, self::MAX_NAME_LENGTH),

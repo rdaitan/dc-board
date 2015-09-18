@@ -6,9 +6,7 @@ class ThreadController extends AppController
     const TRENDING_LIMIT    = 10;
     const LAST_PAGE         = 'last';
 
-    /*
-     * Show all threads.
-     */
+    // Show all threads.
     public function index()
     {
         $page   = Param::get('page', 1);
@@ -43,9 +41,7 @@ class ThreadController extends AppController
         $this->set(get_defined_vars());
     }
 
-    /*
-     * Show a specific thread
-     */
+    // Show a specific thread
     public function view()
     {
         // get total number of pages
@@ -153,7 +149,7 @@ class ThreadController extends AppController
 
             try {
                 $thread->update($comment);
-                redirect(VIEW_THREAD_URL, array('id' => $thread->id));  // TODO: redirect to actual thread
+                redirect(VIEW_THREAD_URL, array('id' => $thread->id));
             } catch (ValidationException $e) {
                 $page = 'edit';
             } catch (CategoryException $e) {

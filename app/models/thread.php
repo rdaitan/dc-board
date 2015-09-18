@@ -96,7 +96,6 @@ class Thread extends AppModel
 
     public static function getTrending($limit)
     {
-        // $trends = Comment::getTrendingThreadIds($limit);
         $trends     = Comment::countToday();
         $threads    = array();
 

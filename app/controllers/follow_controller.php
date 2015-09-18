@@ -22,8 +22,6 @@ class FollowController extends AppController
             // do nothing.
         }
 
-        // var_dump($follow); die();
-
         redirect(VIEW_THREAD_URL, array('id' => $follow->thread_id));
     }
 
@@ -95,7 +93,7 @@ class FollowController extends AppController
         if (!$auth_user) {
             throw new PermissionException();
         }
-        
+
         send_json(array('hasUpdates' => Follow::getUpdates($auth_user) ? true : false));
     }
 }

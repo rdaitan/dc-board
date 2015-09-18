@@ -136,8 +136,6 @@ class UserController extends AppController
             $auth_user->old_password = Param::get('password');
             $auth_user->new_password = Param::get('new_password');
 
-
-
             try {
                 $auth_user->change_password = $auth_user->old_password || $auth_user->new_password;
 
