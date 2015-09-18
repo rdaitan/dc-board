@@ -143,6 +143,7 @@ class UserController extends AppController
                     if (verify_hash($auth_user->old_password, $auth_user->password)) {
                         $auth_user->password = $auth_user->new_password;
                     } else {
+                        $auth_user->validation_errors['password']['match_old'] = true;
                         throw new ValidationException();
                     }
                 }
@@ -150,7 +151,6 @@ class UserController extends AppController
                 $auth_user->update();
                 redirect(VIEW_USER_URL);
             } catch (ValidationException $e) {
-                $auth_user->validation_errors['password']['match_old'] = $auth_user->change_password;
                 $page = 'edit';
                 break;
             }

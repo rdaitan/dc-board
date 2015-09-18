@@ -36,11 +36,11 @@
                     Incorrect <em>Password</em>.
                 </div>
             <?php endif; ?>
-            <?php if (!empty($auth_user->validation_errors['new_password']['length'])): ?>
+            <?php if (!empty($auth_user->validation_errors['password']['length'])): ?>
                 <div>
-                    <em>Password</em> must be between
-                    <?php eh($auth_user->validation['new_password']['length'][1]); ?> and
-                    <?php eh($auth_user->validation['new_password']['length'][2]); ?> characters
+                    <em>New password</em> must be between
+                    <?php eh($auth_user->validation['password']['length'][1]); ?> and
+                    <?php eh($auth_user->validation['password']['length'][2]); ?> characters
                     in length.
                 </div>
             <?php endif; ?>
