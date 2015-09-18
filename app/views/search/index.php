@@ -48,9 +48,9 @@
                         created at:
                         <?php eh($result->created_at); ?>
                     </span>
-                <?php if ($result->created_at != $result->edited_at): ?>
-                    edited at:
-                    <?php eh($result->edited_at); ?>
+                <?php if ($result->created_at != $result->modified_at): ?>
+                    modified at:
+                    <?php eh($result->modified_at); ?>
                 <?php endif; ?>
             </small>
         </div>

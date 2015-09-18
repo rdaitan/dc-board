@@ -17,7 +17,7 @@ class SearchController extends AppController
             redirect(APP_URL);
         }
 
-        $search = new stdClass();
+        $search = new Search();
         switch($type) {
         case self::TYPE_THREAD:
             $search = Thread::search(

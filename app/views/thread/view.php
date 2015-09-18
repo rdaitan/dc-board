@@ -28,9 +28,9 @@
                             created at:
                             <?php eh($comment->created_at); ?>
                         </span>
-                    <?php if ($comment->created_at != $comment->edited_at): ?>
-                        edited at:
-                        <?php eh($comment->edited_at); ?>
+                    <?php if ($comment->created_at != $comment->modified_at): ?>
+                        modified at:
+                        <?php eh($comment->modified_at); ?>
                     <?php endif; ?>
                     <span class="u-pull-right">
                         <?php if ($comment->isOwnedBy($auth_user) && !$comment->isThreadBody()): ?>
