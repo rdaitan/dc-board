@@ -93,6 +93,7 @@ class CommentController extends AppController
 
         $thread = Thread::get($comment->thread_id);
 
+        $title = "#{$comment->id}";
         $this->set(get_defined_vars());
     }
 
