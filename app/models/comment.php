@@ -129,12 +129,10 @@ class Comment extends AppModel
         return $row ? new self($row) : false;
     }
 
-    public static function getLastInThread(Thread $thread)
+    public static function getLastIdInThread(Thread $thread)
     {
         $db     = DB::conn();
-        $row    = $db->row(sprintf('SELECT * FROM %s WHERE thread_id=? ORDER BY id', self::TABLE_NAME), array($thread->id));
-
-        return $row ? new self($row) : false;
+        return $db->value(sprintf('SELECT MAX(id) FROM %s WHERE thread_id=?', self::TABLE_NAME), array($thread->id));
     }
 
     // return the count of new comments today in each thread
