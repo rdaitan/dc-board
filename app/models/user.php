@@ -177,7 +177,7 @@ class User extends AppModel
     {
         $db = DB::conn();
 
-        $row = $db->row('SELECT * FROM user WHERE username=?', array($username));
+        $row = $db->row('SELECT * FROM user WHERE BINARY username=?', array($username));
 
         return !$row ? false : new self($row);
     }
