@@ -42,10 +42,7 @@ class Comment extends AppModel
     public static function countResults($query)
     {
         $db = DB::conn();
-        return $db->value(
-            "SELECT COUNT(*) FROM comment WHERE body LIKE ?",
-            array("%{$query}%")
-        );
+        return $db->value("SELECT COUNT(*) FROM comment WHERE body LIKE ?", array("%{$query}%"));
     }
 
     public static function countAll($thread_id)
@@ -65,8 +62,6 @@ class Comment extends AppModel
 
     public static function getAll($thread_id, $offset, $limit)
     {
-
-
         $db     = DB::conn();
         $rows   = $db->rows(
             sprintf("SELECT * FROM comment WHERE thread_id=? LIMIT %d, %d", $offset, $limit),
@@ -85,10 +80,7 @@ class Comment extends AppModel
     public static function getAllByUser(User $user)
     {
         $db     = DB::conn();
-        $rows   = $db->rows(
-            'SELECT * FROM comment WHERE user_id=? ORDER BY id DESC',
-            array($user->id)
-        );
+        $rows   = $db->rows('SELECT * FROM comment WHERE user_id=? ORDER BY id DESC', array($user->id));
 
         $comments = array();
 
@@ -171,11 +163,7 @@ class Comment extends AppModel
         }
 
         $db = DB::conn();
-        $db->update(
-            'comment',
-            array('body' => $this->body),
-            array('id' => $this->id)
-        );
+        $db->update('comment', array('body' => $this->body), array('id' => $this->id));
     }
 
     public function delete()
