@@ -46,7 +46,7 @@
             </div>
         </div>
         <div class="row">
-            <label class='col-sm-2 control-label' for="body">Body</label>
+            <label class='col-sm-2 control-label' for="body">Comment</label>
             <textarea class='u-full-width' name="body" id='body'><?php eh(Param::get('body')); ?></textarea>
         </div>
         <div class="row">
