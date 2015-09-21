@@ -35,7 +35,8 @@ class Follow extends AppModel
         return $follows;
     }
 
-    public static function getOrFail($id) {
+    public static function getOrFail($id)
+    {
         $db = DB::conn();
         $row = $db->row('SELECT * FROM follow WHERE id=?', array($id));
 
