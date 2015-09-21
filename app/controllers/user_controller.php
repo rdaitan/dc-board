@@ -138,7 +138,6 @@ class UserController extends AppController
 
             try {
                 $auth_user->update();
-                redirect(VIEW_USER_URL);
             } catch (ValidationException $e) {
                 $page = 'edit';
                 break;
@@ -151,5 +150,6 @@ class UserController extends AppController
 
         $title = 'Edit Profile';
         $this->set(get_defined_vars());
+        $this->render($page);
     }
 }
