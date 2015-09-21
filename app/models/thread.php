@@ -31,10 +31,7 @@ class Thread extends AppModel
     public static function countResults($query)
     {
         $db = DB::conn();
-        return $db->value(
-            "SELECT COUNT(*) FROM thread WHERE title LIKE ?",
-            array("%{$query}%")
-        );
+        return $db->value("SELECT COUNT(*) FROM thread WHERE title LIKE ?", array("%{$query}%"));
     }
 
     public static function getAll($offset, $limit, $filter = null)
@@ -42,9 +39,7 @@ class Thread extends AppModel
         $where = is_null($filter) ? '' : sprintf('WHERE category_id=%d', $filter);
 
         $db     = DB::conn();
-        $rows   = $db->rows(
-            sprintf("SELECT * FROM thread %s ORDER BY id DESC LIMIT %d, %d", $where, $offset, $limit)
-        );
+        $rows   = $db->rows(sprintf("SELECT * FROM thread %s ORDER BY id DESC LIMIT %d, %d", $where, $offset, $limit));
 
         $threads = array();
 
@@ -58,10 +53,7 @@ class Thread extends AppModel
     public static function getAllByUser(User $user)
     {
         $db     = DB::conn();
-        $rows   = $db->rows(
-            'SELECT * FROM thread WHERE user_id=? ORDER BY id DESC',
-            array($user->id)
-        );
+        $rows   = $db->rows("SELECT * FROM thread WHERE user_id=? ORDER BY id DESC", array($user->id));
 
         $threads = array();
 
