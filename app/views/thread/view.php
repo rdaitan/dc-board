@@ -4,10 +4,12 @@
 <!--thread controls-->
 <div class="row">
     <a href='<?php eh(url(APP_URL)); ?>'>&larr; All threads</a>
-    <?php if ($thread->isFollowedBy($auth_user)): ?>
-        <a href="<?php eh(url(UNFOLLOW_URL, array('id' => $thread->id))); ?>">Unfollow</a>
-    <?php else: ?>
-        <a href="<?php eh(url(FOLLOW_URL, array('id' => $thread->id))); ?>">Follow</a>
+    <?php if ($auth_user): ?>
+        <?php if ($thread->isFollowedBy($auth_user)): ?>
+            <a href="<?php eh(url(UNFOLLOW_URL, array('id' => $thread->id))); ?>">Unfollow</a>
+        <?php else: ?>
+            <a href="<?php eh(url(FOLLOW_URL, array('id' => $thread->id))); ?>">Follow</a>
+        <?php endif; ?>
     <?php endif; ?>
     <span class='u-pull-right'>
         <?php if ($thread->isAuthor($auth_user)): ?>
