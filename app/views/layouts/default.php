@@ -43,7 +43,7 @@
     </div>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <!-- <script src='/js/follow_updater.js'></script> -->
-    <script src='https://cdn.rawgit.com/rdaitan/85add4bed682318ec817/raw/176dccafa55638fa6452bf45fe4f2694f32d16ec/follow_updater.js'></script>
+    <script src='https://cdn.rawgit.com/rdaitan/85add4bed682318ec817/raw/a27ad94619ba83c12ad6a3cf21f19be6e8180212/follow_updater.js'></script>
     <script>
     console.log(<?php eh(round(microtime(true) - TIME_START, 3)) ?> + 'sec');
     </script>
