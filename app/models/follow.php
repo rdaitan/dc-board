@@ -7,7 +7,7 @@ class Follow extends AppModel
     {
         $db = DB::conn();
         $row = $db->row(
-                'SELECT * FROM follow WHERE thread_id=? AND user_id=?',
+            'SELECT * FROM follow WHERE thread_id=? AND user_id=?',
             array(
                 $thread_id,
                 $user_id

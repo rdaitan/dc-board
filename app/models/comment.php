@@ -97,15 +97,8 @@ class Comment extends AppModel
         $db     = DB::conn();
         $row    = $db->row("SELECT * FROM comment WHERE id=?", array($id));
 
-        return $row ? new self($row) : false;
-    }
-
-    public static function getOrFail($id)
-    {
-        $comment = self::get($id);
-
-        if ($comment) {
-            return $comment;
+        if ($row) {
+            return new self($row);
         } else {
             throw new RecordNotFoundException();
         }
@@ -119,12 +112,10 @@ class Comment extends AppModel
         return $row ? new self($row) : false;
     }
 
-    public static function getLastInThread(Thread $thread)
+    public static function getLastIdInThread(Thread $thread)
     {
         $db     = DB::conn();
-        $row    = $db->row('SELECT * FROM comment WHERE thread_id=? ORDER BY id DESC', array($thread->id));
-
-        return $row ? new self($row) : false;
+        return $db->value('SELECT MAX(id) FROM comment WHERE thread_id=?', array($thread->id));
     }
 
     // return the count of new comments today in each thread
