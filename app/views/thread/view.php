@@ -55,7 +55,7 @@
     <?php if (User::getAuthenticated()): ?>
         <form action="<?php eh(url(POST_COMMENT_URL)); ?>" class="well" method="post">
             <label for="body">Comment</label>
-            <textarea class='u-full-width' id='body' name="body"><?php eh(Param::get('body')); ?></textarea>
+            <textarea class='u-full-width' id='body' name="body" placeholder='Wrap URL in [img]...[/img] to embed an image.'><?php eh(Param::get('body')); ?></textarea>
             <input type="hidden" name="thread_id" value="<?php eh($thread->id) ?>">
             <input type="hidden" name="page_next" value="create_end">
             <button type="submit">Submit</button>
@@ -64,3 +64,7 @@
         <a href="<?php eh(url(LOGIN_URL)) ?>">Log in to comment</a>
     <?php endif; ?>
 </div>
+
+
+<!--Embed images-->
+<script type="text/javascript" src="https://cdn.rawgit.com/rdaitan/14d816b7c1037671b8b6/raw/65fca1bc5041b7d9b10d7bcbad159af8f1b3a513/img_embed.js"></script>
