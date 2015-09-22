@@ -69,11 +69,11 @@ class FollowController extends AppController
 
     public function redirect()
     {
-        $follow         = Follow::getOrFail(Param::get('id'));
-        $thread         = Thread::get($follow->thread_id);
-        $last_comment   = Comment::getLastInThread($thread);
+        $follow             = Follow::getOrFail(Param::get('id'));
+        $thread             = Thread::get($follow->thread_id);
+        $last_comment_id    = Comment::getLastIdInThread($thread);
 
-        $follow->last_comment = $last_comment->id;
+        $follow->last_comment = $last_comment_id;
         $follow->update();
 
         redirect(VIEW_THREAD_URL, array('id' => $thread->id, 'page' => ThreadController::LAST_PAGE));
