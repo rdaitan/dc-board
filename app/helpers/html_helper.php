@@ -24,9 +24,9 @@ function trim_collapse($str)
     return $str;
 }
 
-function redirect($url)
+function redirect($url, $query)
 {
-    header("Location: " . url($url));
+    header("Location: " . url($url, $query));
     die();
 }
 
@@ -50,7 +50,7 @@ function print_pagination($pagination, $pages)
 {
     $page = Param::get('page', 1);
 
-    echo '<nav><ul class="pagination">';
+    echo '<ul class="pagination">';
 
     // previous button
     if ($pagination->current > 1) {
@@ -78,5 +78,21 @@ function print_pagination($pagination, $pages)
         echo "<li><a href='{$url}'>&raquo;</a></li>";
     }
 
-    echo '</ul></nav>';
+    echo '</ul>';
+}
+
+function verify_hash($str, $hash)
+{
+    // Retrieve salt
+    $salt = substr($hash, strlen(CRYPT_BFISH), BFISH_SALT_LENGTH);
+
+    $hashedPassword = bhash($str, $salt);
+
+    return $hashedPassword === $hash;
+}
+
+function send_json($json) {
+    header('Content-type: application/json; charset=utf-8');
+    echo json_encode($json);
+    die();
 }

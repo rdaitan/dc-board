@@ -25,12 +25,11 @@
 </div>
 <div class="row">
     <!--Comment form-->
-    <form action="<?php eh(url(POST_COMMENT_URL)); ?>" method="post">
-        <label for="body">Comment</label>
-        <textarea class='u-full-width' id='body' name="body"><?php eh(Param::get('body')); ?></textarea>
-        <input type="hidden" name="thread_id" value="<?php eh($thread->id) ?>">
-        <input type="hidden" name="page_next" value="create_end">
-        <button type="submit">Submit</button> or
+    <form action="<?php eh(url('', array('id' => $comment->id))); ?>" method="post">
+        <label for="body">Edit Comment</label>
+        <textarea class='u-full-width' id='body' name="body"><?php eh($comment->body); ?></textarea>
+        <input type="hidden" name="page_next" value="edit_end">
+        <button type="submit">Save</button> or
         <a href="<?php eh(url(VIEW_THREAD_URL, array('id' => $thread->id))); ?>">cancel</a>
     </form>
 </div>

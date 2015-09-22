@@ -1,20 +1,31 @@
 <?php
 class User extends AppModel
 {
-    const AUTH_SESS_KEY         = 'auth_user';
-    const MIN_USERNAME_LENGTH   = 1;
-    const MAX_USERNAME_LENGTH   = 16;
-    const MIN_EMAIL_LENGTH      = 1;
-    const MAX_EMAIL_LENGTH      = 30;
-    const MIN_PASSWORD_LENGTH   = 6;
-    const MAX_PASSWORD_LENGTH   = 20;
-    const ERR_DUPLICATE_ENTRY   = 1062;
+    const AUTH_SESS_KEY             = 'auth_user';
+    const MIN_USERNAME_LENGTH       = 1;
+    const MAX_USERNAME_LENGTH       = 16;
+    const MIN_NAME_LENGTH           = 1;
+    const MAX_NAME_LENGTH           = 30;
+    const MIN_EMAIL_LENGTH          = 1;
+    const MAX_EMAIL_LENGTH          = 30;
+    const MIN_PASSWORD_LENGTH       = 6;
+    const MAX_PASSWORD_LENGTH       = 20;
+    const ERR_DUPLICATE_ENTRY       = 1062;
+    const ERR_DUPLICATE_USERNAME    = 1;
+    const ERR_DUPLICATE_EMAIL       = 2;
 
     public $validation = array(
         'username'      => array(
             'length'    => array('validate_between', self::MIN_USERNAME_LENGTH, self::MAX_USERNAME_LENGTH),
-            'chars'     => array('validate_username'),
-            // 'unique'    => array('validate_unique_name')
+            'chars'     => array('validate_username')
+        ),
+        'first_name'    => array(
+            'length'    => array('validate_between', self::MIN_NAME_LENGTH, self::MAX_NAME_LENGTH),
+            'chars'     => array('validate_name')
+        ),
+        'last_name'     => array(
+            'length'    => array('validate_between', self::MIN_NAME_LENGTH, self::MAX_NAME_LENGTH),
+            'chars'     => array('validate_name')
         ),
         'email'         => array(
             'length'    => array('validate_between', self::MIN_EMAIL_LENGTH, self::MAX_EMAIL_LENGTH),
@@ -23,6 +34,52 @@ class User extends AppModel
         'password'      => array(
             'length'    => array('validate_between', self::MIN_PASSWORD_LENGTH, self::MAX_PASSWORD_LENGTH))
     );
+
+    public static function getOrFail($id)
+    {
+        $user = self::getById($id);
+
+        if ($user) {
+            return $user;
+        } else {
+            throw new RecordNotFoundException();
+        }
+    }
+
+    public static function search($query, $offset, $limit)
+    {
+        $db = DB::conn();
+        $rows = $db->rows(
+            sprintf(
+                "SELECT * FROM user WHERE
+                    username LIKE :query OR
+                    first_name LIKE :query OR
+                    last_name LIKE :query OR
+                    email LIKE :query
+                    LIMIT %d, %d",
+                $offset,
+                $limit
+            ),
+            array('query' => "%{$query}%")
+        );
+
+        $results                 = new Search(get_called_class(), $rows);
+        $results->total_result   = self::countResults($query);
+        return $results;
+    }
+
+    public static function countResults($query)
+    {
+        $db = DB::conn();
+        return $db->value(
+            "SELECT * FROM user WHERE
+                username LIKE :query OR
+                first_name LIKE :query OR
+                last_name LIKE :query OR
+                email LIKE :query",
+            array('query' => "%{$query}%")
+        );
+    }
 
     public function create()
     {
@@ -35,16 +92,66 @@ class User extends AppModel
             $db->insert(
                 'user',
                 array(
-                    'username'  => $this->username,
-                    'email'     => $this->email,
-                    'password'  => bhash($this->password)
+                    'username'      => $this->username,
+                    'first_name'    => $this->first_name,
+                    'last_name'     => $this->last_name,
+                    'email'         => $this->email,
+                    'password'      => bhash($this->password)
                 )
             );
         } catch (PDOException $e) {
-            if ($e->errorInfo[1] == self::ERR_DUPLICATE_ENTRY) {
-                throw new DuplicateEntryException('Duplicate username');
+            if ($e->errorInfo[1] != self::ERR_DUPLICATE_ENTRY) {
+                return;
+            }
+
+            $duplicate_key_email    = "'email'";
+            $duplicate_key_username = "'username'";
+
+            if (substr($e->errorInfo[2], -strlen($duplicate_key_email)) == $duplicate_key_email) {
+                throw new DuplicateEntryException(self::ERR_DUPLICATE_EMAIL);
+            }
+
+            if (substr($e->errorInfo[2], -strlen($duplicate_key_username)) == $duplicate_key_username) {
+                throw new DuplicateEntryException(self::ERR_DUPLICATE_USERNAME);
             }
         }
+    }
+
+    public function update()
+    {
+        $change_password = !empty($this->current_password) || !empty($this->new_password);
+
+        if ($change_password) {
+            if (verify_hash($this->current_password, $this->password)) {
+                $this->password = $this->new_password;  // must not be hashed before validation
+            } else {
+                $this->validation_errors['password']['match_old'] = true;
+                throw new ValidationException();
+            }
+        }
+
+        $this->validate();
+
+        if (!$change_password) {
+            unset ($this->validation_errors['password']);
+        } else {
+            $this->password = bhash($this->password);
+        }
+
+        if ($this->hasError()) {
+            throw new ValidationException();
+        }
+
+        $db = DB::conn();
+        $db->update(
+            'user',
+            array(
+                'first_name'    => $this->first_name,
+                'last_name'     => $this->last_name,
+                'password'      => $this->password
+            ),
+            array('id' => $this->id)
+        );
     }
 
     // Returns the user that is authenticated via authenticate()
@@ -70,7 +177,7 @@ class User extends AppModel
     {
         $db = DB::conn();
 
-        $row = $db->row('SELECT * FROM user WHERE username=?', array($username));
+        $row = $db->row('SELECT * FROM user WHERE BINARY username=?', array($username));
 
         return !$row ? false : new self($row);
     }
@@ -82,16 +189,7 @@ class User extends AppModel
     {
         $user = User::getByUsername($username);
 
-        // Retrieve salt
-        $salt = substr(
-            $user->password,
-            strlen(CRYPT_BFISH),
-            BFISH_SALT_LENGTH
-        );
-
-        $hashedPassword = bhash($password, $salt);
-
-        if ($hashedPassword !== $user->password) {
+        if (!$user || !verify_hash($password, $user->password)) {
             return false;
         }
 

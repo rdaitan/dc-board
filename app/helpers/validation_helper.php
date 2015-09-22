@@ -10,6 +10,11 @@ function validate_username($str)
     return preg_match('/^[[:alnum:]_]*$/', $str);
 }
 
+function validate_name($str)
+{
+    return preg_match('/^[[:alpha:] ]*$/', $str);
+}
+
 function validate_unique_name($username)
 {
     return !User::getByUsername($username);

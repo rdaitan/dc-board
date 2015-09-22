@@ -1,5 +1,5 @@
 <div class="row">
-    <h3>Create thread</h3>
+    <h3>Edit thread</h3>
 </div>
 <div class="row">
     <?php if ($thread->hasError() || $comment->hasError()) : ?>
@@ -28,13 +28,13 @@
         </div>
     <?php endif; ?>
 </div>
-<!--Thread creation form-->
+<!--Thread edit form-->
 <div class="row">
     <form action="<?php eh(url('')); ?>" method="post">
         <div class="row">
             <div class="six columns">
                 <label for="title">Title</label>
-                <input type="text" class='u-full-width' id='title' name="title" value="<?php eh(Param::get('title')); ?>">
+                <input type="text" class='u-full-width' id='title' name="title" value="<?php eh($thread->title); ?>">
             </div>
             <div class="six columns">
                 <label  class='col-sm-2 control-label' for="category">Category</label>
@@ -46,13 +46,13 @@
             </div>
         </div>
         <div class="row">
-            <label class='col-sm-2 control-label' for="body">Comment</label>
-            <textarea class='u-full-width' name="body" id='body'><?php eh(Param::get('body')); ?></textarea>
+            <label class='col-sm-2 control-label' for="body">Body</label>
+            <textarea class='u-full-width' name="body" id='body'><?php eh($comment->body); ?></textarea>
         </div>
         <div class="row">
-            <input type="hidden" name="page_next" value="create_end">
-            <button type="submit">Submit</button> or
-            <a href="<?php eh(url(APP_URL)) ?>">cancel</a>
+            <input type="hidden" name="page_next" value="edit_end">
+            <button type="submit">Save</button> or
+            <a href="<?php eh(url(VIEW_THREAD_URL, array('id' => $thread->id))); ?>">cancel</a>
         </div>
     </form>
 </div>
