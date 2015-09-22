@@ -66,5 +66,5 @@
 </div>
 
 
-<!--thread view only-->
+<!--Embed images-->
 <script type="text/javascript" src="https://cdn.rawgit.com/rdaitan/14d816b7c1037671b8b6/raw/65fca1bc5041b7d9b10d7bcbad159af8f1b3a513/img_embed.js"></script>
