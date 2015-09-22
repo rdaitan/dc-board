@@ -97,15 +97,8 @@ class Comment extends AppModel
         $db     = DB::conn();
         $row    = $db->row("SELECT * FROM comment WHERE id=?", array($id));
 
-        return $row ? new self($row) : false;
-    }
-
-    public static function getOrFail($id)
-    {
-        $comment = self::get($id);
-
-        if ($comment) {
-            return $comment;
+        if ($row) {
+            return new self($row);
         } else {
             throw new RecordNotFoundException();
         }

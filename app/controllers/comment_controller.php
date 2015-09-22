@@ -52,7 +52,7 @@ class CommentController extends AppController
         $id         = Param::get('id');
         $page       = Param::get('page_next', 'edit');
         $auth_user  = User::getAuthenticated();
-        $comment    = Comment::getOrFail($id);
+        $comment    = Comment::get($id);
         $thread     = Thread::get($comment->thread_id);
 
         if (!$comment->isAuthor($auth_user)) {
@@ -84,7 +84,7 @@ class CommentController extends AppController
 
     public function view()
     {
-        $comment    = Comment::getOrFail(Param::get('id'));
+        $comment    = Comment::get(Param::get('id'));
         $auth_user  = User::getAuthenticated();
 
         $thread = Thread::get($comment->thread_id);
@@ -98,7 +98,7 @@ class CommentController extends AppController
         redirect_guest_user(LOGIN_URL);
 
         $id         = Param::get('id');
-        $comment    = Comment::getOrFail($id);
+        $comment    = Comment::get($id);
         $auth_user  = User::getAuthenticated();
         $page       = Param::get('page_next', 'delete');
 
